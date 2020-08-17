@@ -20,7 +20,7 @@ EXPOSE 5000
 VOLUME /DashMachine/config
 VOLUME /DashMachine/vscode_integration/config
 
-RUN chown -R 1000:911 /DashMachine/config
+RUN chown -R 1000 /DashMachine/config
 RUN chmod -R 775 /DashMachine/config
 RUN chmod -R g+s /DashMachine/config
 
