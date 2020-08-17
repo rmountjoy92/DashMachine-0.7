@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+jsmin
+markupsafe
+htmlmin
+toml
+requests
+markdown2
+pygments

@@ -1,0 +1,211 @@
+{% macro Button(
+text,
+id=None,
+class=None,
+data={},
+icon=None,
+float="right",
+href=None,
+target_blank=None
+)%}
+    <a class="waves-effect waves-light btn {{class}} {{float}}"
+            {% if id %}
+       id="{{id}}"
+            {% endif %}
+
+            {% if href %}
+       href="{{href}}"
+            {% endif %}
+
+            {% if target_blank %}
+       target="_blank"
+            {% endif %}
+
+            {% for key, value in data.items() %}
+       data-{{key}}="{{value}}"
+            {% endfor %}
+
+       style="background-color: var(--theme-primary);
+          border-radius: 8px;
+          margin-right: 5px;
+          margin-left: 5px;">
+        {% if icon %}
+            <i class="material-icons-outlined left">{{icon}}</i>
+        {% endif %}
+        {{text}}</a>
+{% endmacro %}
+
+{% macro ButtonSubmit(
+text,
+id=None,
+class=None,
+data={},
+icon=None,
+float="right"
+)%}
+    <button class="waves-effect waves-light btn {{class}} {{float}}"
+            type="submit"
+            {% if id %}
+            id="{{id}}"
+            {% endif %}
+
+            {% for key, value in data.items() %}
+            data-{{key}}="{{value}}"
+            {% endfor %}
+
+            style="background-color: var(--theme-primary);
+          border-radius: 8px;
+          margin-right: 5px;
+          margin-left: 5px;">
+        {% if icon %}
+            <i class="material-icons-outlined left">{{icon}}</i>
+        {% endif %}
+        {{text}}</button>
+{% endmacro %}
+
+{% macro Switch(
+id="",
+form_obj=None,
+label_left="",
+label_right="",
+val=None,
+size="",
+name="",
+onclickval=None,
+data={}) %}
+    <div class="switch col {{ size }}"
+            {% for key, value in data.items() %}
+         data-{{key}}="{{value}}"
+            {% endfor %}
+    >
+        {{ label_left }}
+        <label>
+            {% if form_obj%}
+
+                {% if value == True %}
+                    {{ form_obj(type="checkbox", checked="checked", onclick=onclickval, id=id, name=name) }}
+                {% else %}
+                    {{ form_obj(type="checkbox", onclick=onclickval, id=id, name=name) }}
+                {% endif %}
+
+            {% else %}
+
+                {% if value == True %}
+                    <input id="{{id}}" name="{{name}}" type="checkbox" checked>
+                {% else %}
+                    <input id="{{id}}" name="{{name}}" type="checkbox">
+                {% endif %}
+
+            {% endif %}
+            <span class="lever"></span>
+        </label>
+        {{ label_right }}
+    </div>
+{% endmacro %}
+
+{% macro Badge(
+id='',
+caption='',
+text="",
+classes="",
+font_size="1.1rem",
+font_weight="700",
+style=""
+) %}
+
+    <span id="{{ id }}" class="new badge theme-primary z-depth-1 {{ classes }}"
+          style="margin-left: unset; font-size: {{ font_size }}; font-weight: {{ font_weight }}; {{ style }}"
+          data-badge-caption="{{ caption }}">
+        {{ text }}
+    </span>
+
+{% endmacro %}
+
+{% macro Input(
+id,
+label=None,
+name="",
+form_obj=None,
+val="",
+size="s6",
+class="",
+col_class="",
+col_id="",
+icon=None,
+spacer_icon=False,
+required='',
+helper=None
+)%}
+    <div id="{{col_id}}" class="input-field col {{ size }} {{ col_class }}">
+        {% if spacer_icon == True %}
+            <i class="material-icons-outlined prefix hide"> home </i>
+        {% endif %}
+        {% if icon %}
+            <i class="material-icons-outlined prefix"> {{icon}} </i>
+        {% endif %}
+
+        {% if form_obj %}
+            {% if required == "required" %}
+                {{ form_obj(id=id, value=val, class="validate " + class, required=required) }}
+            {% else %}
+                {{ form_obj(id=id, value=val, class="validate " + class) }}
+            {% endif %}
+        {% else %}
+            <input id="{{ id }}" type="text" name="{{ name }}" value="{{val}}" class="validate {{class}}" {{required}}>
+        {% endif %}
+
+        {% if label %}
+            <label for="{{ id }}">{{ label }}</label>
+        {% endif %}
+
+        {% if helper %}
+            <span class="helper-text">{{helper}}</span>
+        {% endif %}
+
+    </div>
+{% endmacro %}
+
+
+{% macro TextArea(
+id,
+label=None,
+name="",
+form_obj=None,
+val="",
+size="s6",
+class="",
+col_class="",
+col_id="",
+icon=None,
+spacer_icon=False,
+required='',
+helper=None
+)%}
+    <div id="{{col_id}}" class="input-field col {{ size }} {{ col_class }}">
+        {% if spacer_icon == True %}
+            <i class="material-icons-outlined prefix hide"> home </i>
+        {% endif %}
+        {% if icon %}
+            <i class="material-icons-outlined prefix"> {{icon}} </i>
+        {% endif %}
+
+        {% if form_obj %}
+            {% if required == "required" %}
+                {{ form_obj(id=id, value=val, class="validate " + class, required=required) }}
+            {% else %}
+                {{ form_obj(id=id, value=val, class="validate " + class) }}
+            {% endif %}
+        {% else %}
+            <textarea id="{{ id }}" name="{{ name }}" value="{{val}}" class="validate materialize-textarea {{class}}" {{required}}></textarea>
+        {% endif %}
+
+        {% if label %}
+            <label for="{{ id }}">{{ label }}</label>
+        {% endif %}
+
+        {% if helper %}
+            <span class="helper-text">{{helper}}</span>
+        {% endif %}
+
+    </div>
+{% endmacro %}

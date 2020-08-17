@@ -1,0 +1,17 @@
+#grid-container {
+    margin-right: .5rem;
+    margin-left: .5rem;
+}
+.grid-item {
+    margin: 1rem;
+    overflow: auto;
+}
+#error-message-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+#error-message-content-col {
+    background: var(--theme-background);
+    border-radius: 12px;
+    padding: 1rem;
+}

@@ -1,0 +1,26 @@
+{
+    "name": "dashmachine",
+    "displayName": "DashMachine",
+    "description": "Snippets for DashMachine config.",
+    "version": "0.0.1",
+    "publisher": "rmountjoy",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rmountjoy/DashMachineVSCode"
+    },
+    "icon": "logo.png",
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Snippets"
+    ],
+    "contributes": {
+        "snippets": [
+            {
+                "language": "toml",
+                "path": "./snippets/snippets.code-snippets"
+            }
+        ]
+    }
+}

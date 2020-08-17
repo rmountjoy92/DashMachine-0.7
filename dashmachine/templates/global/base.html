@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html id="html" lang="en" data-textdirection="ltr">
+<head>
+    {# THEME #}
+    <script>
+        var themeBrightness = "{{ dm.settings.theme.brightness }}";
+        var themePrimary = "{{ dm.settings.theme.primary }}";
+        var themeAccent = "{{ dm.settings.theme.accent }}";
+
+        if (themeBrightness === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+        document.documentElement.setAttribute('data-primary', themePrimary);
+        document.documentElement.setAttribute('data-accent', themeAccent);
+    </script>
+
+    {# META #}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    {% if title %}
+        <title>{{ title }} - {{ dm.settings.window.title }}</title>
+    {% else %}
+        <title>{{ dm.settings.window.title }}</title>
+    {% endif %}
+    <link rel="apple-touch-icon" href="static/images/favicon/apple-touch-icon-152x152.png?v=2">
+    <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon/favicon-32x32.png?v=2">
+
+    {# CSS SOURCES (LISTED IN portfolio.source_management.sources #}
+    {% block page_vendor_css %}{% endblock page_vendor_css %}
+    {{ process_local_css_sources(global_bundle=True) }}
+    {% block page_lvl_css %}{% endblock page_lvl_css %}
+</head>
+
+<body id="body"
+      class="theme-background">
+
+{% block header %}{% endblock header %}
+
+{% block sidenav %}{% endblock sidenav %}
+
+{% block content %}{% endblock content %}
+
+{% block footer %}{% endblock footer %}
+
+{# JS SOURCES (LISTED IN portfolio.source_management.sources #}
+{% block page_vendor_js %}{% endblock page_vendor_js %}
+{{ process_local_js_sources(global_bundle=True) }}
+{% block page_lvl_js %}{% endblock page_lvl_js %}
+</body>
+
+</html>

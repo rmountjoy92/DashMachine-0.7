@@ -1,0 +1,12 @@
+{% from 'main/dashboard-card.html' import DashboardCard %}
+
+{% for dashboard_card in dashboard.cards %}
+    <div class="grid-item card {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"
+         style="
+                 border-radius: {{ dashboard_card.card.get('border-radius', '') }};
+                 background: {{ dashboard_card.card.get('color', '') }};
+                 {{ dashboard_card.card.get('css', '') }}
+                 ">
+        {{ DashboardCard(dashboard_card) }}
+    </div>
+{% endfor %}

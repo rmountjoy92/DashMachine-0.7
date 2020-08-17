@@ -1,0 +1,52 @@
+{% extends "global/base.html" %}
+{% from 'global/global_macros.html' import Button %}
+
+{% block page_lvl_css %}
+    {{ process_local_css_sources(src="main/main.css") }}
+{% endblock page_lvl_css %}
+
+{% block content %}
+    <div style="height: 1rem"></div>
+    <div id="grid-container">
+        <div id="grid"></div>
+    </div>
+    <div style="height: 1rem"></div>
+    
+    <div id="error-message-modal" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="row center-align">
+                <i class="material-icons-outlined large theme-failure-text">warning</i>
+                <div id="error-message-title" class="center-align"></div>
+            </div>
+            <div class="row">
+                <div id="error-message-content-col" class="col s12">
+                    <code id="error-message-content"></code>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            {{ Button(
+            float="",
+            href="javascript:window.location.href=window.location.href",
+            icon="refresh",
+            text="reload"
+            ) }}
+            {{ Button(
+            float="",
+            href="#",
+            icon="edit",
+            text="open editor"
+            ) }}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block page_lvl_js %}
+    <script>
+    const dashboardName = "{{ dashboard_name }}"
+    const loadGridUrl = "{{ url_for('main.load_grid') }}";
+    const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}"
+    </script>
+
+    {{ process_local_js_sources(src="main/main.js") }}
+{% endblock page_lvl_js %}

@@ -1,0 +1,137 @@
+{% macro DashboardCard(dashboard_card) %}
+    {{ OnPressStart(dashboard_card) }}
+    <div class="card-content {{ dashboard_card.card.get('alignment', 'center') }}-align"
+         style="
+                 width: {{ dashboard_card.card.get('width', '') }};
+                 height: {{ dashboard_card.card.get('height', '') }};
+                 max-width: {{ dashboard_card.card.get('max-width', '') }};
+                 max-height: {{ dashboard_card.card.get('max-height', '') }};
+                 padding: {{ dashboard_card.card.get('padding', '') }};
+        ">
+
+        {# Icon #}
+        {% if dashboard_card.icon and dashboard_card.icon.image %}
+            {{ OnPressStart(dashboard_card.icon) }}
+            <div style="display: inline-block; width: auto">
+                <div style="display: flex; justify-content: center; align-items: center; {{ dashboard_card.icon.css }}"
+                     class="image-container {{ dashboard_card.icon.classes }}">
+                    {{ Image(dashboard_card.icon.image) }}
+                </div>
+            </div>
+            {{ OnPressEnd(dashboard_card.icon) }}
+        {% endif %}
+
+        {# Title #}
+        {% if dashboard_card.title and dashboard_card.title.text %}
+            {{ OnPressStart(dashboard_card.title) }}
+            <div class="row" style="padding: 0; margin: 0; width: 100%">
+            <span style="display: block; margin-left: auto; margin-right: auto;
+                        width: {{ dashboard_card.title.width }};
+                        {{ dashboard_card.title.css }}"
+                  class="{{ dashboard_card.title.classes }}">
+                {{ dashboard_card.title.text }}</span>
+            </div>
+            {{ OnPressEnd(dashboard_card.title) }}
+        {% endif %}
+
+        {# Description #}
+        {% if dashboard_card.description and dashboard_card.description.text %}
+            {{ OnPressStart(dashboard_card.description) }}
+            <div class="row"
+                 style="padding: 0; margin: 0; width: 100%;">
+                <div style="display: block; margin-left: auto; margin-right: auto;
+                        width: {{ dashboard_card.description.width }};
+                        {{ dashboard_card.description.css }}"
+                      class="{{ dashboard_card.description.classes }}">
+                    {{ dashboard_card.description.text }}</div>
+            </div>
+            {{ OnPressEnd(dashboard_card.description) }}
+        {% endif %}
+
+        {# Data Sources #}
+        {% if dashboard_card.data_sources and dashboard_card.data_sources.sources %}
+            {{ OnPressStart(dashboard_card.data_sources) }}
+            <div class="collection {{ dashboard_card.data_sources.collection.classes }}"
+                 style="display: block; margin-right: auto; margin-left: auto;
+                        {{ dashboard_card.data_sources.collection.css }}">
+                <div class="collection-item"
+                     style="height: {{ dashboard_card.data_sources.height }}; width: {{ dashboard_card.data_sources.width }}; {{ dashboard_card.data_sources.css }}">
+                    {% for ds in dashboard_card.data_sources.sources %}
+                        <div class="data-source-container hide" data-source="{{ ds }}"></div>
+                    {% endfor %}
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
+                {% if not dashboard_card.data_sources.hide_reload %}
+                    <div class="collection-item" style="padding: .25rem">
+                        <i class="material-icons-outlined icon-btn theme-secondary-text" style="font-size: 1.2rem">refresh</i>
+                    </div>
+                {% endif %}
+            </div>
+            {{ OnPressEnd(dashboard_card.data_sources) }}
+        {% endif %}
+
+        {# Markdown Content #}
+        {% if dashboard_card.content.markdown %}
+            <div class="collection {{ dashboard_card.content.alignment }}-align">
+                <div class="collection-item md-container">
+                    {{ dashboard_card.content.markdown }}
+                </div>
+            </div>
+        {% endif %}
+
+        {# HTML Content #}
+        {% if dashboard_card.content.html %}
+            <div class="collection {{ dashboard_card.content.alignment }}-align">
+                <div class="collection-item md-container">
+                    {{ dashboard_card.content.html }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Actions #}
+    {% if dashboard_card.actionbar and dashboard_card.actionbar.actions %}
+        <div class="card-action right-align" style="padding: .2rem">
+            {% for action in dashboard_card.actionbar.actions %}
+                {{ OnPressStart(action) }}
+                {{ Image(action['icon']) }}
+                {{ OnPressEnd(action) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{ OnPressEnd(dashboard_card) }}
+{% endmacro %}
+
+{% macro Image(image_dict) %}
+    {% if image_dict['type'] == 'image' %}
+        <img height="{{ image_dict['height'] }}"
+             style="{{ image_dict.get('css', '') }}"
+             class="{{ image_dict.get('classes', '') }}"
+             src="{{ image_dict['src'] }}">
+    {% elif image_dict['type'] == 'material-icon' %}
+        <i class="material-icons-outlined {{ image_dict['classes'] }}"
+           style="font-size: {{ image_dict['height'] }}; {{ image_dict.get('css', '') }}">
+            {{ image_dict['src'] }}
+        </i>
+    {% endif %}
+{% endmacro %}
+
+{% macro OnPressStart(obj) %}
+    {% if obj.onpress %}
+        {% if obj.onpress.get('href', None) -%}
+            <a href="{{ obj.onpress['href'] }}"
+            {% if obj.onpress['target'] == 'new_tab' %}
+            target="_blank"
+            {% endif %}>
+        {%- endif %}
+    {% endif %}
+{% endmacro %}
+{% macro OnPressEnd(obj) %}
+    {% if obj.onpress %}
+        {% if obj.onpress.get('href', None) -%}
+            </a>
+        {%- endif %}
+    {% endif %}
+{% endmacro %}
