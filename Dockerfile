@@ -12,15 +12,6 @@ WORKDIR /DashMachine
 RUN pip install --no-cache-dir --progress-bar off gunicorn
 RUN pip install --no-cache-dir --progress-bar off -r requirements.txt
 
-RUN chown -R :1000 /DashMachine
-RUN chmod -R 775 /DashMachine
-RUN chmod -R g+s /DashMachine
-
-#RUN addgroup --gid 1000 dm_user_group
-#RUN adduser --home /DashMachine --shell /bin/bash --no-create-home --disabled-password --gecos "" --force-badname --ingroup dm_user_group dm_user
-#
-#USER dm_user
-
 COPY [".", "/DashMachine/"]
 
 ENV PRODUCTION=true
@@ -28,5 +19,9 @@ ENV PRODUCTION=true
 EXPOSE 5000
 VOLUME /DashMachine/config
 VOLUME /DashMachine/vscode_integration/config
+
+RUN chown -R :1000 /DashMachine
+RUN chmod -R 775 /DashMachine
+RUN chmod -R g+s /DashMachine
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app" ]
