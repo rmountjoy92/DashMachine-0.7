@@ -16,11 +16,12 @@ COPY [".", "/DashMachine/"]
 
 ENV PRODUCTION=true
 
-RUN addgroup --system --gid 1000 dm_user_group
 RUN chown :1000 /DashMachine
 RUN chmod 775 /DashMachine
 RUN chmod g+s /DashMachine
-RUN adduser --system --home /DashMachine --shell /bin/bash --no-create-home --gid 1000 dm_user
+
+RUN addgroup --gid 1000 dm_user_group
+RUN adduser --home /DashMachine --shell /bin/bash --no-create-home --gid 1000 dm_user
 
 USER dm_user
 
