@@ -9,7 +9,6 @@ def install():
         return "No vscode config folder volume provided"
 
     # link dm config to workspace
-    workspace_folder = os.path.join(vs_config_folder, "workspace")
     os.symlink(
         config_folder,
         os.path.join(vs_config_folder, "workspace", "DashMachine"),
