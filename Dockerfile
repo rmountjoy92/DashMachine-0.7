@@ -16,7 +16,7 @@ COPY [".", "/DashMachine/"]
 
 ENV PRODUCTION=true
 
-RUN adduser --home /DashMachine --shell --no-create-home /bin/bash --gid 1000 dm_user
+RUN adduser --home /DashMachine --shell /bin/bash --no-create-home --gid 1000 dm_user
 
 USER dm_user
 
