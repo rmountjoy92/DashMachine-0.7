@@ -5,6 +5,7 @@ RUN apt-get update -q \
     inetutils-ping \
   && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /DashMachine
 RUN chown :1000 /DashMachine
 RUN chmod 775 /DashMachine
 RUN chmod g+s /DashMachine
