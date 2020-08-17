@@ -20,8 +20,8 @@ EXPOSE 5000
 VOLUME /DashMachine/config
 VOLUME /DashMachine/vscode_integration/config
 
-RUN chown -R :1000 /DashMachine
-RUN chmod -R 775 /DashMachine
-RUN chmod -R g+s /DashMachine
+RUN chown -R 1000:911 /DashMachine/config
+RUN chmod -R 775 /DashMachine/config
+RUN chmod -R g+s /DashMachine/config
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app" ]
