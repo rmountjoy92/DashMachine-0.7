@@ -16,6 +16,11 @@ COPY [".", "/DashMachine/"]
 
 ENV PRODUCTION=true
 
+RUN addgroup -g 1000 -S dm_group
+RUN adduser -S -G dm_group -s /bin/bash -h /DashMachine dm_user
+
+USER dm_user
+
 EXPOSE 5000
 VOLUME /DashMachine/config
 VOLUME /DashMachine/vscode_integration/config
