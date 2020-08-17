@@ -19,8 +19,8 @@ COPY [ "requirements.txt", "/DashMachine/" ]
 
 WORKDIR /DashMachine
 
-RUN pip install --no-cache-dir --progress-bar off gunicorn
-RUN pip install --no-cache-dir --progress-bar off -r requirements.txt
+RUN pip install --user --no-cache-dir --progress-bar off gunicorn
+RUN pip install --user --no-cache-dir --progress-bar off -r requirements.txt
 
 COPY [".", "/DashMachine/"]
 
