@@ -16,10 +16,10 @@ RUN chown -R :1000 /DashMachine
 RUN chmod -R 775 /DashMachine
 RUN chmod -R g+s /DashMachine
 
-RUN addgroup --gid 1000 dm_user_group
-RUN adduser --home /DashMachine --shell /bin/bash --no-create-home --disabled-password --gecos "" --force-badname --ingroup dm_user_group dm_user
-
-USER dm_user
+#RUN addgroup --gid 1000 dm_user_group
+#RUN adduser --home /DashMachine --shell /bin/bash --no-create-home --disabled-password --gecos "" --force-badname --ingroup dm_user_group dm_user
+#
+#USER dm_user
 
 COPY [".", "/DashMachine/"]
 
