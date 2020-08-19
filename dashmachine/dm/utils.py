@@ -28,8 +28,8 @@ def resolve_onpress_option(onpress_option: STR_OR_DICT) -> dict:
     return opt_onpress
 
 
-def html_from_markdown_name(name):
-    path = os.path.join(user_markdown_folder, f"{name}.md")
+def html_from_markdown_file(file):
+    path = os.path.join(user_markdown_folder, file)
     with open(path, "r") as md_file:
         md = md_file.read()
     html = markdown(
@@ -45,8 +45,8 @@ def html_from_markdown_name(name):
     return Markup(html)
 
 
-def html_from_template_name(name, dashboard_card):
-    path = os.path.join(user_templates_folder, f"{name}.html")
+def html_from_template_file(file, dashboard_card):
+    path = os.path.join(user_templates_folder, file)
     with open(path, "r") as template_file:
         with dashboard_card.dashboard.dm.app.app_context():
             html = render_template_string(

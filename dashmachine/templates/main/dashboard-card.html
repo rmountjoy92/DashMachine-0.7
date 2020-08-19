@@ -2,10 +2,6 @@
     {{ OnPressStart(dashboard_card) }}
     <div class="card-content {{ dashboard_card.card.get('alignment', 'center') }}-align"
          style="
-                 width: {{ dashboard_card.card.get('width', '') }};
-                 height: {{ dashboard_card.card.get('height', '') }};
-                 max-width: {{ dashboard_card.card.get('max-width', '') }};
-                 max-height: {{ dashboard_card.card.get('max-height', '') }};
                  padding: {{ dashboard_card.card.get('padding', '') }};
         ">
 
@@ -121,10 +117,18 @@
 {% macro OnPressStart(obj) %}
     {% if obj.onpress %}
         {% if obj.onpress.get('href', None) -%}
-            <a href="{{ obj.onpress['href'] }}"
-            {% if obj.onpress['target'] == 'new_tab' %}
-            target="_blank"
-            {% endif %}>
+            {% if obj.onpress['target'] == 'dashboard' %}
+                {% set href = obj.onpress['href'] %}
+                <a onclick="changeDashboard('{{ href }}');" style="cursor: pointer">
+            {% elif obj.onpress['target'] == 'iframe' %}
+                {% set href = obj.onpress['href'] %}
+                <a onclick="openIframe('{{ href }}');" style="cursor: pointer">
+            {% else %}
+                <a href="{{ obj.onpress['href'] }}"
+                {% if obj.onpress['target'] == 'new_tab' %}
+                target="_blank"
+                {% endif %}>
+            {% endif %}
         {%- endif %}
     {% endif %}
 {% endmacro %}

@@ -60,6 +60,53 @@
     font-size: 1.7rem; color: var(--theme-secondary);
 }
 
+/* "CARD FILTER" SEXY SEARCH BAR */
+.card-filter-container {
+    margin: 0 .25rem 0 .25rem;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.card-filter-container .input-field .card-filter {
+    margin: 0px !important;
+    padding-left: 2.75rem !important;
+    border: none !important;
+    border-radius: .4rem !important;
+    background-color: var(--theme-surface-1);
+    font-size: 14px;
+    line-height: 4;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card-filter-container .input-field .card-filter::placeholder {
+    line-height: 4;
+}
+
+.card-filter-container .input-field .card-filter:focus {
+    border-bottom: none !important;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12), 0 1px 5px 0 rgba(0, 0, 0, .2) !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12), 0 1px 5px 0 rgba(0, 0, 0, .2) !important;
+}
+
+.card-filter-container .card-search-icon {
+    top: 8px !important;
+    left: 20px;
+    color: var(--theme-secondary);
+}
+
+.card-filter-container .filter-action {
+    position: relative;
+    margin-bottom: -23px;
+    bottom: 35px;
+    right: 15px;
+    color: var(--theme-secondary);
+}
+
+
 /* MATERIALIZE FIXES ---------------------------------------------------------------- */
 
 /* BODY */

@@ -1,8 +1,8 @@
 [Onpress]
 shorthand = '[string] Url to navigate to'
 keys = [
-    {name = 'href', before_prefill = 'https://', prefill = "url", type = 'string', description = 'The url to assign to href anchor'},
-    {name = 'target', prefill = ['this_tab', 'new_tab', 'iframe'], type = 'string', description = 'Open the url in this tab, a new tab, or iframe'},
+    {name = 'href', before_prefill = 'https://', prefill = "url", type = 'string', description = 'The url or dashboard to navigate to'},
+    {name = 'target', prefill = ['this_tab', 'new_tab', 'iframe', 'dashboard'], type = 'string', description = 'Open the url in this tab, a new tab, or iframe, or navigate to a dashboard'},
 ]
 
 [Image]

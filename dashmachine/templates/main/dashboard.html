@@ -2,7 +2,13 @@
 
 {% for dashboard_card in dashboard.cards %}
     <div class="grid-item card {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"
+         data-searchable="{{ dashboard_card.name }}~{{ dashboard_card.title.text }}~{{ dashboard_card.description.text }}"
+         data-tags="{{ dashboard_card.tags|join("%,%") }}"
          style="
+                 width: {{ dashboard_card.card.get('width', '') }};
+                 height: {{ dashboard_card.card.get('height', '') }};
+                 max-width: {{ dashboard_card.card.get('max-width', '') }};
+                 max-height: {{ dashboard_card.card.get('max-height', '') }};
                  border-radius: {{ dashboard_card.card.get('border-radius', '') }};
                  background: {{ dashboard_card.card.get('color', '') }};
                  {{ dashboard_card.card.get('css', '') }}
@@ -10,3 +16,11 @@
         {{ DashboardCard(dashboard_card) }}
     </div>
 {% endfor %}
+
+<script>
+    autocompleteTags = {
+        {% for tag in dashboard.tags %}
+            ":t {{ tag }}": null,
+        {% endfor %}
+    }
+</script>

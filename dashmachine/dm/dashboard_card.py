@@ -1,8 +1,8 @@
 from dashmachine.dm.utils import (
     resolve_image_option,
     resolve_onpress_option,
-    html_from_markdown_name,
-    html_from_template_name,
+    html_from_markdown_file,
+    html_from_template_file,
 )
 
 
@@ -11,8 +11,14 @@ class DashboardCard:
         self.dashboard = dashboard
         self.name = name
         self.options = options
+        self.tags = options.get("tags", [])
         self.onpress = resolve_onpress_option(options.get("onpress", {}))
+
         self.card = options.get("card", {})
+        if not self.card.get("classes") and not self.card.get("css"):
+            self.card["classes"] = "theme-surface-transparent"
+        if self.card.get("full-width") is True:
+            self.card["width"] = "calc(100vw - 2rem)"
 
         self.icon = Icon(options)
         self.title = Title(options)
@@ -124,9 +130,9 @@ class Content:
             self.alignment = "left"
 
         if self.markdown:
-            self.markdown = html_from_markdown_name(self.markdown)
+            self.markdown = html_from_markdown_file(self.markdown)
 
         if self.html:
-            self.html = html_from_template_name(
+            self.html = html_from_template_file(
                 name=self.html, dashboard_card=dashboard_card
             )

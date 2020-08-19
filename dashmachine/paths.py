@@ -9,6 +9,17 @@ def get_root_folder():
     return rfolder
 
 
+def make_file(path):
+    if not os.path.isfile(path):
+        with open(path, "w") as new_file:
+            new_file.write("")
+
+
+def make_dir(path):
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
+
 root_folder = get_root_folder()
 
 project_folder = os.path.join(root_folder, "dashmachine")
@@ -19,46 +30,53 @@ vs_folder = os.path.join(root_folder, "vscode_integration")
 
 static_folder = os.path.join(project_folder, "static")
 
-# set up the config folder
+# set up the config directories
 config_folder = os.path.join(root_folder, "config")
-if not os.path.isdir(config_folder):
-    os.mkdir(config_folder)
+make_dir(config_folder)
 
 dashboards_folder = os.path.join(config_folder, "dashboards")
-if not os.path.isdir(dashboards_folder):
-    os.mkdir(dashboards_folder)
-
-
-def make_toml_file(path):
-    if not os.path.isfile(path):
-        with open(path, "w") as new_file:
-            new_file.write("")
-
-
-main_dashboard = os.path.join(dashboards_folder, "main.toml")
-make_toml_file(main_dashboard)
-
-access_toml = os.path.join(config_folder, "access.toml")
-make_toml_file(access_toml)
-
-data_sources_toml = os.path.join(config_folder, "data_sources.toml")
-make_toml_file(data_sources_toml)
-
-settings_toml = os.path.join(config_folder, "settings.toml")
-make_toml_file(settings_toml)
-
-users_toml = os.path.join(config_folder, "users.toml")
-make_toml_file(users_toml)
+make_dir(config_folder)
 
 user_assets_folder = os.path.join(config_folder, "assets")
-if not os.path.isdir(user_assets_folder):
-    os.mkdir(user_assets_folder)
+make_dir(user_assets_folder)
+
+user_wallpapers_folder = os.path.join(user_assets_folder, "wallpapers")
+make_dir(user_wallpapers_folder)
+
+user_images_folder = os.path.join(user_assets_folder, "images")
+make_dir(user_images_folder)
 
 user_markdown_folder = os.path.join(user_assets_folder, "markdown")
-if not os.path.isdir(user_markdown_folder):
-    os.mkdir(user_markdown_folder)
-
+make_dir(user_markdown_folder)
 
 user_templates_folder = os.path.join(user_assets_folder, "templates")
-if not os.path.isdir(user_templates_folder):
-    os.mkdir(user_templates_folder)
+make_dir(user_templates_folder)
+
+user_css_folder = os.path.join(user_assets_folder, "css")
+make_dir(user_css_folder)
+
+user_js_folder = os.path.join(user_assets_folder, "js")
+make_dir(user_css_folder)
+
+
+# make the default files
+main_dashboard = os.path.join(dashboards_folder, "main.toml")
+make_file(main_dashboard)
+
+access_toml = os.path.join(config_folder, "access.toml")
+make_file(access_toml)
+
+data_sources_toml = os.path.join(config_folder, "data_sources.toml")
+make_file(data_sources_toml)
+
+settings_toml = os.path.join(config_folder, "settings.toml")
+make_file(settings_toml)
+
+users_toml = os.path.join(config_folder, "users.toml")
+make_file(users_toml)
+
+user_custom_css = os.path.join(user_css_folder, "global.css")
+make_file(user_custom_css)
+
+user_custom_js = os.path.join(user_js_folder, "global.js")
+make_file(user_custom_js)

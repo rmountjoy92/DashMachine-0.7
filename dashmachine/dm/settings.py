@@ -4,6 +4,7 @@ from dashmachine.paths import settings_toml
 
 class Settings:
     def __init__(self):
+        self.toml_path = settings_toml
         self.error = None
         try:
             self.toml_dict = toml.load(settings_toml)

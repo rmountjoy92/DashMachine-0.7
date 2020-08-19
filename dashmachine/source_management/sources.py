@@ -1,7 +1,6 @@
 import os
 from jsmin import jsmin
 from markupsafe import Markup
-from dashmachine import app
 from dashmachine.paths import static_folder
 from dashmachine.source_management.cssmin import cssmin
 
@@ -83,11 +82,3 @@ def process_local_css_sources(process_bundle=None, src=None, global_bundle=False
                     html += f"<style>{css_file.read()}</style>"
 
     return Markup(html)
-
-
-@app.context_processor
-def context_processor():
-    return dict(
-        process_local_js_sources=process_local_js_sources,
-        process_local_css_sources=process_local_css_sources,
-    )

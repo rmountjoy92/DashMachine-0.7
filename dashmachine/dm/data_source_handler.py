@@ -1,10 +1,18 @@
 import toml
 from importlib import import_module
+from dashmachine.dm import FileWatcher
 from dashmachine.paths import data_sources_toml
 
 
 class DataSourceHandler:
     def __init__(self):
+        self.toml_dict = None
+        self.error = None
+        self.data_sources = []
+        self.load_data_sources()
+        self.file_watcher = FileWatcher(data_sources_toml, self.load_data_sources)
+
+    def load_data_sources(self):
         try:
             self.toml_dict = toml.load(data_sources_toml)
         except toml.TomlDecodeError as e:
@@ -14,6 +22,7 @@ class DataSourceHandler:
             }
             return
         self.data_sources = [{key: value} for key, value in self.toml_dict.items()]
+        print(" * Data Sources loaded")
 
     def process_data_source(self, data_source_name):
         error_msg = (

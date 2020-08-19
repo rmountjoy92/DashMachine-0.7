@@ -7,3 +7,4 @@ toml
 requests
 markdown2
 pygments
+watchgod

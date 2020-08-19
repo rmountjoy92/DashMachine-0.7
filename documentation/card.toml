@@ -9,6 +9,8 @@ onpress.type = 'Onpress'
 # card.card
 card.type = 'dict'
 card.description = 'Modify aspects of the this card on the dashboard'
+card.alignment.type = 'string'
+card.alignment.description = 'The alignment for the entire card. Options are right,center,left.'
 card.color.type = 'color'
 card.color.description = 'Card background color'
 card.border-radius.type = 'size'

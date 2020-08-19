@@ -6,11 +6,44 @@
 {% endblock page_lvl_css %}
 
 {% block content %}
-    <div style="height: 1rem"></div>
+    <div class="row card-filter-container">
+        <div class="col s12 m12 l6 xl4 input-field">
+            <span>
+                <i class="material-icons prefix card-search-icon">last_page</i>
+                <input id="card-filter"
+                       type="text"
+                       class="card-filter action-bar theme-surface-transparent"
+                       placeholder="..." autofocus>
+            </span>
+        </div>
+    </div>
+
     <div id="grid-container">
         <div id="grid"></div>
     </div>
     <div style="height: 1rem"></div>
+
+    <div id="iframe-viewer" class="modal bottom-sheet">
+        <span id="iframe-viewer-bar">
+            <i class="material-icons-outlined icon-btn modal-close iframe-close">close</i>
+            <i class="material-icons-outlined icon-btn modal-close iframe-min">expand_more</i>
+            <span class="iframe-viewer-title"></span>
+            <a class="iframe-open-in-new" target="_blank">
+                <i class="material-icons-outlined right icon-btn">launch</i>
+            </a>
+        </span>
+
+        <iframe id="iframe-viewer-iframe" src=""></iframe>
+    </div>
+
+    <div id="iframe-minimized" class="z-depth-2 hide">
+        <i class="material-icons-outlined icon-btn modal-close iframe-close">close</i>
+        <i class="material-icons-outlined icon-btn modal-close iframe-restore">expand_less</i>
+        <span class="iframe-viewer-title"></span>
+        <a class="iframe-open-in-new" target="_blank">
+            <i class="material-icons-outlined right icon-btn">launch</i>
+        </a>
+    </div>
     
     <div id="error-message-modal" class="modal modal-fixed-footer">
         <div class="modal-content">
@@ -43,9 +76,27 @@
 
 {% block page_lvl_js %}
     <script>
-    const dashboardName = "{{ dashboard_name }}"
+    let dashboardName = "{{ dashboard_name }}"
     const loadGridUrl = "{{ url_for('main.load_grid') }}";
     const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}"
+
+    let autocompleteDashboards = {
+        {% for dboard_name, dashboard in dm.dashboards.items() %}
+            ":d {{ dboard_name }}": null,
+        {% endfor %}
+    }
+    let autocompleteTags = {}
+
+    let autocompleteQueryProviders = {
+    {% for query_provider in dm.query_providers %}
+        "?{{ query_provider['prefix'] }} [{{ query_provider['name'] }}]": null,
+    {% endfor %}
+    }
+    let queryProviderUrls = {
+        {% for query_provider in dm.query_providers %}
+            "{{ query_provider['prefix'] }}": '{{ query_provider["url"] }}',
+        {% endfor %}
+    }
     </script>
 
     {{ process_local_js_sources(src="main/main.js") }}
