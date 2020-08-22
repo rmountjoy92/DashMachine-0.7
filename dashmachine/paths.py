@@ -56,7 +56,7 @@ user_css_folder = os.path.join(user_assets_folder, "css")
 make_dir(user_css_folder)
 
 user_js_folder = os.path.join(user_assets_folder, "js")
-make_dir(user_css_folder)
+make_dir(user_js_folder)
 
 
 # make the default files
