@@ -75,6 +75,9 @@ make_file(settings_toml)
 users_toml = os.path.join(config_folder, "users.toml")
 make_file(users_toml)
 
+shared_cards_toml = os.path.join(config_folder, "shared_cards.toml")
+make_file(shared_cards_toml)
+
 user_custom_css = os.path.join(user_css_folder, "global.css")
 make_file(user_custom_css)
 

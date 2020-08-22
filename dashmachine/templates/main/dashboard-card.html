@@ -44,14 +44,31 @@
             {{ OnPressEnd(dashboard_card.description) }}
         {% endif %}
 
+        {# List #}
+        {% if dashboard_card.list and dashboard_card.list.items %}
+            <div class="collection">
+                {% for item in dashboard_card.list.items %}
+                    {{ OnPressStart(item) }}
+                    <div class="collection-item avatar valign-wrapper"
+                         style="min-height: unset; padding-bottom: 1.25rem; padding-top: 1.25rem">
+                        {{ Image(item['icon'], 'circle') }}
+                        <span class="title">{{ item.name }}</span>
+                    </div>
+                    {{ OnPressStart(item) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {# Data Sources #}
         {% if dashboard_card.data_sources and dashboard_card.data_sources.sources %}
             {{ OnPressStart(dashboard_card.data_sources) }}
             <div class="collection {{ dashboard_card.data_sources.collection.classes }}"
-                 style="display: block; margin-right: auto; margin-left: auto;
+                 style="display: block; margin: 0 auto;
                         {{ dashboard_card.data_sources.collection.css }}">
-                <div class="collection-item"
-                     style="height: {{ dashboard_card.data_sources.height }}; width: {{ dashboard_card.data_sources.width }}; {{ dashboard_card.data_sources.css }}">
+                <div class="collection-item theme-surface {{ dashboard_card.data_sources.classes }}"
+                     style="height: {{ dashboard_card.data_sources.height }};
+                             width: {{ dashboard_card.data_sources.width }};
+                             {{ dashboard_card.data_sources.css }}">
                     {% for ds in dashboard_card.data_sources.sources %}
                         <div class="data-source-container hide" data-source="{{ ds }}"></div>
                     {% endfor %}
@@ -61,7 +78,9 @@
                 </div>
                 {% if not dashboard_card.data_sources.hide_reload %}
                     <div class="collection-item" style="padding: .25rem">
-                        <i class="material-icons-outlined icon-btn theme-secondary-text" style="font-size: 1.2rem">refresh</i>
+                        <i class="reload-data-source material-icons-outlined icon-btn theme-secondary-text"
+                           data-source="{{ ds }}"
+                           style="font-size: 1.2rem">refresh</i>
                     </div>
                 {% endif %}
             </div>
@@ -100,14 +119,14 @@
     {{ OnPressEnd(dashboard_card) }}
 {% endmacro %}
 
-{% macro Image(image_dict) %}
+{% macro Image(image_dict, class=None) %}
     {% if image_dict['type'] == 'image' %}
         <img height="{{ image_dict['height'] }}"
              style="{{ image_dict.get('css', '') }}"
-             class="{{ image_dict.get('classes', '') }}"
+             class="{{ class }} {{ image_dict.get('classes', '') }}"
              src="{{ image_dict['src'] }}">
     {% elif image_dict['type'] == 'material-icon' %}
-        <i class="material-icons-outlined {{ image_dict['classes'] }}"
+        <i class="material-icons-outlined {{ class }} {{ image_dict['classes'] }}"
            style="font-size: {{ image_dict['height'] }}; {{ image_dict.get('css', '') }}">
             {{ image_dict['src'] }}
         </i>

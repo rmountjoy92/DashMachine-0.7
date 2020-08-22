@@ -19,7 +19,7 @@
     </div>
 
     <div id="grid-container">
-        <div id="grid"></div>
+        <div id="grid" class="row"></div>
     </div>
     <div style="height: 1rem"></div>
 
@@ -72,13 +72,30 @@
             ) }}
         </div>
     </div>
+
+    <div id="logs-modal" class="modal full-height-modal wide-modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Logs</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div id="logs-modal-content-col" class="col s12">
+                    <code id="logs-modal-content" class="selectable"></code>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 
 {% block page_lvl_js %}
     <script>
-    let dashboardName = "{{ dashboard_name }}"
+    let dashboardName = "{{ dashboard_name }}";
+    let dashboardTag = "{{ tag }}";
     const loadGridUrl = "{{ url_for('main.load_grid') }}";
-    const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}"
+    const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}";
+    const getLogsUrl = "{{ url_for('main.get_logs') }}";
 
     let autocompleteDashboards = {
         {% for dboard_name, dashboard in dm.dashboards.items() %}

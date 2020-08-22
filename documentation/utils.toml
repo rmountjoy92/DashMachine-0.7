@@ -18,3 +18,12 @@ keys = [
     {name = 'icon', prefill = "Image", type = 'Image', description = 'The image object for the action'},
     {name = 'onpress', prefill = "Onpress", type = 'Onpress', description = 'The onpress object for the action'},
 ]
+
+[ListItem]
+keys = [
+    {name = 'icon', prefill = "Image", type = 'Image', description = 'The image object for the list item avatar'},
+    {name = 'name', prefill = "", type = 'string', description = 'Name of the list item, text to the right of icon'},
+    {name = 'onpress', prefill = "Onpress", type = 'Onpress', description = 'The onpress object for the list item'},
+    {name = 'classes', prefill = "", type = 'classes', description = ''},
+    {name = 'css', prefill = "", type = 'css', description = ''},
+]

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, make_response
+from flask import Blueprint, render_template, jsonify, request
 from dashmachine import dm
 
 main = Blueprint("main", __name__)
@@ -7,21 +7,20 @@ main = Blueprint("main", __name__)
 @main.route("/", methods=["GET"])
 def index():
     dashboard_name = request.args.get("dashboard", "main")
-    resp = make_response(
-        render_template(
-            "main/main.html",
-            dm=dm,
-            dashboard_name=dashboard_name,
-            title=dashboard_name if dashboard_name != "main" else None,
-        )
+    return render_template(
+        "main/main.html",
+        dm=dm,
+        dashboard_name=dashboard_name,
+        tag=request.args.get("tag"),
+        title=dashboard_name if dashboard_name != "main" else None,
     )
-    resp.headers.add("Set-Cookie", "cookie2=value2; SameSite=None; Secure")
-    return resp
 
 
 @main.route("/load_grid", methods=["GET"])
 def load_grid():
-    dashboard = dm.get_dashboard_by_name(request.args.get("dashboard", "main"))
+    dashboard = dm.get_dashboard_by_name(request.args.get("dashboard"))
+    if not dashboard:
+        dashboard = dm.get_dashboard_by_name("main")
     if dashboard.error:
         return jsonify(
             data={
@@ -38,3 +37,8 @@ def load_data_source():
     return dm.data_source_handler.process_data_source(
         data_source_name=request.args.get("ds")
     )
+
+
+@main.route("/get_logs", methods=["GET"])
+def get_logs():
+    return dm.get_logs()

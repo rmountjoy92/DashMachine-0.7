@@ -59,9 +59,9 @@ class Platform:
             self.visibility_unit = "km"
 
         self.html_template = """
-        <div class="row">
+        <div class="row" style="margin-top: 20px;">
             <div class="col s6">
-                <span class="mt-0 mb-0 theme-primary-text font-weight-700" style="font-size: 36px">{{ value.consolidated_weather[0].the_temp|round(1, 'floor') }}&deg;</h3>
+                <span class="mt-0 mb-0 theme-primary-text font-weight-700" style="font-size: 36px; position: relative; top: 1rem">{{ value.consolidated_weather[0].the_temp|round(1, 'floor') }}&deg;</h3>
             </div>
             <div class="col s6 right-align">
                 <img height="48px" src="https://www.metaweather.com/static/img/weather/{{ value.consolidated_weather[0].weather_state_abbr }}.svg">
@@ -69,9 +69,6 @@ class Platform:
         </div>
         <div class="row">
             <h6 class="font-weight-900 center theme-muted-text">{{ value.title }}</h6>
-        </div>
-        <div class="row center-align">
-            <i class="material-icons-outlined">keyboard_arrow_down</i>
         </div>
         <div class="row center-align">
             <div class="col s12">

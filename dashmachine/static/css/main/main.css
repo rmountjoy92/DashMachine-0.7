@@ -1,18 +1,30 @@
 body {
     min-height: 100vh;
 }
-.grid-item {
-    margin: 1rem;
+#grid-container .grid-item {
+    margin: 0;
+    padding: 0;
     overflow: auto;
+}
+#grid-container {
+    margin: 0 .75rem 0 .75rem;
 }
 #error-message-title {
     font-size: 1.2rem;
     font-weight: bold;
 }
-#error-message-content-col {
+#logs-modal {
+    max-height: 100vh;
+    overflow: hidden;
+}
+#error-message-content-col, #logs-modal-content-col {
     background: var(--theme-background);
     border-radius: 12px;
     padding: 1rem;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+    max-height: calc(100vh - 120px);
 }
 
 #iframe-viewer {

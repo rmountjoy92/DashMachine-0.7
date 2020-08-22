@@ -7,6 +7,22 @@ from dashmachine.paths import user_markdown_folder, user_templates_folder
 
 STR_OR_DICT = TypeVar("String or Dict", str, dict)
 
+DEFAULT_QUERY_PROVIDERS = [
+    {"name": "Google", "prefix": "g", "url": "https://www.google.com/search?q="},
+    {"name": "Duckduckgo", "prefix": "d", "url": "https://duckduckgo.com/?q="},
+    {"name": "Amazon", "prefix": "a", "url": "https://www.amazon.com/s?k="},
+    {
+        "name": "Wikipedia",
+        "prefix": "w",
+        "url": "https://en.wikipedia.org/wiki/Special:Search/",
+    },
+    {
+        "name": "Arch Wiki",
+        "prefix": "aw",
+        "url": "https://wiki.archlinux.org/index.php?search=",
+    },
+]
+
 
 def resolve_image_option(img_option: STR_OR_DICT, default_height: str) -> dict:
     if isinstance(img_option, str):

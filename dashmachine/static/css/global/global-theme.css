@@ -246,6 +246,17 @@ a {
 #grid .grid-item .card-content {
     color: inherit;
 }
+.modal {
+    background: var(--theme-surface);
+}
+.modal .modal-footer {
+    background-color: var(--theme-surface-1);
+    background: var(--theme-surface-1);
+}
+.collection .collection-item.avatar i.circle {
+    background-color: var(--theme-primary);
+    color: var(--theme-on-primary);
+}
 
 /* FORM THEME COLOR FIXES */
 input {

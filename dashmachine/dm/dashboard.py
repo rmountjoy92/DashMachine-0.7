@@ -1,8 +1,8 @@
 import toml
 import os
+import logging
 from dashmachine.paths import dashboards_folder
 from dashmachine.dm.dashboard_card import DashboardCard
-from dashmachine.dm.file_watcher import FileWatcher
 
 
 class Dashboard:
@@ -17,8 +17,6 @@ class Dashboard:
         self.tags = []
         self.load_cards()
 
-        self.file_watcher = FileWatcher(self.toml_path, self.load_cards)
-
     def load_cards(self):
         try:
             self.toml_dict = toml.load(self.toml_path)
@@ -27,6 +25,7 @@ class Dashboard:
                 "error_title": "DashMachine was unable to read your dashboard.toml file.",
                 "error": f"Error from toml: {e}",
             }
+            logging.error(self.error["error_title"], exc_info=True)
             return
         self.cards = [
             DashboardCard(name=key, options=value, dashboard=self)
@@ -37,4 +36,4 @@ class Dashboard:
                 for tag in card.tags:
                     if tag not in self.tags:
                         self.tags.append(tag)
-        print(f" * Cards for {self.file} were loaded")
+        logging.info(f"Cards for {self.file} were loaded")

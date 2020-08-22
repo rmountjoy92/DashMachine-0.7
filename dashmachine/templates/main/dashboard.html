@@ -1,7 +1,7 @@
 {% from 'main/dashboard-card.html' import DashboardCard %}
 
 {% for dashboard_card in dashboard.cards %}
-    <div class="grid-item card {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"
+    <div class="grid-item card col {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"
          data-searchable="{{ dashboard_card.name }}~{{ dashboard_card.title.text }}~{{ dashboard_card.description.text }}"
          data-tags="{{ dashboard_card.tags|join("%,%") }}"
          style="

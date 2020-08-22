@@ -1,3 +1,4 @@
+import logging
 from threading import Thread
 from watchgod import watch, Change
 
@@ -11,13 +12,13 @@ class FileWatcher:
         self.start()
 
     def watch(self):
-        print(f" * Watching {self.path} for file {self.event}")
+        logging.info(f"Watching {self.path} for file {self.event}")
         for changes in watch(self.path):
             for change in changes:
                 if (self.event == "modified" and change[0] == Change.modified) or (
                     self.event == "added" and change[0] == Change.added
                 ):
-                    print(f" * Detected file {self.event} in {self.path}")
+                    logging.info(f"Detected file {self.event} in {self.path}")
                     self.change_function()
 
     def start(self):

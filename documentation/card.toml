@@ -47,9 +47,17 @@ description.onpress.type = 'Onpress'
 description.classes.type = 'classes'
 description.css.type = 'css'
 
+# card.list
+list.type = 'dict'
+list.description = 'This section is an area below the description (if present). In this section you can create a list of items with an icon, a title, and onpress action'
+list.items.type = 'list<ListItem>'
+list.items.description = 'List of ListItem object to populate the list'
+list.classes.type = 'classes'
+list.css.type = 'css'
+
 # card.data_sources
 data_sources.type = 'dict'
-data_sources.description = 'This section is an area below the description (if present) on the card for loading in information from data sources configured in your data-sources.toml file'
+data_sources.description = 'This section is an area below the list (if present) on the card for loading in information from data sources configured in your data-sources.toml file'
 data_sources.sources.type = 'list<string>'
 data_sources.sources.description = 'List of data source names from configured data sources in you data_sources.toml file'
 data_sources.hide_reload.type = 'bool'
@@ -67,16 +75,6 @@ content.html.type = 'string'
 content.html.description = 'The path to the html (jinja 2 template) file in your assets folder to convert to render and display on this card'
 content.alignment.type = 'string'
 content.alignment.description = 'How to align the content, options are center,right,left'
-
-# card.list
-list.type = 'list or dict'
-list.description = 'This section is an area below the data_sources (if present). In this section you can create a list of items with an icon, a title, and onpress action'
-list.classes.type = 'classes'
-list.css.type = 'css'
-list.item.type = 'dict'
-list.item.description = 'Customize the rows in the list'
-list.item.classes.type = 'classes'
-list.item.css.type = 'css'
 
 # card.actionbar
 actionbar.type = 'dict'

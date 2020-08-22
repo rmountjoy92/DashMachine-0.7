@@ -144,4 +144,5 @@ cython_debug/
 # DashMachine
 config/
 
+dashmachine.log
 

@@ -1,66 +1,94 @@
 import os
+import logging
+import toml
+from markupsafe import Markup
 from dashmachine.dm.file_watcher import FileWatcher
-from dashmachine.paths import dashboards_folder
+from dashmachine.paths import (
+    root_folder,
+    dashboards_folder,
+    settings_toml,
+    data_sources_toml,
+    shared_cards_toml,
+)
 from dashmachine.dm.settings import Settings
 from dashmachine.dm.dashboard import Dashboard
 from dashmachine.dm.data_source_handler import DataSourceHandler
-
-DEFAULT_QUERY_PROVIDERS = [
-    {"name": "Google", "prefix": "g", "url": "https://www.google.com/search?q="},
-    {"name": "Duckduckgo", "prefix": "d", "url": "https://duckduckgo.com/?q="},
-    {"name": "Amazon", "prefix": "a", "url": "https://www.amazon.com/s?k="},
-    {
-        "name": "Wikipedia",
-        "prefix": "w",
-        "url": "https://en.wikipedia.org/wiki/Special:Search/",
-    },
-    {
-        "name": "Arch Wiki",
-        "prefix": "aw",
-        "url": "https://wiki.archlinux.org/index.php?search=",
-    },
-]
+from dashmachine.dm.utils import DEFAULT_QUERY_PROVIDERS
 
 
 class DashMachine:
     def __init__(self, app):
-        print(" * DashMachine started")
+        logging.info("DashMachine starting..")
         self.app = app
+        self.query_providers = DEFAULT_QUERY_PROVIDERS
+        self.settings = None
+        self.data_source_handler = None
+        self.dashboards = None
+        self.main_dashboard = None
+        self.shared_cards = []
+        self.build()
 
-        self.settings = {}
-        self.load_settings()
+        logging.info("File watchers starting..")
+        self.settings_file_watcher = FileWatcher(settings_toml, self.build)
+        self.dashboards_folder_watcher = FileWatcher(
+            dashboards_folder, self.build, event="added"
+        )
+        self.data_sources_file_watcher = FileWatcher(data_sources_toml, self.build)
+        self.dashboard_file_watchers = []
+        for dboard_name, dboard in self.dashboards.items():
+            self.dashboard_file_watchers.append(
+                FileWatcher(dboard.toml_path, dboard.load_cards)
+            )
 
-        self.dashboards = {}
-        self.load_dashboards()
-
-        self.main_dashboard = self.get_dashboard_by_name("main")
-
-        self.data_source_handler = DataSourceHandler()
-
-        if not hasattr(self, "query_providers"):
+    def build(self):
+        # load settings
+        self.settings = Settings()
+        if hasattr(self.settings, "query_providers"):
+            self.query_providers = self.settings.query_providers
+        else:
             self.query_providers = DEFAULT_QUERY_PROVIDERS
 
-        self.settings_file_watcher = FileWatcher(
-            self.settings.toml_path, self.load_settings
-        )
-        self.dashboards_folder_watcher = FileWatcher(
-            dashboards_folder, self.load_dashboards, event="added"
-        )
+        # load data_source handler
+        self.data_source_handler = DataSourceHandler()
 
-    def load_settings(self):
-        print(" * Settings loaded")
-        self.settings = Settings()
-        if self.settings.error:
-            for dboard_name, dboard in self.dashboards.items():
-                dboard.error = self.settings.error
+        # load shared cards
+        self.shared_cards = self.load_shared_cards()
 
-    def load_dashboards(self):
-        print(" * Dashboards loaded")
+        # load dashboards
         self.dashboards = {}
         for file in os.listdir(dashboards_folder):
             self.dashboards[file.replace(".toml", "")] = Dashboard(file=file, dm=self)
+
+        # pass any errors to the dashboards
+        if self.settings.error:
+            for dboard_name, dboard in self.dashboards.items():
+                dboard.error = self.settings.error
+            self.settings = Settings(read_toml=False)
+        if self.data_source_handler.error:
+            for dboard_name, dboard in self.dashboards.items():
+                dboard.error = self.data_source_handler.error
+
+        logging.info("DashMachine built")
 
     def get_dashboard_by_name(self, name):
         return (
             self.dashboards[name] if self.dashboards.get(name) else self.main_dashboard
         )
+
+    @staticmethod
+    def load_shared_cards():
+        try:
+            shared_cards = toml.load(shared_cards_toml)
+        except Exception as e:
+            logging.error("Could not load shard cards.", exc_info=True)
+        logging.info("Shared cards loaded")
+        return shared_cards
+
+    @staticmethod
+    def get_logs():
+        logs_path = os.path.join(root_folder, "dashmachine.log")
+        if os.path.isfile(logs_path):
+            with open(logs_path, "r") as logs_file:
+                return Markup("<br>".join(logs_file.readlines()))
+        else:
+            return "Logs we deleted?"

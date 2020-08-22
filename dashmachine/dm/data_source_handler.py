@@ -1,6 +1,6 @@
+import logging
 import toml
 from importlib import import_module
-from dashmachine.dm import FileWatcher
 from dashmachine.paths import data_sources_toml
 
 
@@ -10,7 +10,6 @@ class DataSourceHandler:
         self.error = None
         self.data_sources = []
         self.load_data_sources()
-        self.file_watcher = FileWatcher(data_sources_toml, self.load_data_sources)
 
     def load_data_sources(self):
         try:
@@ -20,9 +19,10 @@ class DataSourceHandler:
                 "error_title": "DashMachine was unable to read your data_sources.toml file.",
                 "error": f"Error from toml: {e}",
             }
+            logging.error(self.error["error_title"], exc_info=True)
             return
         self.data_sources = [{key: value} for key, value in self.toml_dict.items()]
-        print(" * Data Sources loaded")
+        logging.info("Data Sources loaded")
 
     def process_data_source(self, data_source_name):
         error_msg = (
