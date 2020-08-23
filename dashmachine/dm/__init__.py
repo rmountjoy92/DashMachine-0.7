@@ -34,6 +34,7 @@ class DashMachine:
             dashboards_folder, self.build, event="added"
         )
         self.data_sources_file_watcher = FileWatcher(data_sources_toml, self.build)
+        self.shared_cards_file_watcher = FileWatcher(shared_cards_toml, self.build)
         self.dashboard_file_watchers = []
         for dboard_name, dboard in self.dashboards.items():
             self.dashboard_file_watchers.append(
@@ -81,6 +82,7 @@ class DashMachine:
             shared_cards = toml.load(shared_cards_toml)
         except Exception as e:
             logging.error("Could not load shard cards.", exc_info=True)
+            return {}
         logging.info("Shared cards loaded")
         return shared_cards
 
