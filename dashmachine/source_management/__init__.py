@@ -27,11 +27,7 @@ css_local_bundle = [
     "vendors/material-icons.css",
     "vendors/google-font.css",
     "vendors/bootstrap.min.css",
-    # "global/theme.css",
     "global/utils.css",
-    # "vendors/materialize.min.css",
-    # "global/global-theme.css",
-    # "global/global.css",
 ]
 
 
