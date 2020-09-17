@@ -1,6 +1,7 @@
 import os
 import logging
 import toml
+import sass
 from markupsafe import Markup
 from dashmachine.dm.file_watcher import FileWatcher
 from dashmachine.paths import (
@@ -9,6 +10,9 @@ from dashmachine.paths import (
     settings_toml,
     data_sources_toml,
     shared_cards_toml,
+    system_themes_folder,
+    custom_themes_folder,
+    static_folder,
 )
 from dashmachine.dm.settings import Settings
 from dashmachine.dm.dashboard import Dashboard
@@ -21,6 +25,7 @@ class DashMachine:
         logging.info("DashMachine starting..")
         self.app = app
         self.query_providers = DEFAULT_QUERY_PROVIDERS
+        self.users = None
         self.settings = None
         self.data_source_handler = None
         self.dashboards = None
@@ -49,6 +54,9 @@ class DashMachine:
         else:
             self.query_providers = DEFAULT_QUERY_PROVIDERS
 
+        # compile theme
+        self.compile_theme()
+
         # load data_source handler
         self.data_source_handler = DataSourceHandler()
 
@@ -76,6 +84,28 @@ class DashMachine:
             self.dashboards[name] if self.dashboards.get(name) else self.main_dashboard
         )
 
+    def compile_theme(self):
+        if f"{self.settings.theme}.scss" in os.listdir(custom_themes_folder):
+            theme_scss_file = os.path.join(
+                custom_themes_folder, f"{self.settings.theme}.scss"
+            )
+        else:
+            theme_scss_file = os.path.join(
+                system_themes_folder, f"{self.settings.theme}.scss"
+            )
+
+        dm_css = os.path.join(static_folder, "css", "vendors", "bootstrap.min.css")
+        css = sass.compile(
+            filename=theme_scss_file,
+            output_style="compressed",
+        )
+        with open(dm_css, "w") as css_file:
+            css_file.write(css)
+
+    def change_theme(self, theme_name):
+        self.settings.theme = theme_name
+        self.compile_theme()
+
     @staticmethod
     def load_shared_cards():
         try:
@@ -91,6 +121,8 @@ class DashMachine:
         logs_path = os.path.join(root_folder, "dashmachine.log")
         if os.path.isfile(logs_path):
             with open(logs_path, "r") as logs_file:
-                return Markup("<br>".join(logs_file.readlines()))
+                lines = logs_file.readlines()
+                lines.reverse()
+                return Markup("<br>".join(lines))
         else:
-            return "Logs we deleted?"
+            return "Logs were deleted?"

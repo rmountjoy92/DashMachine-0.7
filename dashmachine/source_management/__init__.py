@@ -16,20 +16,22 @@ debug_css = False
 
 # these are all of the local js files that will be minified when served
 js_local_bundle = [
-    "vendors/jquery.min.js",
-    "vendors/materialize.min.js",
+    "vendors/popper.min.js",
+    "vendors/bootstrap.min.js",
     "vendors/isotope.min.js",
     "vendors/isotope-packery.min.js",
-    "global/global.js",
 ]
 
 # these are all of the local css files that will be minified when served
 css_local_bundle = [
     "vendors/material-icons.css",
     "vendors/google-font.css",
-    "vendors/materialize.min.css",
-    "global/global-theme.css",
-    "global/global.css",
+    "vendors/bootstrap.min.css",
+    # "global/theme.css",
+    "global/utils.css",
+    # "vendors/materialize.min.css",
+    # "global/global-theme.css",
+    # "global/global.css",
 ]
 
 

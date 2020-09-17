@@ -1,88 +1,147 @@
 {% extends "global/base.html" %}
-{% from 'global/global_macros.html' import Button %}
 
 {% block page_lvl_css %}
     {{ process_local_css_sources(src="main/main.css") }}
 {% endblock page_lvl_css %}
 
 {% block content %}
-    <div class="row card-filter-container">
-        <div class="col s12 m12 l6 xl4 input-field">
-            <span>
-                <i class="material-icons prefix card-search-icon">last_page</i>
-                <input id="card-filter"
-                       type="text"
-                       class="card-filter action-bar theme-surface-transparent"
-                       placeholder="..." autofocus>
-            </span>
+    {% if current_user.is_authenticated and not current_user.command_bar_visible %}
+        {% set command_bar_visible = False %}
+    {% elif not current_user.is_authenticated and not dm.settings.public_command_bar_visible %}
+        {% set command_bar_visible = False %}
+    {% else %}
+        {% set command_bar_visible = True %}
+    {% endif %}
+
+    <div class="container-fluid fixed-top">
+        <div class="row mt-2">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3 shadow-sm
+                    {% if not command_bar_visible %}d-none{% endif %}
+                    ">
+                    <span class="input-group-text" id="commandBarLeadingIcon">
+                        <i class="material-icons text-on-primary">last_page</i>
+                    </span>
+                    <input id="commandBarInput"
+                           list="noDatalist"
+                           type="text"
+                           class="form-control bg-surface"
+                           placeholder="..."
+                           aria-label="Command"
+                           aria-describedby="commandBarLeadingIcon" autofocus>
+
+                    <datalist id="noDatalist"></datalist>
+
+                    <datalist id="queryProvidersDatalist">
+                        {% for query_provider in dm.query_providers %}
+                            <option value="?{{ query_provider['prefix'] }} ">
+                        {% endfor %}
+                    </datalist>
+
+                    <datalist id="dashboardsDatalist">
+                        {% for dboard_name, dashboard in dm.dashboards.items() %}
+                            <option value=":d {{ dboard_name }}">
+                        {% endfor %}
+                    </datalist>
+
+                    <button type="button" class="btn bg-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only text-on-secondary">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><h6 class="dropdown-header">Commands</h6></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="setCommandBarText(':d ')"
+                               href="javascript:void(0);">
+                            Change Dashboard | <kbd>:d + [Dashboard Name]</kbd></a></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="setCommandBarText(':t ')"
+                               href="javascript:void(0);">
+                            Set Tag | <kbd>:t + [Tag Name]</kbd></a></li>
+
+                        <li><a class="dropdown-item" href="javascript:void(0);" onclick="openIframe('https://code.wolf-house.net')">Open Editor | <kbd>:e</kbd></a></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="showLogs()"
+                               href="javascript:void(0);">
+                            Show Logs | <kbd>:l</kbd></a></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="setCommandBarText(':x ')"
+                               href="javascript:void(0);">
+                            Change Theme | <kbd>:x + [Theme Name]</kbd></a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Query Providers</h6></li>
+                        {% for query_provider in dm.query_providers %}
+                            <li><a class="dropdown-item"
+                                   {% set t = query_provider['prefix']  %}
+                                   onclick="setCommandBarText('?{{ t }} ')"
+                                   href="javascript:void(0);">
+                                Search {{ query_provider['name'] }} | <kbd>?{{ query_provider['prefix'] }} + [search term]</kbd></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="grid-container">
+    <div style="height:{% if command_bar_visible %} 60px{% else %} 1rem{% endif %};"></div>
+
+    <div id="grid-container" class="pr-2 pl-2">
         <div id="grid" class="row"></div>
     </div>
     <div style="height: 1rem"></div>
-
-    <div id="iframe-viewer" class="modal bottom-sheet">
-        <span id="iframe-viewer-bar">
-            <i class="material-icons-outlined icon-btn modal-close iframe-close">close</i>
-            <i class="material-icons-outlined icon-btn modal-close iframe-min">expand_more</i>
-            <span class="iframe-viewer-title"></span>
-            <a class="iframe-open-in-new" target="_blank">
-                <i class="material-icons-outlined right icon-btn">launch</i>
-            </a>
-        </span>
-
-        <iframe id="iframe-viewer-iframe" src=""></iframe>
-    </div>
-
-    <div id="iframe-minimized" class="z-depth-2 hide">
-        <i class="material-icons-outlined icon-btn modal-close iframe-close">close</i>
-        <i class="material-icons-outlined icon-btn modal-close iframe-restore">expand_less</i>
-        <span class="iframe-viewer-title"></span>
-        <a class="iframe-open-in-new" target="_blank">
-            <i class="material-icons-outlined right icon-btn">launch</i>
-        </a>
-    </div>
-    
-    <div id="error-message-modal" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <div class="row center-align">
-                <i class="material-icons-outlined large theme-failure-text">warning</i>
-                <div id="error-message-title" class="center-align"></div>
-            </div>
-            <div class="row">
-                <div id="error-message-content-col" class="col s12">
-                    <code id="error-message-content"></code>
+    <div class="modal fade" id="iframeModal" tabindex="-1" aria-labelledby="iframeModal" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header p-2">
+                    <span id="iframeTitle" class="badge rounded-pill bg-primary">None</span>
+                    <button type="button" class="close iframe-open-in-new" data-dismiss="modal" aria-label="Close" style="padding: .25rem 1rem; position: relative; top: .55rem;">
+                        <span aria-hidden="true" style="font-size: 1.2rem">&#9715;</span>
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-left: 1rem; padding: .25rem 1rem; position: relative; top: .55rem;">
+                        <span aria-hidden="true" style="font-size: 1rem">&#128469;</span>
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-left: 1rem; padding: .25rem 1rem;  position: relative; top: .55rem;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="iframe-viewer-iframe"></iframe>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            {{ Button(
-            float="",
-            href="javascript:window.location.href=window.location.href",
-            icon="refresh",
-            text="reload"
-            ) }}
-            {{ Button(
-            float="",
-            href="#",
-            icon="edit",
-            text="open editor"
-            ) }}
+    </div>
+
+    <div class="modal fade" id="errorMessageModal" tabindex="-1" aria-labelledby="errorMessageModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="errorMessageTitle" class="modal-title text-danger">Test</h5>
+                </div>
+                <div class="modal-body">
+                    error goes here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Reload</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="logs-modal" class="modal full-height-modal wide-modal">
-        <div class="modal-content">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Logs</h4>
+    <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModal" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logs</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="row">
-                <div id="logs-modal-content-col" class="col s12">
-                    <code id="logs-modal-content" class="selectable"></code>
+                <div id="logsModalBody" class="modal-body">
+                    <pre><code id="logsContent" class="selectable"></code></pre>
                 </div>
             </div>
         </div>
@@ -93,22 +152,17 @@
     <script>
     let dashboardName = "{{ dashboard_name }}";
     let dashboardTag = "{{ tag }}";
-    const loadGridUrl = "{{ url_for('main.load_grid') }}";
+    const loadGridUrl = "{{ url_for('main.load_grid') }}?";
     const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}";
     const getLogsUrl = "{{ url_for('main.get_logs') }}";
+    const changeThemeUrl = "{{ url_for('main.change_theme') }}?";
 
-    let autocompleteDashboards = {
-        {% for dboard_name, dashboard in dm.dashboards.items() %}
-            ":d {{ dboard_name }}": null,
+    let appliedTags = [
+        {% for tag in tags %}
+            "{{ tag }}",
         {% endfor %}
-    }
-    let autocompleteTags = {}
+    ];
 
-    let autocompleteQueryProviders = {
-    {% for query_provider in dm.query_providers %}
-        "?{{ query_provider['prefix'] }} [{{ query_provider['name'] }}]": null,
-    {% endfor %}
-    }
     let queryProviderUrls = {
         {% for query_provider in dm.query_providers %}
             "{{ query_provider['prefix'] }}": '{{ query_provider["url"] }}',
@@ -116,5 +170,6 @@
     }
     </script>
 
+    {{ process_local_js_sources(src="main/utils.js") }}
     {{ process_local_js_sources(src="main/main.js") }}
 {% endblock page_lvl_js %}

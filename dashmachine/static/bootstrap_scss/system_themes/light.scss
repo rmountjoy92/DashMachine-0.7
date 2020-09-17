@@ -1,0 +1,12 @@
+$primary: #ff9800;
+$secondary: #3399FF;
+
+@import "../scss/functions";
+@import "../scss/variables";
+@import "../scss/mixins";
+
+$input-group-addon-bg: $primary;
+$input-group-addon-border-color: $primary;
+$input-group-addon-color: $white;
+
+@import "../scss/bootstrap";

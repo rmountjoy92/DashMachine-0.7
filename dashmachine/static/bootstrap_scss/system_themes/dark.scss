@@ -1,0 +1,58 @@
+$primary: #ff9800;
+$secondary: #3399FF;
+
+@import "../scss/functions";
+@import "../scss/variables";
+@import "../scss/mixins";
+
+$bg: #1c1c1c;
+$on-primary: color-contrast($primary);
+$on-secondary: color-contrast($secondary);
+$color: color-contrast($bg);
+$color-muted: darken($color, 20%);
+$surface: lighten($bg, 10%);
+$surface2: lighten($bg, 20%);
+$border: $surface;
+
+$body-bg:$bg;
+$body-color: $color;
+
+$card-bg: $surface;
+$card-border-color: $border;
+
+$input-bg: $surface;
+$input-border-color: $border;
+$input-focus-bg: $surface;
+$input-focus-color: $color;
+$input-color: $color-muted;
+$input-group-addon-bg: $primary;
+$input-group-addon-border-color: $primary;
+$input-group-addon-color: $white;
+
+$dropdown-bg: $surface;
+$dropdown-link-color: $color;
+$dropdown-link-hover-bg: $surface2;
+$dropdown-link-hover-color: $color;
+$dropdown-header-color: $color-muted;
+
+$modal-content-bg: $surface;
+$modal-backdrop-bg: $surface;
+$modal-content-color: $color;
+
+$close-color: $color;
+
+$list-group-bg: $surface2;
+$list-group-color: $color;
+$list-group-hover-bg: $bg;
+$list-group-action-hover-color: $color-muted;
+$list-group-action-active-bg: $bg;
+$list-group-action-active-color: $primary;
+
+.form-check-input {
+  background-color: $surface2 !important;
+}
+.form-check-input:checked {
+  background-color: $primary !important;
+}
+
+@import "../scss/bootstrap";

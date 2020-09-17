@@ -34,11 +34,28 @@ static_folder = os.path.join(project_folder, "static")
 config_folder = os.path.join(root_folder, "config")
 make_dir(config_folder)
 
+auth_cache = os.path.join(config_folder, ".auth")
+make_dir(auth_cache)
+
+
+themes_folder = os.path.join(config_folder, "themes")
+make_dir(themes_folder)
+
+system_themes_folder = os.path.join(themes_folder, "system_themes")
+make_dir(system_themes_folder)
+
+custom_themes_folder = os.path.join(themes_folder, "custom_themes")
+make_dir(custom_themes_folder)
+
 dashboards_folder = os.path.join(config_folder, "dashboards")
 make_dir(config_folder)
 
 user_assets_folder = os.path.join(config_folder, "assets")
 make_dir(user_assets_folder)
+
+static_user_assets_folder = os.path.join(static_folder, "user_assets")
+if not os.path.islink(static_user_assets_folder):
+    os.symlink(user_assets_folder, static_user_assets_folder)
 
 user_wallpapers_folder = os.path.join(user_assets_folder, "wallpapers")
 make_dir(user_wallpapers_folder)
@@ -62,9 +79,6 @@ make_dir(user_js_folder)
 # make the default files
 main_dashboard = os.path.join(dashboards_folder, "main.toml")
 make_file(main_dashboard)
-
-access_toml = os.path.join(config_folder, "access.toml")
-make_file(access_toml)
 
 data_sources_toml = os.path.join(config_folder, "data_sources.toml")
 make_file(data_sources_toml)

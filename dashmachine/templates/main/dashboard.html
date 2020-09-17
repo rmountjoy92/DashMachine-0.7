@@ -1,7 +1,34 @@
+{#{% from 'main/dashboard-card.html' import DashboardCard %}#}
+{##}
+{#{% for dashboard_card in dashboard.cards %}#}
+{#    <div class="grid-item card col {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"#}
+{#         data-searchable="{{ dashboard_card.name }}~{{ dashboard_card.title.text }}~{{ dashboard_card.description.text }}"#}
+{#         data-tags="{{ dashboard_card.tags|join("%,%") }}"#}
+{#         style="#}
+{#                 width: {{ dashboard_card.card.get('width', '') }};#}
+{#                 height: {{ dashboard_card.card.get('height', '') }};#}
+{#                 max-width: {{ dashboard_card.card.get('max-width', '') }};#}
+{#                 max-height: {{ dashboard_card.card.get('max-height', '') }};#}
+{#                 border-radius: {{ dashboard_card.card.get('border-radius', '') }};#}
+{#                 background: {{ dashboard_card.card.get('color', '') }};#}
+{#                 {{ dashboard_card.card.get('css', '') }}#}
+{#                 ">#}
+{#        {{ DashboardCard(dashboard_card) }}#}
+{#    </div>#}
+{#{% endfor %}#}
+{##}
+{#<script>#}
+{#    autocompleteTags = {#}
+{#        {% for tag in dashboard.tags %}#}
+{#            ":t {{ tag }}": null,#}
+{#        {% endfor %}#}
+{#    }#}
+{#</script>#}
+
 {% from 'main/dashboard-card.html' import DashboardCard %}
 
 {% for dashboard_card in dashboard.cards %}
-    <div class="grid-item card col {{ dashboard_card.card.get('classes', '') }} z-depth-{{ dashboard_card.card.get('zdepth', 2) }}"
+    <div class="grid-item card bg-surface shadow-sm text-{{ dashboard_card.card.get('alignment') }}"
          data-searchable="{{ dashboard_card.name }}~{{ dashboard_card.title.text }}~{{ dashboard_card.description.text }}"
          data-tags="{{ dashboard_card.tags|join("%,%") }}"
          style="
@@ -17,10 +44,9 @@
     </div>
 {% endfor %}
 
-<script>
-    autocompleteTags = {
-        {% for tag in dashboard.tags %}
-            ":t {{ tag }}": null,
-        {% endfor %}
-    }
-</script>
+<datalist id="tagsDatalist">
+    {% for tag in dashboard.tags %}
+        <option value=":t {{ tag }}">
+    {% endfor %}
+    <option value=":t clear">
+</datalist>

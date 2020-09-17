@@ -9,32 +9,7 @@ body {
 #grid-container {
     margin: 0 .75rem 0 .75rem;
 }
-#error-message-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-#logs-modal {
-    max-height: 100vh;
-    overflow: hidden;
-}
-#error-message-content-col, #logs-modal-content-col {
-    background: var(--theme-background);
-    border-radius: 12px;
-    padding: 1rem;
-    overflow-x: auto;
-    overflow-y: auto;
-    white-space: nowrap;
-    max-height: calc(100vh - 120px);
-}
-
-#iframe-viewer {
-    height: calc(100vh - 45px);
-    min-height: calc(100vh - 45px);
-    max-height: calc(100vh - 45px);
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-#iframe-viewer iframe {
+#iframeModal iframe {
     position: absolute;
     top: 0;
     right: 0;
@@ -42,40 +17,40 @@ body {
     height: 100%;
     width: 100%;
 }
-#iframe-viewer #iframe-viewer-bar {
-    max-height: 45px;
-    width: calc(100% - 20px);
-    background: var(--theme-surface);
-    border-radius: 0 0 12px 12px;
-    padding: 5px;
-    margin-left: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-#iframe-minimized {
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-    padding: 5px;
-    background: var(--theme-surface);
-    border-radius: 12px;
-}
-#iframe-viewer .icon-btn, #iframe-minimized .icon-btn {
-    background: var(--theme-background);
-    color: var(--theme-color-font);
-    margin-right: 5px;
-    font-size: 16px;
-}
-#iframe-viewer .icon-btn:hover, #iframe-minimized .icon-btn:hover {
-    background: var(--theme-primary);
-    font-size: 16px;
-}
-.iframe-viewer-title {
-    position: relative;
-    bottom: 3px;
-    font-size: 12px;
-    background: var(--theme-background);
-    padding: 5px 10px;
-    border-radius: 12px;
-}
+/*#iframe-viewer #iframe-viewer-bar {*/
+/*    max-height: 45px;*/
+/*    width: calc(100% - 20px);*/
+/*    background: var(--theme-surface);*/
+/*    border-radius: 0 0 12px 12px;*/
+/*    padding: 5px;*/
+/*    margin-left: 10px;*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*}*/
+/*#iframe-minimized {*/
+/*    position: fixed;*/
+/*    bottom: 1rem;*/
+/*    left: 1rem;*/
+/*    padding: 5px;*/
+/*    background: var(--theme-surface);*/
+/*    border-radius: 12px;*/
+/*}*/
+/*#iframe-viewer .icon-btn, #iframe-minimized .icon-btn {*/
+/*    background: var(--theme-background);*/
+/*    color: var(--theme-color-font);*/
+/*    margin-right: 5px;*/
+/*    font-size: 16px;*/
+/*}*/
+/*#iframe-viewer .icon-btn:hover, #iframe-minimized .icon-btn:hover {*/
+/*    background: var(--theme-primary);*/
+/*    font-size: 16px;*/
+/*}*/
+/*.iframe-viewer-title {*/
+/*    position: relative;*/
+/*    bottom: 3px;*/
+/*    font-size: 12px;*/
+/*    background: var(--theme-background);*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 12px;*/
+/*}*/

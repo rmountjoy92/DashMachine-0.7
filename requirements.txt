@@ -1,5 +1,7 @@
 Flask
 Flask-SQLAlchemy
+Flask-Login
+Flask-Bcrypt
 jsmin
 markupsafe
 htmlmin
@@ -8,3 +10,4 @@ requests
 markdown2
 pygments
 watchgod
+libsass

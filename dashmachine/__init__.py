@@ -1,11 +1,21 @@
 import os
 import logging
 import uuid
+from shutil import copytree, rmtree
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_login import UserMixin
 from htmlmin.main import minify
 from dashmachine.dm import DashMachine
-from dashmachine.paths import config_folder
+from dashmachine.auth import Auth
+from dashmachine.paths import (
+    config_folder,
+    themes_folder,
+    custom_themes_folder,
+    system_themes_folder,
+    static_folder,
+)
 
 logging.basicConfig(
     filename="dashmachine.log",
@@ -20,6 +30,20 @@ logging.info("Flask app initialized")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# copy bootstrap scss to config folder
+config_scss_folder = os.path.join(themes_folder, "scss")
+bootstrap_scss = os.path.join(static_folder, "bootstrap_scss", "scss")
+if os.path.isdir(config_scss_folder):
+    rmtree(config_scss_folder)
+copytree(bootstrap_scss, config_scss_folder)
+
+# copy system themes to config folder
+incl_sys_themes = os.path.join(static_folder, "bootstrap_scss", "system_themes")
+if os.path.isdir(system_themes_folder):
+    rmtree(system_themes_folder)
+copytree(incl_sys_themes, system_themes_folder)
+
 
 # Generate secret key
 secret_file = os.path.join(config_folder, ".secret")
@@ -41,11 +65,34 @@ logging.info(f"Set secret key using {secret_file}")
 
 db = SQLAlchemy(app)
 dm = DashMachine(app)
+login_manager = LoginManager(app)
 
-from dashmachine.main.routes import main
+
+# set up built in auth
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+    role = db.Column(db.String())
+    command_bar_visible = db.Column(db.Boolean())
+
+
+db.create_all()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+auth = Auth(app=app, db=db, dm=dm, user_model=User)
+
+# register blueprints
+from dashmachine.main import main
 
 app.register_blueprint(main)
 
+# set up static context processors
 from dashmachine.source_management import (
     process_local_js_sources,
     process_local_css_sources,

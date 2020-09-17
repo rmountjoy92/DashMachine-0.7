@@ -26,6 +26,10 @@ class DashboardCard:
         self.onpress = resolve_onpress_option(self.options.get("onpress", {}))
 
         self.card = self.options.get("card", {})
+        if not self.card.get("width"):
+            self.card["width"] = "auto"
+        if not self.card.get("alignment"):
+            self.card["alignment"] = "center"
         if not self.card.get("classes") and not self.card.get("css"):
             self.card["classes"] = "theme-surface-transparent"
         if self.card.get("full-width") is True:

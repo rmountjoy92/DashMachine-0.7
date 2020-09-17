@@ -1,6 +1,8 @@
+import os
 import toml
 import logging
-from dashmachine.paths import settings_toml
+from random import choice
+from dashmachine.paths import settings_toml, user_wallpapers_folder
 
 
 class Settings:
@@ -9,8 +11,11 @@ class Settings:
         self.toml_dict = {}
         self.error = None
 
-        self.window = {"title": "DashMachine"}
-        self.theme = {"brightness": "light", "primary": "orange", "accent": "lightBlue"}
+        self.window_title = "DashMachine"
+        self.login_required = False
+        self.public_command_bar_visible = True
+        self.wallpaper = None
+        self.theme = "light"
 
         if read_toml:
             try:
@@ -26,4 +31,11 @@ class Settings:
             if self.toml_dict.get("Settings"):
                 for k, v in self.toml_dict["Settings"].items():
                     setattr(self, k, v)
+
+            if self.wallpaper == "random":
+                self.randomize_wallpaper()
             logging.info("Settings loaded")
+
+    def randomize_wallpaper(self):
+        wallpapers = os.listdir(user_wallpapers_folder)
+        self.wallpaper = choice(wallpapers)

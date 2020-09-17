@@ -12,4 +12,4 @@ class Description:
         if not hasattr(self, "css") and not hasattr(self, "classes"):
             self.classes = "small-subtitle"
         if not hasattr(self, "width"):
-            self.width = "128px"
+            self.width = "220px"

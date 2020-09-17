@@ -8,6 +8,9 @@ class List:
         for key, value in options.get("list", {}).items():
             setattr(self, key, value)
 
+        if not hasattr(self, "alignment"):
+            self.alignment = "left"
+
         for item in self.items:
             if item.get("icon"):
                 item["icon"] = resolve_image_option(item["icon"], default_height="24px")

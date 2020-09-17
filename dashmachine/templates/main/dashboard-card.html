@@ -1,9 +1,7 @@
 {% macro DashboardCard(dashboard_card) %}
     {{ OnPressStart(dashboard_card) }}
-    <div class="card-content {{ dashboard_card.card.get('alignment', 'center') }}-align"
-         style="
-                 padding: {{ dashboard_card.card.get('padding', '') }};
-        ">
+    <div class="card-body"
+         style="padding: {{ dashboard_card.card.get('padding', '') }};">
 
         {# Icon #}
         {% if dashboard_card.icon and dashboard_card.icon.image %}
@@ -11,7 +9,7 @@
             <div style="display: inline-block; width: auto">
                 <div style="display: flex; justify-content: center; align-items: center; {{ dashboard_card.icon.css }}"
                      class="image-container {{ dashboard_card.icon.classes }}">
-                    {{ Image(dashboard_card.icon.image) }}
+                    {{ Image(dashboard_card.icon.image, classes='text-primary') }}
                 </div>
             </div>
             {{ OnPressEnd(dashboard_card.icon) }}
@@ -20,43 +18,35 @@
         {# Title #}
         {% if dashboard_card.title and dashboard_card.title.text %}
             {{ OnPressStart(dashboard_card.title) }}
-            <div class="row" style="padding: 0; margin: 0; width: 100%">
-            <span style="display: block; margin-left: auto; margin-right: auto;
-                        width: {{ dashboard_card.title.width }};
-                        {{ dashboard_card.title.css }}"
-                  class="{{ dashboard_card.title.classes }}">
-                {{ dashboard_card.title.text }}</span>
-            </div>
+            <h5 class="card-title text-primary {{ dashboard_card.title.classes }}"
+                style="width: {{ dashboard_card.title.width }}; {{ dashboard_card.title.css }}">
+                {{ dashboard_card.title.text }}
+            </h5>
             {{ OnPressEnd(dashboard_card.title) }}
         {% endif %}
 
         {# Description #}
         {% if dashboard_card.description and dashboard_card.description.text %}
             {{ OnPressStart(dashboard_card.description) }}
-            <div class="row"
-                 style="padding: 0; margin: 0; width: 100%;">
-                <div style="display: block; margin-left: auto; margin-right: auto;
-                        width: {{ dashboard_card.description.width }};
-                        {{ dashboard_card.description.css }}"
-                      class="{{ dashboard_card.description.classes }}">
-                    {{ dashboard_card.description.text }}</div>
+            <div class="card-text text-muted small lh-sm {{ dashboard_card.description.classes }}"
+                 style="width: {{ dashboard_card.description.width }}; {{ dashboard_card.description.css }}">
+                {{ dashboard_card.description.text }}
             </div>
             {{ OnPressEnd(dashboard_card.description) }}
         {% endif %}
 
         {# List #}
         {% if dashboard_card.list and dashboard_card.list.items %}
-            <div class="collection">
+            <ul class="list-group text-{{ dashboard_card.list.alignment }} {{ dashboard_card.list.classes }}">
                 {% for item in dashboard_card.list.items %}
-                    {{ OnPressStart(item) }}
-                    <div class="collection-item avatar valign-wrapper"
-                         style="min-height: unset; padding-bottom: 1.25rem; padding-top: 1.25rem">
-                        {{ Image(item['icon'], 'circle') }}
-                        <span class="title">{{ item.name }}</span>
-                    </div>
-                    {{ OnPressStart(item) }}
+                    {{ OnPressStart(item,
+                    css=item.get('css', ''),
+                    classes='list-group-item bg-surface-1 list-group-item-action ' + item.get('classes', '')) }}
+                    {{ Image(item['icon'], classes='align-middle') }}
+                    <span class="align-middle ml-1">{{ item.name }}</span>
+                    {{ OnPressEnd(item) }}
                 {% endfor %}
-            </div>
+            </ul>
         {% endif %}
 
         {# Data Sources #}
@@ -108,10 +98,11 @@
 
     {# Actions #}
     {% if dashboard_card.actionbar and dashboard_card.actionbar.actions %}
-        <div class="card-action right-align" style="padding: .2rem">
+        <div class="card-footer {{ dashboard_card.actionbar.classes }} text-right"
+             style="{{ dashboard_card.actionbar.css }}">
             {% for action in dashboard_card.actionbar.actions %}
                 {{ OnPressStart(action) }}
-                {{ Image(action['icon']) }}
+                {{ Image(action['icon'], classes="align-middle text-secondary") }}
                 {{ OnPressEnd(action) }}
             {% endfor %}
         </div>
@@ -119,34 +110,42 @@
     {{ OnPressEnd(dashboard_card) }}
 {% endmacro %}
 
-{% macro Image(image_dict, class=None) %}
+{% macro Image(image_dict, classes=None) %}
     {% if image_dict['type'] == 'image' %}
         <img height="{{ image_dict['height'] }}"
              style="{{ image_dict.get('css', '') }}"
-             class="{{ class }} {{ image_dict.get('classes', '') }}"
+             class="{{ classes }} {{ image_dict.get('classes', '') }}"
              src="{{ image_dict['src'] }}">
     {% elif image_dict['type'] == 'material-icon' %}
-        <i class="material-icons-outlined {{ class }} {{ image_dict['classes'] }}"
+        <i class="material-icons-outlined {{ classes }} {{ image_dict['classes'] }}"
            style="font-size: {{ image_dict['height'] }}; {{ image_dict.get('css', '') }}">
             {{ image_dict['src'] }}
         </i>
     {% endif %}
 {% endmacro %}
 
-{% macro OnPressStart(obj) %}
+{% macro OnPressStart(obj, classes='', css='') %}
     {% if obj.onpress %}
         {% if obj.onpress.get('href', None) -%}
             {% if obj.onpress['target'] == 'dashboard' %}
                 {% set href = obj.onpress['href'] %}
-                <a onclick="changeDashboard('{{ href }}');" style="cursor: pointer">
+                <a href="javascript:void(0)"
+                   style="{{ css }}"
+                   class="text-decoration-none {{ classes }}"
+                   onclick="changeDashboard('{{ href }}');">
             {% elif obj.onpress['target'] == 'iframe' %}
                 {% set href = obj.onpress['href'] %}
-                <a onclick="openIframe('{{ href }}');" style="cursor: pointer">
+                <a href="javascript:void(0)"
+                   class="text-decoration-none {{ classes }}"
+                   style="{{ css }}"
+                   onclick="openIframe('{{ href }}');">
             {% else %}
-                <a href="{{ obj.onpress['href'] }}"
-                {% if obj.onpress['target'] == 'new_tab' %}
-                target="_blank"
-                {% endif %}>
+                <a class="text-decoration-none {{ classes }}"
+                   style="{{ css }}"
+                   href="{{ obj.onpress['href'] }}"
+                        {% if obj.onpress['target'] == 'new_tab' %}
+                   target="_blank"
+                        {% endif %}>
             {% endif %}
         {%- endif %}
     {% endif %}
