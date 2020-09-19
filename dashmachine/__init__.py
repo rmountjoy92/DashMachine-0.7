@@ -6,7 +6,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_login import UserMixin
-from htmlmin.main import minify
 from dashmachine.dm import DashMachine
 from dashmachine.auth import Auth
 from dashmachine.paths import (
@@ -97,18 +96,6 @@ from dashmachine.source_management import (
     process_local_js_sources,
     process_local_css_sources,
 )
-
-
-@app.after_request
-def response_minify(response):
-    """
-    minify html response to decrease site traffic
-    """
-    if response.content_type == "text/html; charset=utf-8":
-        response.set_data(minify(response.get_data(as_text=True)))
-
-        return response
-    return response
 
 
 @app.context_processor

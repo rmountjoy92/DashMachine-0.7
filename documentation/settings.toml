@@ -1,0 +1,15 @@
+[Settings]
+window_title.type = 'string'
+window_title.description = 'Replace the window title (browser tab name) for the application'
+
+wallpaper.type = 'string'
+wallpaper.description = 'The background used for application. Can be a file name from your wallpapers folder (e.g "1.jpg"), a css color, or css variable.'
+
+theme.type = 'string'
+theme.description = 'The default theme used when dm is initialized'
+
+login_required.type = 'bool'
+login_required.description = 'If set to true, dm will redirect all non-logged in users to /login'
+
+public_command_bar_visible.type = 'bool'
+public_command_bar_visible.description = 'If set to true, the command bar will only be visible to logged in users.'

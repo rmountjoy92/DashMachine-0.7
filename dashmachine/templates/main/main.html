@@ -1,6 +1,7 @@
 {% extends "global/base.html" %}
 
 {% block page_lvl_css %}
+    {{ process_local_css_sources(src="main/markdown_style.css") }}
     {{ process_local_css_sources(src="main/main.css") }}
 {% endblock page_lvl_css %}
 
@@ -25,7 +26,7 @@
                     <input id="commandBarInput"
                            list="noDatalist"
                            type="text"
-                           class="form-control bg-surface"
+                           class="form-control"
                            placeholder="..."
                            aria-label="Command"
                            aria-describedby="commandBarLeadingIcon" autofocus>
@@ -146,6 +147,8 @@
             </div>
         </div>
     </div>
+
+
 {% endblock content %}
 
 {% block page_lvl_js %}
@@ -153,7 +156,7 @@
     let dashboardName = "{{ dashboard_name }}";
     let dashboardTag = "{{ tag }}";
     const loadGridUrl = "{{ url_for('main.load_grid') }}?";
-    const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}";
+    const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}?";
     const getLogsUrl = "{{ url_for('main.get_logs') }}";
     const changeThemeUrl = "{{ url_for('main.change_theme') }}?";
 

@@ -28,7 +28,7 @@
 {% from 'main/dashboard-card.html' import DashboardCard %}
 
 {% for dashboard_card in dashboard.cards %}
-    <div class="grid-item card bg-surface shadow-sm text-{{ dashboard_card.card.get('alignment') }}"
+    <div class="grid-item card shadow-sm text-{{ dashboard_card.card.get('alignment') }}"
          data-searchable="{{ dashboard_card.name }}~{{ dashboard_card.title.text }}~{{ dashboard_card.description.text }}"
          data-tags="{{ dashboard_card.tags|join("%,%") }}"
          style="

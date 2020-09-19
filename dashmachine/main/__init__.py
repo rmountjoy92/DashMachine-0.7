@@ -1,8 +1,21 @@
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 from flask_login import current_user
+from htmlmin.main import minify
 from dashmachine import dm, auth
 
 main = Blueprint("main", __name__)
+
+
+@main.after_request
+def response_minify(response):
+    """
+    minify html response to decrease site traffic
+    """
+    if response.content_type == "text/html; charset=utf-8":
+        response.set_data(minify(response.get_data(as_text=True)))
+
+        return response
+    return response
 
 
 @main.route("/", methods=["GET"])

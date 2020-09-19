@@ -31,6 +31,7 @@ class DashMachine:
         self.dashboards = None
         self.main_dashboard = None
         self.shared_cards = []
+        self.editor_url = None
         self.build()
 
         logging.info("File watchers starting..")

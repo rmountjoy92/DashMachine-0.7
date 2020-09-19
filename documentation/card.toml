@@ -40,7 +40,7 @@ title.css.type = 'css'
 
 # card.description
 description.type = 'string or dict'
-description.description = 'This section contains grey text that is below the title (if present) on the card.'
+description.description = 'This section contains gray text that is below the title (if present) on the card.'
 description.text.type = 'string'
 description.text.description = 'The string content for the description object'
 description.onpress.type = 'Onpress'
@@ -81,3 +81,4 @@ actionbar.type = 'dict'
 actionbar.description = 'The bar at the bottom of the card with configurable buttons'
 actionbar.actions.type = 'list<Action>'
 actionbar.actions.description = 'List of Action objects to populate the actionbar'
+

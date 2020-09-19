@@ -1,11 +1,11 @@
-$primary: #ff9800;
-$secondary: #3399FF;
+$primary: #A0D6B4;
+$secondary: #5F9EA0;
 
 @import "../scss/functions";
 @import "../scss/variables";
 @import "../scss/mixins";
 
-$bg: #1c1c1c;
+$bg: #1A1A25;
 $on-primary: color-contrast($primary);
 $on-secondary: color-contrast($secondary);
 $color: color-contrast($bg);
@@ -27,13 +27,13 @@ $input-focus-color: $color;
 $input-color: $color-muted;
 $input-group-addon-bg: $primary;
 $input-group-addon-border-color: $primary;
-$input-group-addon-color: $white;
+$input-group-addon-color: $bg;
+
+$form-range-track-bg: $surface;
 
 $form-select-bg: $surface;
 $form-select-border-color: $border;
 $form-select-color: $color;
-
-$form-range-track-bg: $surface;
 
 $dropdown-bg: $surface;
 $dropdown-link-color: $color;
@@ -56,7 +56,6 @@ $list-group-action-active-color: $primary;
 
 $code-color: $secondary;
 
-
 .form-check-input {
   background-color: $surface2 !important;
 }
@@ -65,7 +64,7 @@ $code-color: $secondary;
 }
 
 .btn-primary {
-  color: white !important;
+  color: $bg !important;
 }
 
 /* SCROLLBARS */

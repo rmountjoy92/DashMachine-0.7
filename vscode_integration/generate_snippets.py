@@ -10,31 +10,45 @@ from vscode_integration.utils import (
 
 def generate_snippets():
     snippet_json = {}
-    snippet_json = card_snippets(snippet_json)
+    snippet_json = class_snippets(
+        snippet_json=snippet_json,
+        class_name="Card",
+        prefill="['${1:card_name}']\n${2}",
+        description=(
+            "\nReplace card_name with unique string.\n"
+            "Only to be used in a dashboard toml file."
+        ),
+    )
+    snippet_json = class_snippets(
+        snippet_json=snippet_json,
+        class_name="Settings",
+        prefill="[Settings]\n${1}",
+        description="\nOnly to be used in the settings.toml file.",
+    )
     snippet_json = utility_snippets(snippet_json)
 
     with open(
         os.path.join(vs_folder, "ext", "snippets", "snippets.code-snippets"), "w"
     ) as snippets_file:
         snippets_file.write(json.dumps(snippet_json))
+    return snippet_json
 
 
-def card_snippets(snippet_json):
-    card_toml = toml.load(os.path.join(documentation_folder, "card.toml"))
-    snippet_json["Card"] = {}
-    snippet_json["Card"]["prefix"] = "Card"
-    snippet_json["Card"]["body"] = "['${1:card_name}']\n${2}"
-    snippet_json["Card"][
+def class_snippets(snippet_json, class_name, prefill, description):
+    class_toml = toml.load(
+        os.path.join(documentation_folder, f"{class_name.lower()}.toml")
+    )
+    snippet_json[class_name] = {}
+    snippet_json[class_name]["prefix"] = class_name
+    snippet_json[class_name]["body"] = prefill
+    snippet_json[class_name][
         "description"
-    ] = """
-        Start a Card object. \nReplace card_name with unique string.\n
-        Only to be used in a dashboard toml file.
-        """
+    ] = f"Start a {class_name} object. {description}"
 
-    for property_name, property_dict in card_toml["Card"].items():
+    for property_name, property_dict in class_toml[class_name].items():
         snippet_json = build_snippet_from_property(
             snippet_json=snippet_json,
-            classname="Card",
+            classname=class_name,
             property_name=property_name,
             property_dict=property_dict,
         )

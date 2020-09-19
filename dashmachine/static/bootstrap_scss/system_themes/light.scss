@@ -9,4 +9,29 @@ $input-group-addon-bg: $primary;
 $input-group-addon-border-color: $primary;
 $input-group-addon-color: $white;
 
+$code-color: $secondary;
+
+.btn-primary {
+  color: white !important;
+}
+
+/* SCROLLBARS */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: $primary;
+  border-radius: 24px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $primary;
+  border-radius: 24px;
+}
+::-webkit-scrollbar-corner {
+  height: 0px;
+}
+
 @import "../scss/bootstrap";

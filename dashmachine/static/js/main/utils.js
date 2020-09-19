@@ -21,6 +21,11 @@ async function appendToGrid() {
     .then((html) => {
       grid.innerHTML = html;
       iso.insert(grid);
+      document
+        .querySelectorAll(".data-source-container")
+        .forEach(function (el) {
+          loadDataSource(el.getAttribute("data-source"), el);
+        });
     });
   return "done";
 }
@@ -31,6 +36,27 @@ function loadGrid() {
       iso.layout();
     });
   });
+}
+
+function loadDataSource(data_source_name, container) {
+  let listGroup = container.closest(".list-group");
+  let progress = listGroup.querySelector(".progress");
+  let reloadBtnI = listGroup.querySelector(".reload-data-source-i");
+  progress.classList.remove("d-none");
+  reloadBtnI.classList.add("d-none");
+  let reloadBtn = listGroup.querySelector(".reload-data-source");
+
+  fetch(loadDataSourceUrl + new URLSearchParams({ ds: data_source_name }))
+    .then((r) => r.text())
+    .then(function (r) {
+      container.innerHTML = r;
+      reloadBtn.addEventListener("click", function (e) {
+        loadDataSource(data_source_name, container);
+      });
+      container.classList.remove("d-none");
+      progress.classList.add("d-none");
+      reloadBtnI.classList.remove("d-none");
+    });
 }
 
 function changeDashboard(name) {

@@ -59,31 +59,70 @@ class Platform:
             self.visibility_unit = "km"
 
         self.html_template = """
-        <div class="row" style="margin-top: 20px;">
-            <div class="col s6">
-                <span class="mt-0 mb-0 theme-primary-text font-weight-700" style="font-size: 36px; position: relative; top: 1rem">{{ value.consolidated_weather[0].the_temp|round(1, 'floor') }}&deg;</h3>
-            </div>
-            <div class="col s6 right-align">
+<div class="list-group">
+    <div class="list-group-item">
+        <div class="row align-items-center">
+            <div class="col">
                 <img height="48px" src="https://www.metaweather.com/static/img/weather/{{ value.consolidated_weather[0].weather_state_abbr }}.svg">
             </div>
-        </div>
-        <div class="row">
-            <h6 class="font-weight-900 center theme-muted-text">{{ value.title }}</h6>
-        </div>
-        <div class="row center-align">
-            <div class="col s12">
-                <div class="collection theme-muted-text">
-                    <div class="collection-item"><span class="font-weight-900">Currently: </span>{{ value.consolidated_weather[0].weather_state_name }}</div>
-                    <div class="collection-item"><span class="font-weight-900">Min: </span>{{ value.consolidated_weather[0].min_temp|round(1, 'floor') }}&deg; <span class="font-weight-900">Max: </span>{{ value.consolidated_weather[0].max_temp|round(1, 'floor') }}&deg;</div>
-                    <div class="collection-item"><span class="font-weight-900">Wind: </span>{{ value.consolidated_weather[0].wind_direction_compass }} at {{ value.consolidated_weather[0].wind_speed|round(1, 'floor') }} {{ wind_speed_unit }}</div>
-                    <div class="collection-item"><span class="font-weight-900">Humidity: </span>{{ value.consolidated_weather[0].humidity }}%</div>
-                    <div class="collection-item"><span class="font-weight-900">Air Pressure: </span>{{ value.consolidated_weather[0].air_pressure|round(1, 'floor') }} {{ air_pressure_unit }}</div>
-                    <div class="collection-item"><span class="font-weight-900">Visibility: </span>{{ value.consolidated_weather[0].visibility|round(1, 'floor') }} {{ visibility_unit }} </div>
-                    <div class="collection-item"><span class="font-weight-900">Predictability: </span>{{ value.consolidated_weather[0].predictability }}%</div>
-                </div>
+            <div class="col">
+                <h2 class="m-0 text-primary">{{ value.consolidated_weather[0].the_temp|round(1, 'floor') }}&deg;</h2>
             </div>
         </div>
+    </div>
+    <div class="list-group-item text-center">
+        <h4 class="align-middle m-0 text-secondary">{{ value.title }}</h4>
+    </div>
+    <div class="list-group-item text-center">
+        <b>Currently: </b>{{ value.consolidated_weather[0].weather_state_name }}
+    </div>
+    <div class="list-group-item text-center">
+        <b>Min: </b>{{ value.consolidated_weather[0].min_temp|round(1, 'floor') }}&deg;
+    </div>
+    <div class="list-group-item text-center">
+        <b>Wind: </b>{{ value.consolidated_weather[0].wind_direction_compass }} at {{ value.consolidated_weather[0].wind_speed|round(1, 'floor') }} {{ wind_speed_unit }}
+    </div>
+    <div class="list-group-item text-center">
+        <b>Humidity: </b>{{ value.consolidated_weather[0].humidity }}%
+    </div>
+    <div class="list-group-item text-center">
+        <b>Air Pressure: </b>{{ value.consolidated_weather[0].air_pressure|round(1, 'floor') }} {{ air_pressure_unit }}
+    </div>
+    <div class="list-group-item text-center">
+        <b>Visibility: </b>{{ value.consolidated_weather[0].visibility|round(1, 'floor') }} {{ visibility_unit }}
+    </div>
+    <div class="list-group-item text-center">
+        <b>Predictability: </b>{{ value.consolidated_weather[0].predictability }}%
+    </div>
+</div>
         """
+
+        # self.html_template = """
+        # <div class="row" style="margin-top: 20px;">
+        #     <div class="col s6">
+        #         <span class="mt-0 mb-0 theme-primary-text font-weight-700" style="font-size: 36px; position: relative; top: 1rem">{{ value.consolidated_weather[0].the_temp|round(1, 'floor') }}&deg;</h3>
+        #     </div>
+        #     <div class="col s6 right-align">
+        #         <img height="48px" src="https://www.metaweather.com/static/img/weather/{{ value.consolidated_weather[0].weather_state_abbr }}.svg">
+        #     </div>
+        # </div>
+        # <div class="row">
+        #     <h6 class="font-weight-900 center theme-muted-text">{{ value.title }}</h6>
+        # </div>
+        # <div class="row center-align">
+        #     <div class="col s12">
+        #         <div class="collection theme-muted-text">
+        #             <div class="collection-item"><span class="font-weight-900">Currently: </span>{{ value.consolidated_weather[0].weather_state_name }}</div>
+        #             <div class="collection-item"><span class="font-weight-900">Min: </span>{{ value.consolidated_weather[0].min_temp|round(1, 'floor') }}&deg; <span class="font-weight-900">Max: </span>{{ value.consolidated_weather[0].max_temp|round(1, 'floor') }}&deg;</div>
+        #             <div class="collection-item"><span class="font-weight-900">Wind: </span>{{ value.consolidated_weather[0].wind_direction_compass }} at {{ value.consolidated_weather[0].wind_speed|round(1, 'floor') }} {{ wind_speed_unit }}</div>
+        #             <div class="collection-item"><span class="font-weight-900">Humidity: </span>{{ value.consolidated_weather[0].humidity }}%</div>
+        #             <div class="collection-item"><span class="font-weight-900">Air Pressure: </span>{{ value.consolidated_weather[0].air_pressure|round(1, 'floor') }} {{ air_pressure_unit }}</div>
+        #             <div class="collection-item"><span class="font-weight-900">Visibility: </span>{{ value.consolidated_weather[0].visibility|round(1, 'floor') }} {{ visibility_unit }} </div>
+        #             <div class="collection-item"><span class="font-weight-900">Predictability: </span>{{ value.consolidated_weather[0].predictability }}%</div>
+        #         </div>
+        #     </div>
+        # </div>
+        # """
 
         self.error_template = """
         <div class="row">

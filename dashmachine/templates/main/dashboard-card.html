@@ -28,7 +28,7 @@
         {# Description #}
         {% if dashboard_card.description and dashboard_card.description.text %}
             {{ OnPressStart(dashboard_card.description) }}
-            <div class="card-text text-muted small lh-sm {{ dashboard_card.description.classes }}"
+            <div class="card-text text-muted small lh-sm mb-2 mr-auto ml-auto {{ dashboard_card.description.classes }}"
                  style="width: {{ dashboard_card.description.width }}; {{ dashboard_card.description.css }}">
                 {{ dashboard_card.description.text }}
             </div>
@@ -37,11 +37,11 @@
 
         {# List #}
         {% if dashboard_card.list and dashboard_card.list.items %}
-            <ul class="list-group text-{{ dashboard_card.list.alignment }} {{ dashboard_card.list.classes }}">
+            <ul class="list-group mb-2 text-{{ dashboard_card.list.alignment }} {{ dashboard_card.list.classes }}">
                 {% for item in dashboard_card.list.items %}
                     {{ OnPressStart(item,
                     css=item.get('css', ''),
-                    classes='list-group-item bg-surface-1 list-group-item-action ' + item.get('classes', '')) }}
+                    classes='list-group-item list-group-item-action ' + item.get('classes', '')) }}
                     {{ Image(item['icon'], classes='align-middle') }}
                     <span class="align-middle ml-1">{{ item.name }}</span>
                     {{ OnPressEnd(item) }}
@@ -52,25 +52,25 @@
         {# Data Sources #}
         {% if dashboard_card.data_sources and dashboard_card.data_sources.sources %}
             {{ OnPressStart(dashboard_card.data_sources) }}
-            <div class="collection {{ dashboard_card.data_sources.collection.classes }}"
+            <div class="list-group mb-2 {{ dashboard_card.data_sources.collection.classes }}"
                  style="display: block; margin: 0 auto;
                         {{ dashboard_card.data_sources.collection.css }}">
-                <div class="collection-item theme-surface {{ dashboard_card.data_sources.classes }}"
+                <div class="list-group-item {{ dashboard_card.data_sources.classes }}"
                      style="height: {{ dashboard_card.data_sources.height }};
                              width: {{ dashboard_card.data_sources.width }};
                              {{ dashboard_card.data_sources.css }}">
                     {% for ds in dashboard_card.data_sources.sources %}
-                        <div class="data-source-container hide" data-source="{{ ds }}"></div>
+                        <div class="data-source-container d-none" data-source="{{ ds }}"></div>
                     {% endfor %}
-                    <div class="progress">
-                        <div class="indeterminate"></div>
-                    </div>
                 </div>
                 {% if not dashboard_card.data_sources.hide_reload %}
-                    <div class="collection-item" style="padding: .25rem">
-                        <i class="reload-data-source material-icons-outlined icon-btn theme-secondary-text"
-                           data-source="{{ ds }}"
-                           style="font-size: 1.2rem">refresh</i>
+                    <div class="list-group-item">
+                        <button type="button" style="min-height: 35px" class="reload-data-source btn btn-primary btn-sm btn-block">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                            <i class="reload-data-source-i material-icons-outlined align-middle">refresh</i>
+                        </button>
                     </div>
                 {% endif %}
             </div>
@@ -79,8 +79,8 @@
 
         {# Markdown Content #}
         {% if dashboard_card.content.markdown %}
-            <div class="collection {{ dashboard_card.content.alignment }}-align">
-                <div class="collection-item md-container">
+            <div class="list-group mb-2 text-{{ dashboard_card.content.alignment }}">
+                <div class="list-group-item md-container">
                     {{ dashboard_card.content.markdown }}
                 </div>
             </div>
@@ -88,8 +88,8 @@
 
         {# HTML Content #}
         {% if dashboard_card.content.html %}
-            <div class="collection {{ dashboard_card.content.alignment }}-align">
-                <div class="collection-item md-container">
+            <div class="list-group mb-2 text-{{ dashboard_card.content.alignment }}">
+                <div class="list-group-item md-container">
                     {{ dashboard_card.content.html }}
                 </div>
             </div>
@@ -102,7 +102,7 @@
              style="{{ dashboard_card.actionbar.css }}">
             {% for action in dashboard_card.actionbar.actions %}
                 {{ OnPressStart(action) }}
-                {{ Image(action['icon'], classes="align-middle text-secondary") }}
+                {{ Image(action['icon'], classes="align-middle ml-2") }}
                 {{ OnPressEnd(action) }}
             {% endfor %}
         </div>
