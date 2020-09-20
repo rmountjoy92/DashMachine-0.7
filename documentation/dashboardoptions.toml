@@ -1,0 +1,6 @@
+[DashboardOptions]
+users_can_access.type = 'list<string>'
+users_can_access.description = 'list of which users are allowed to view the dashboard'
+
+roles_can_access.type = 'list<string>'
+roles_can_access.description = 'list of which roles are allowed to view the dashboard'

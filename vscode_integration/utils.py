@@ -93,7 +93,7 @@ def build_snippet_body_template(
         prefill = "64px"
 
     if property_type == "css" and not prefill:
-        body += "${1:}: ${2};'"
+        body += "'${1:}: ${2};'"
         return body
 
     if property_type == "Onpress":

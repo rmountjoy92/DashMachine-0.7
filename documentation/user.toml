@@ -1,0 +1,9 @@
+[User]
+password.type = 'string'
+password.description = 'Password for the user'
+
+role.type = 'string'
+role.description = 'The role for this user. Used for controlling access to dashboards.'
+
+command_bar_visible.type = 'bool'
+command_bar_visible.description = 'Control whether or not this user can see the command bar above dashboards'

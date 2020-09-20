@@ -16,14 +16,28 @@ def generate_snippets():
         prefill="['${1:card_name}']\n${2}",
         description=(
             "\nReplace card_name with unique string.\n"
-            "Only to be used in a dashboard toml file."
+            "Only to be used in a dashboard toml file or shared_cards.toml"
         ),
+    )
+    snippet_json = class_snippets(
+        snippet_json=snippet_json,
+        class_name="DashboardOptions",
+        prefill="[DashboardOptions]\n${1}",
+        description="\nOnly to be used in a dashboard toml file.",
     )
     snippet_json = class_snippets(
         snippet_json=snippet_json,
         class_name="Settings",
         prefill="[Settings]\n${1}",
         description="\nOnly to be used in the settings.toml file.",
+    )
+    snippet_json = class_snippets(
+        snippet_json=snippet_json,
+        class_name="User",
+        prefill="['${1:username}']\n${2}",
+        description=(
+            "\nReplace username with unique string.\n" "Only to be used in users.toml"
+        ),
     )
     snippet_json = utility_snippets(snippet_json)
 

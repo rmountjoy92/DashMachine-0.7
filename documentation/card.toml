@@ -1,4 +1,8 @@
 [Card]
+#card.shared_card
+shared_card.type = 'string'
+shared_card.description = 'Optionally specify if this card is from shared_cards.toml. If so, this is the option this entry will use.'
+
 # card.tags
 tags.type = 'list<string>'
 tags.description = 'The searchable tags for this card'
@@ -25,6 +29,8 @@ icon.type = 'Image or dict'
 icon.description = 'This section contains an image at the top of the card.'
 icon.image.type = 'Image'
 icon.image.description = 'The image to use for the icon object'
+icon.height.type = 'size'
+icon.height.description = 'The height of the icon image'
 icon.onpress.type = 'Onpress'
 icon.classes.type = 'classes'
 icon.css.type = 'css'

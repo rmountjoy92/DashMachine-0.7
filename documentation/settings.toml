@@ -13,3 +13,6 @@ login_required.description = 'If set to true, dm will redirect all non-logged in
 
 public_command_bar_visible.type = 'bool'
 public_command_bar_visible.description = 'If set to true, the command bar will only be visible to logged in users.'
+
+editor_url.type = 'string'
+editor_url.description = 'The url for the editor instance'
