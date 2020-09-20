@@ -37,6 +37,10 @@ make_dir(config_folder)
 auth_cache = os.path.join(config_folder, ".auth")
 make_dir(auth_cache)
 
+user_platform = os.path.join(config_folder, "platform")
+make_dir(user_platform)
+make_file(os.path.join(user_platform, "__init__.py"))
+
 
 themes_folder = os.path.join(config_folder, "themes")
 make_dir(themes_folder)

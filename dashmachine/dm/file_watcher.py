@@ -15,8 +15,10 @@ class FileWatcher:
         logging.info(f"Watching {self.path} for file {self.event}")
         for changes in watch(self.path):
             for change in changes:
-                if (self.event == "modified" and change[0] == Change.modified) or (
-                    self.event == "added" and change[0] == Change.added
+                if (
+                    (self.event == "all")
+                    or (self.event == "modified" and change[0] == Change.modified)
+                    or (self.event == "added" and change[0] == Change.added)
                 ):
                     logging.info(f"Detected file {self.event} in {self.path}")
                     self.change_function()

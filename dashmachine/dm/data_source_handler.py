@@ -1,7 +1,8 @@
+import os
 import logging
 import toml
-from importlib import import_module
-from dashmachine.paths import data_sources_toml
+from importlib import import_module, util as importlib_util
+from dashmachine.paths import data_sources_toml, user_platform
 
 
 class DataSourceHandler:
@@ -43,13 +44,21 @@ class DataSourceHandler:
             return error
 
         try:
-            module = import_module(f"dashmachine.platform.{ds_options['platform']}")
-        except Exception as e:
-            error = error_msg + (
-                f"Issue importing the requested platform! Maybe it doesn't exist?"
-                f" Check your data_sources.toml. <br> Got this error: <br> {e}</div>"
+            spec = importlib_util.spec_from_file_location(
+                f"{ds_options['platform']}",
+                os.path.join(user_platform, f"{ds_options['platform']}.py"),
             )
-            return error
+            module = importlib_util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        except Exception:
+            try:
+                module = import_module(f"dashmachine.platform.{ds_options['platform']}")
+            except Exception as e:
+                error = error_msg + (
+                    f"Issue importing the requested platform! Maybe it doesn't exist?"
+                    f" Check your data_sources.toml. <br> Got this error: <br> {e}</div>"
+                )
+                return error
 
         try:
             platform = module.Platform(ds_options)

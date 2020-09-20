@@ -16,6 +16,7 @@ class Settings:
         self.public_command_bar_visible = True
         self.wallpaper = None
         self.theme = "light"
+        self.editor_url = None
 
         if read_toml:
             try:

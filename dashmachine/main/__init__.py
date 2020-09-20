@@ -68,6 +68,14 @@ def load_grid():
                 "error_title": dashboard.error["error_title"],
             }
         )
+    authorized = auth.check_dashboard_access(current_user, dashboard)
+    if not authorized:
+        return jsonify(
+            data={
+                "error": "This user is not authorized to see this dashboard!",
+                "error_title": "Not Authorized",
+            }
+        )
 
     return render_template("main/dashboard.html", dashboard=dashboard)
 

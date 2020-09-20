@@ -10,9 +10,13 @@ from dashmachine.paths import (
     settings_toml,
     data_sources_toml,
     shared_cards_toml,
+    users_toml,
     system_themes_folder,
     custom_themes_folder,
     static_folder,
+    user_platform,
+    user_templates_folder,
+    user_markdown_folder,
 )
 from dashmachine.dm.settings import Settings
 from dashmachine.dm.dashboard import Dashboard
@@ -31,7 +35,6 @@ class DashMachine:
         self.dashboards = None
         self.main_dashboard = None
         self.shared_cards = []
-        self.editor_url = None
         self.build()
 
         logging.info("File watchers starting..")
@@ -41,6 +44,19 @@ class DashMachine:
         )
         self.data_sources_file_watcher = FileWatcher(data_sources_toml, self.build)
         self.shared_cards_file_watcher = FileWatcher(shared_cards_toml, self.build)
+        self.users_file_watcher = FileWatcher(users_toml, self.build)
+        self.custom_themes_watcher = FileWatcher(
+            custom_themes_folder, self.build, event="all"
+        )
+        self.platform_folder_watcher = FileWatcher(
+            user_platform, self.build, event="all"
+        )
+        self.user_templates_folder_watcher = FileWatcher(
+            user_templates_folder, self.build, event="all"
+        )
+        self.user_markdown_folder_watcher = FileWatcher(
+            user_markdown_folder, self.build, event="all"
+        )
         self.dashboard_file_watchers = []
         for dboard_name, dboard in self.dashboards.items():
             self.dashboard_file_watchers.append(

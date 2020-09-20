@@ -75,3 +75,24 @@ class Auth:
     @staticmethod
     def logout():
         logout_user()
+
+    @staticmethod
+    def check_dashboard_access(user, dashboard):
+        if not hasattr(user, "username"):
+            user.username = "anonymous"
+        if not hasattr(user, "role"):
+            user.role = "anonymous"
+
+        if (
+            user.username in dashboard.users_can_access
+            or "all" in dashboard.users_can_access
+        ):
+            return True
+
+        if (
+            user.role in dashboard.roles_can_access
+            or "all" in dashboard.roles_can_access
+        ):
+            return True
+
+        return False

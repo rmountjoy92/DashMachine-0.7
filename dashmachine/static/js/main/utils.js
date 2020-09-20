@@ -11,22 +11,30 @@ function triggerEvent(el, type) {
 async function appendToGrid() {
   let elems = iso.getItemElements();
   iso.remove(elems);
-  fetch(
-    loadGridUrl +
-      new URLSearchParams({
-        dashboard: dashboardName,
-      })
-  )
-    .then((resp) => resp.text())
-    .then((html) => {
-      grid.innerHTML = html;
-      iso.insert(grid);
-      document
-        .querySelectorAll(".data-source-container")
-        .forEach(function (el) {
-          loadDataSource(el.getAttribute("data-source"), el);
+  fetch(loadGridUrl + new URLSearchParams({ dashboard: dashboardName })).then(
+    (response) => {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        return response.json().then((data) => {
+          document.getElementById("errorMessageTitle").innerText =
+            data.data["error_title"];
+          document.getElementById("errorMessageBody").innerText =
+            data.data["error"];
+          errorMessageModal.show();
         });
-    });
+      } else {
+        return response.text().then((text) => {
+          grid.innerHTML = text;
+          iso.insert(grid);
+          document
+            .querySelectorAll(".data-source-container")
+            .forEach(function (el) {
+              loadDataSource(el.getAttribute("data-source"), el);
+            });
+        });
+      }
+    }
+  );
   return "done";
 }
 
@@ -154,8 +162,8 @@ function commandBarSubmit() {
     showLogs();
   }
   // OPEN EDITOR
-  if (commandBarInput.value.startsWith(":e")) {
-    openIframe("https://code.wolf-house.net");
+  if (commandBarInput.value.startsWith(":e") && editorEnabled) {
+    openIframe(editorUrl);
   }
   // CHANGE DASHBOARD
   else if (commandBarInput.value.startsWith(":d ")) {
@@ -211,12 +219,40 @@ function openIframeInNew() {
   viewer.setAttribute("src", "");
 }
 
-function openIframe(url) {
+function openIframe(url, no_reload = false) {
   iframeModal.show();
-  document.getElementById("iframeTitle").innerText = url;
+  document.querySelectorAll(".iframe-title").forEach(function (e) {
+    e.innerHTML = url;
+  });
   document.querySelectorAll(".iframe-open-in-new").forEach(function (e) {
     e.removeEventListener("click", openIframeInNew);
     e.addEventListener("click", openIframeInNew);
   });
-  document.getElementById("iframe-viewer-iframe").setAttribute("src", url);
+  document.getElementById("minimizeIframe").addEventListener(
+    "click",
+    function (e) {
+      document.getElementById("iframeMinimized").classList.remove("d-none");
+    },
+    { once: true }
+  );
+  document.getElementById("restoreIframe").addEventListener(
+    "click",
+    function (e) {
+      document.getElementById("iframeMinimized").classList.add("d-none");
+      openIframe(url, (no_reload = true));
+    },
+    { once: true }
+  );
+  document.querySelectorAll(".close-iframe").forEach(function (e) {
+    e.addEventListener(
+      "click",
+      function (evt) {
+        document.getElementById("iframeMinimized").classList.add("d-none");
+      },
+      { once: true }
+    );
+  });
+  if (!no_reload) {
+    document.getElementById("iframe-viewer-iframe").setAttribute("src", url);
+  }
 }
