@@ -14,9 +14,21 @@ class Content:
             self.alignment = "left"
 
         if self.markdown:
-            self.markdown = html_from_markdown_file(file=self.markdown)
+            try:
+                self.markdown = html_from_markdown_file(file=self.markdown)
+            except Exception as e:
+                dashboard_card.dashboard.error = {
+                    "error_title": f"DashMachine was unable to read {self.markdown}",
+                    "error": f"Here's the error: {e}",
+                }
 
         if self.html:
-            self.html = html_from_template_file(
-                file=self.html, dashboard_card=dashboard_card
-            )
+            try:
+                self.html = html_from_template_file(
+                    file=self.html, dashboard_card=dashboard_card
+                )
+            except Exception as e:
+                dashboard_card.dashboard.error = {
+                    "error_title": f"DashMachine was unable to read {self.html}",
+                    "error": f"Here's the error: {e}",
+                }

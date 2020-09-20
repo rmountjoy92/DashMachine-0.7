@@ -98,7 +98,7 @@
 
     {# Actions #}
     {% if dashboard_card.actionbar and dashboard_card.actionbar.actions %}
-        <div class="card-footer {{ dashboard_card.actionbar.classes }} text-right"
+        <div class="card-footer text-right {{ dashboard_card.actionbar.classes }}"
              style="{{ dashboard_card.actionbar.css }}">
             {% for action in dashboard_card.actionbar.actions %}
                 {{ OnPressStart(action) }}

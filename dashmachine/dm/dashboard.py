@@ -19,6 +19,7 @@ class Dashboard:
         self.load_cards()
 
     def load_cards(self):
+        self.error = None
         try:
             self.toml_dict = toml.load(self.toml_path)
         except toml.TomlDecodeError as e:
