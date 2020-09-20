@@ -52,7 +52,7 @@ custom_themes_folder = os.path.join(themes_folder, "custom_themes")
 make_dir(custom_themes_folder)
 
 dashboards_folder = os.path.join(config_folder, "dashboards")
-make_dir(config_folder)
+make_dir(dashboards_folder)
 
 user_assets_folder = os.path.join(config_folder, "assets")
 make_dir(user_assets_folder)

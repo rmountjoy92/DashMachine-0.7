@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_login import UserMixin
 from dashmachine.dm import DashMachine
 from dashmachine.auth import Auth
+import dashmachine.paths
 from dashmachine.paths import (
     config_folder,
     themes_folder,
