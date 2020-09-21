@@ -9,7 +9,5 @@ class Description:
                 setattr(self, key, value)
 
         # set defaults
-        if not hasattr(self, "css") and not hasattr(self, "classes"):
-            self.classes = "small-subtitle"
         if not hasattr(self, "width"):
             self.width = "220px"

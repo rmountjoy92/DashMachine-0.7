@@ -11,7 +11,7 @@ class FileWatcher:
         self.proc = None
         self.start()
 
-    def watch(self):
+    def watch_this(self):
         logging.info(f"Watching {self.path} for file {self.event}")
         for changes in watch(self.path):
             for change in changes:
@@ -24,5 +24,5 @@ class FileWatcher:
                     self.change_function()
 
     def start(self):
-        self.proc = Thread(target=self.watch, daemon=True)
+        self.proc = Thread(target=self.watch_this, daemon=True)
         self.proc.start()

@@ -12,7 +12,5 @@ class ActionBar:
                 action["icon"] = resolve_image_option(
                     action["icon"], default_height="24px"
                 )
-                if not action["icon"].get("classes", None):
-                    action["icon"]["classes"] = "icon-btn"
                 if action.get("onpress", None):
                     action["onpress"] = resolve_onpress_option(action["onpress"])

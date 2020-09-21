@@ -30,8 +30,6 @@ class DashboardCard:
             self.card["width"] = "auto"
         if not self.card.get("alignment"):
             self.card["alignment"] = "center"
-        if not self.card.get("classes") and not self.card.get("css"):
-            self.card["classes"] = "theme-surface-transparent"
         if self.card.get("full-width") is True:
             self.card["width"] = "calc(100vw - 2rem)"
 
