@@ -18,7 +18,7 @@
 [![Donate](https://img.shields.io/badge/$-support-ff69b4.svg?style=flat)](https://liberapay.com/rmountjoy) 
 ![Bountysource](https://img.shields.io/bountysource/team/dashmachine/activity)
 
-Want a feature added now? [Open a bounty](https://www.bountysource.com/)
+Want a feature added now? [Open a bounty](https://www.bountysource.com/teams/dashmachine-app)
 
 #### [Documentation](https://dashmachine.io)
 
