@@ -18,10 +18,9 @@
 [![Donate](https://img.shields.io/badge/$-support-ff69b4.svg?style=flat)](https://liberapay.com/rmountjoy) 
 ![Bountysource](https://img.shields.io/bountysource/team/dashmachine/activity)
 
-Want a feature added now? Open a bounty on https://www.bountysource.com/
+Want a feature added now? [Open a bounty](https://www.bountysource.com/)
 
-### Documentation
-Can be found at https://dashmachine.io
+#### [Documentation](https://dashmachine.io)
 
 #### [Docker Hub Image](https://hub.docker.com/repository/docker/rmountjoy/dashmachine)
 
