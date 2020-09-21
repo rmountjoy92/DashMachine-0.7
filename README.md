@@ -24,7 +24,7 @@ Want a feature added now? Open a bounty on https://www.bountysource.com/
 Can be found at https://dashmachine.io
 
 ### Stack
-- Flask
+- Flask (Python 3.8)
 - HTML5/Jinja2
 - ES6 Javascript
 - Bootstrap CSS
