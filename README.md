@@ -23,6 +23,11 @@ Want a feature added now? Open a bounty on https://www.bountysource.com/
 ### Documentation
 Can be found at https://dashmachine.io
 
+#### [Docker Hub Image](https://hub.docker.com/repository/docker/rmountjoy/dashmachine)
+
+#### [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=rmountjoy.dashmachine)
+
+
 ### Stack
 - Flask (Python 3.8)
 - HTML5/Jinja2
