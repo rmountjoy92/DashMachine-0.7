@@ -3,9 +3,10 @@
 ![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/dashmachine?style=social)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/rmountjoy92/dashmachine)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/rmountjoy/dashmachine)
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/rmountjoy/dashmachine)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/rmountjoy/dashmachine)
+![GitHub Repo stars](https://img.shields.io/github/stars/rmountjoy92/dashmachine?style=social)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/rmountjoy92/dashmachine)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/rmountjoy/dashmachine/latest?label=Docker%20Image%20Size)
