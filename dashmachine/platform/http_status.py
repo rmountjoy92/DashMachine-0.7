@@ -4,14 +4,14 @@
 Make a http call on a given URL and display if the service is online.
 ```ini
 [variable_name]
-platform = http_status
-resource = https://your-website.com/api
-method = get
-authentication = basic
-username = my_username
-password = my_password
-headers = {"Content-Type": "application/json"}
-return_codes = 2xx,3xx
+platform = 'http_status'
+resource = 'https://your-website.com/api'
+method = 'get'
+authentication = 'basic'
+username = 'my_username'
+password = 'my_password'
+headers = '{"Content-Type": "application/json"}'
+return_codes = '2xx,3xx'
 ```
 > **Returns:** a right-aligned colored bullet point on the app card.
 
@@ -28,18 +28,22 @@ return_codes = 2xx,3xx
 | return_codes    | No       | Acceptable http status codes, x is handled as wildcard          | string            |
 
 > **Working example:**
->```ini
->[http_status_test]
->platform = http_status
->resource = https://google.com
->return_codes = 2xx,3xx
->
+>```config/data_sources.toml
+>[http_status_ds]
+>platform = 'http_status'
+>resource = 'https://google.com'
+>return_codes = '2xx,3xx'
+```
+
+
+```
+>Dashboard.toml
 >[Google]
->prefix = https://
->url = google.com
->icon = static/images/apps/default.png
->open_in = this_tab
->data_sources = http_status_test
+>prefix = 'https://'
+>url = 'google.com'
+>icon = 'static/images/apps/default.png'
+>open_in = 'this_tab'
+>data_sources = 'http_status_ds'
 >```
 
 """
@@ -49,10 +53,11 @@ from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
+
 
         # set defaults for omitted options
         if not hasattr(self, "method"):
@@ -95,8 +100,8 @@ class Platform:
         return_codes = tuple([x.replace("x", "") for x in self.return_codes.split(",")])
 
         if str(resp.status_code).startswith(return_codes):
-            icon_class = "theme-success-text"
+            icon_class = "style='color:green'"
         else:
-            icon_class = "theme-failure-text"
+            icon_class = "style='color:red'"
 
         return f"<i class='material-icons right {icon_class}'>fiber_manual_record </i>"

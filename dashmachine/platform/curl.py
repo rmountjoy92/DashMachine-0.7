@@ -4,10 +4,10 @@
 Curl an URL and show result
 ```ini
 [variable_name]
-platform = curl
-resource = https://example.com
-value_template = {{value}}
-response_type = json
+platform = 'curl'
+resource = 'https://example.com'
+value_template = '{{value}}'
+response_type = 'json'
 ```
 > **Returns:** `value_template` as rendered string
 
@@ -20,21 +20,25 @@ response_type = json
 | response_type   | No       | Response type. Use json if response is a JSON. Default is plain.| plain,json        |
 
 > **Working example:**
->```ini
->[test]
->platform = curl
->resource = https://api.myip.com
->value_template = My IP: {{value.ip}}
-response_type = json
->
+>```config/data_sources.toml
+>[curl_ds]
+>platform = 'curl'
+>resource = 'https://api.myip.com'
+>value_template = 'My IP: {{value.ip}}'
+>response_type = 'json'
+```
+
+
+```
+>Dashboard.toml
 >[MyIp.com]
->prefix = https://
->url = myip.com
->icon = static/images/apps/default.png
->description = Link to myip.com
->open_in = new_tab
->data_sources = test
->```
+>prefix = 'https://'
+>url = 'myip.com'
+>icon = 'static/images/apps/default.png'
+>description = 'Link to myip.com'
+>open_in = 'new_tab'
+>data_sources = 'curl_ds'
+```
 """
 
 import requests
@@ -42,10 +46,10 @@ from flask import render_template_string
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "response_type"):
@@ -55,7 +59,6 @@ class Platform:
         if self.response_type.lower() == "json":
             try:
                 value = requests.get(self.resource).json()
-                print(value)
             except Exception as e:
                 value = f"{e}"
         else:
