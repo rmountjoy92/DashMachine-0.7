@@ -45,7 +45,7 @@ class Platform:
 
     def process(self):
         param = "-n" if platform.system().lower() == "windows" else "-c"
-        command = ["ping", param, "1", self.resource]
+        command = ["/bin/ping", param, "1", self.resource]
         up = subprocess.call(command) == 0
 
         if up is True:
