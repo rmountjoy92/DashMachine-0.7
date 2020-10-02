@@ -38,7 +38,7 @@ password = 'MySecretPassword'
 >sidebar_icon = 'static/images/apps/deluge.png'
 >description = 'Deluge is a lightweight, Free Software, cross-platform BitTorrent client'
 >open_in = 'iframe'
->data_sources = 'deluge_ds'
+>data_sources.sources = ['deluge_ds']
 >```
 
 """
