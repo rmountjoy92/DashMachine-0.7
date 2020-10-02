@@ -3,7 +3,7 @@
 ##### Transmission
 Display information from the Trasnmission API
 ```ini
-[variable_name]
+['variable_name']
 platform = 'transmission'
 host = 'localhost'
 port = '9091'
@@ -34,7 +34,7 @@ value_template = '{{ value_template }}'
 
 > **Working example:**
 >```config/data_sources.toml
-> [transmission_ds]
+> ['transmission_ds']
 > platform = 'transmission'
 > host = '192.168.1.30'
 > port = '9091'
@@ -46,7 +46,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
-> [Transmission]
+> ['Transmission']
 > prefix = 'http://'
 > url = '192.168.1.30:9091'
 > icon = 'static/images/apps/transmission.png'
