@@ -56,7 +56,7 @@ value_template = '{{ value_template }}'
 > sidebar_icon = 'static/images/apps/lidarr.png'
 > description = 'Looks and smells like Sonarr but made for music'
 > open_in = 'this_tab'
-> data_sources = 'lidarr_ds'
+data_sources.sources = ['lidarr_ds']
 >```
 """
 
