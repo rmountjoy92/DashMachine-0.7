@@ -2,7 +2,7 @@
 ##### Lidarr
 Display information from Lidarr API
 ```ini
-[variable_name]
+['variable_name']
 platform = 'lidarr'
 prefix = 'http://'
 host = 'localhost'
@@ -36,7 +36,7 @@ value_template = '{{ value_template }}'
 * error (for debug)
 > **Working example:**
 >```config/data_sources.toml
-> [lidarr_ds]
+> ['lidarr_ds']
 > platform = 'lidarr'
 > prefix = 'http://'
 > host = '192.168.0.110'
@@ -49,7 +49,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
-> [Lidarr]
+> ['Lidarr']
 > prefix = 'http://'
 > url = '192.168.0.110:8686'
 > icon = 'static/images/apps/lidarr.png'
