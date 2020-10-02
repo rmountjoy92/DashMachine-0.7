@@ -36,7 +36,7 @@ verify = 'false'
 >['rest_ds']
 >platform = 'rest'
 >resource = 'https://pokeapi.co/api/v2/pokemon'
->value_template = 'Pokemon: {{value['count']}}'
+>value_template = 'Pokemon: {{value["count"]}}'
 ```
 
 
