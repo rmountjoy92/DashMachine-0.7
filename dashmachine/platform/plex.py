@@ -2,7 +2,7 @@
 ##### Plex Media Server
 Connect to Plex Media Server and see current sessions details
 ```ini
-[variable_name]
+['variable_name']
 platform = 'plex'
 url = 'http://plex_host:plex_port'
 token = 'plex_token'
@@ -23,7 +23,7 @@ value_template = '{{ value_template }}'
 * libraries
 > **Example:**
 >```config/data_sources.toml
->[plex_ds]
+>['plex_ds']
 >platform = 'plex'
 >host = 'http://plex.example.com:32400'
 >token = 'abcde_fghi_jklmnopqr'
@@ -33,7 +33,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
->[Plex]
+>['Plex']
 >prefix = 'http://'
 >url = 'plex.example.com:32400'
 >icon = 'static/images/apps/plex.png'
