@@ -2,7 +2,7 @@
 ##### Radarr
 Display information from Radarr API
 ```ini
-[variable_name]
+['variable_name']
 platform = 'radarr'
 prefix = 'http://'
 host = 'localhost'
@@ -34,7 +34,7 @@ value_template = '{{ value_template }}'
 * error (for debug)
 > **Working example:**
 >```config/data_sources.toml
-> [radarr_ds]
+> ['radarr_ds']
 > platform = 'radarr'
 > prefix = 'http://'
 > host = '192.168.0.110'
@@ -47,7 +47,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
-> [Radarr]
+> ['Radarr']
 > prefix = 'http://'
 > url = '192.168.0.110:7878'
 > icon = 'static/images/apps/radarr.png'
