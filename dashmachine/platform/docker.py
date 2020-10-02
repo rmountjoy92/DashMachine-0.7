@@ -3,11 +3,11 @@
 Display information from Docker API. Informations can be displayed on a custom card or on an app card (e.g. Portainer App)
 ```ini
 [variable_name]
-platform = docker
-prefix = http://
-host = localhost
-port = 2375
-value_template = {{ value_template }}
+platform = 'docker'
+prefix = 'http://'
+host = 'localhost'
+port = '2375'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -39,62 +39,74 @@ value_template = {{ value_template }}
 * memory
 * warnings
 * error (for debug)
+
 > **Working example (using un-encrypted connection, on Portainer card):**
->```ini
+>```config/data_sources.toml
 > [docker-endpoint-1]
-> platform = docker
-> prefix = http://
-> host = 192.168.0.110
-> port = 2375
-> value_template = {{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;">{{name}}<br /><i style="position: relative; top: .2rem" class="material-icons md-18 theme-success-text" title="Running">fiber_manual_record</i>{{containers_running}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-warning-text" title="Paused">fiber_manual_record</i>{{containers_paused}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-failure-text" title="Stopped">fiber_manual_record</i>{{containers_stopped}}</p>
->
+> platform = 'docker'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '2375'
+> value_template = '{{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;">{{name}}<br /><i style="position: relative; top: .2rem; color:green" class="material-icons md-18" title="Running">fiber_manual_record</i>{{containers_running}}<i style="position: relative; top: .2rem; color:yellow" class="material-icons md-18" title="Paused">fiber_manual_record</i>{{containers_paused}}<i style="position: relative; top: .2rem; color:red" class="material-icons md-18" title="Stopped">fiber_manual_record</i>{{containers_stopped}}</p>'
+>```
+
+
+```
+>Dashboard.toml
 > [Portainer]
-> prefix = http://
-> url = 192.168.0.110:2375
-> icon = static/images/apps/portainer.png
-> sidebar_icon = static/images/apps/portainer.png
-> description = Making Docker management easy
-> open_in = this_tab
-> data_sources = docker-endpoint-1
+> prefix = 'http://'
+> url = '192.168.0.110:2375'
+> icon = 'static/images/apps/portainer.png'
+> sidebar_icon = 'static/images/apps/portainer.png'
+> description = 'Making Docker management easy'
+> open_in = 'this_tab'
+> data_sources = 'docker-endpoint-1'
 >```
 >
 >
 > **Working example (using encrypted connection, on Portainer card):**
->```ini
+>```config/data_sources.toml
 > [docker-endpoint-2]
-> platform = docker
-> prefix = https://
-> host = 192.168.0.110
-> port = 2376
-> tls_mode = Both
-> tls_ca = /path/to/ca_file
-> tls_cert = /path/to/cert_file
-> tls_key = /path/to/key_file
-> value_template = {{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;">{{name}}<br /><i style="position: relative; top: .2rem" class="material-icons md-18 theme-success-text" title="Running">fiber_manual_record</i>{{containers_running}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-warning-text" title="Paused">fiber_manual_record</i>{{containers_paused}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-failure-text" title="Stopped">fiber_manual_record</i>{{containers_stopped}}</p>
->
-> [Portainer]
-> prefix = http://
-> url = 192.168.0.110:2375
-> icon = static/images/apps/portainer.png
-> sidebar_icon = static/images/apps/portainer.png
-> description = Making Docker management easy
-> open_in = this_tab
-> data_sources = docker-endpoint-2
+> platform = 'docker'
+> prefix = 'https://'
+> host = '192.168.0.110'
+> port = '2376'
+> tls_mode = 'Both'
+> tls_ca = '/path/to/ca_file'
+> tls_cert = '/path/to/cert_file'
+> tls_key = '/path/to/key_file'
+> value_template = '{{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;">{{name}}<br /><i style="position: relative; top: .2rem; color:green" class="material-icons md-18" title="Running">fiber_manual_record</i>{{containers_running}}<i style="position: relative; top: .2rem; color:yellow" class="material-icons md-18" title="Paused">fiber_manual_record</i>{{containers_paused}}<i style="position: relative; top: .2rem; color:red" class="material-icons md-18" title="Stopped">fiber_manual_record</i>{{containers_stopped}}</p>'
 >```
->
->
+
+
+```
+>Dashboard.toml
+> [Portainer]
+> prefix = 'http://'
+> url = '192.168.0.110:2375'
+> icon = 'static/images/apps/portainer.png'
+> sidebar_icon = 'static/images/apps/portainer.png'
+> description = 'Making Docker management easy'
+> open_in = 'this_tab'
+> data_sources = 'docker-endpoint-2'
+>```
+
+
 > **Working example (using un-encrypted connection, on custom Docker card):**
->```ini
+>```config/data_sources.toml
 > [docker-endpoint-3]
-> platform = docker
-> prefix = http://
-> host = 192.168.0.110
-> port = 2375
-> card_type = Custom
->
+> platform = 'docker'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '2375'
+> card_type = 'Custom'
+```
+
+```
+>Dashboard.toml
 > [Docker]
-> type = custom
-> data_sources = docker-endpoint-3
+> type = 'custom'
+> data_sources = 'docker-endpoint-3'
 >```
 """
 
@@ -257,19 +269,19 @@ class Docker(object):
         else:
             if self.tls_mode == None:
                 img_tls = """
-                        <i class="material-icons md-18 theme-warning-text" title="TLS disabled">lock_open</i>
+                        <i class="material-icons md-18" style="color:orange" title="TLS disabled">lock_open</i>
                         """
             else:
                 img_tls = """
-                        <i class="material-icons md-18 theme-success-text" title="TLS enabled">lock</i>
+                        <i class="material-icons md-18" style="color:green" title="TLS enabled">lock</i>
                         """
             if len(self.warnings) > 0:
                 img_warnings = """
-                        <i class="material-icons md-18 theme-warning-text" title="{{warnings}}">warning</i>
+                        <i class="material-icons md-18" style="color:yellow" title="{{warnings}}">warning</i>
                         """
             else:
                 img_warnings = """
-                        <i class="material-icons md-18 theme-muted2-text" title="No warnings">warning</i>
+                        <i class="material-icons md-18" style="color:blue" title="No warnings">warning</i>
                         """
             self.html_template = (
                 """
@@ -312,10 +324,10 @@ class Docker(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):
@@ -387,6 +399,8 @@ class Platform:
                 return "Invalid tls_mode : " + self.tls_mode
 
         self.docker.refresh()
+#        print(self.value_template)
+
 
         if self.card_type == "Custom":
             return render_template_string(self.docker.getHtml(), **self.docker.__dict__)

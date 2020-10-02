@@ -4,10 +4,10 @@
 Display information from the PiHole API
 ```ini
 [variable_name]
-platform = pihole
-host = 192.168.1.101
-password = {{ PiHole password }}
-value_template = {{ value_template }}
+platform = 'pihole'
+host = '192.168.1.101'
+password = '{{ PiHole password }}'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 
@@ -36,20 +36,24 @@ value_template = {{ value_template }}
 * gravity_last_updated
 
 > **Working example:**
->```ini
+>```config/data_sources.toml
 > [pihole-data]
-> platform = pihole
-> host = 192.168.1.101
-> password = password123
-> value_template = Ads Blocked Today: {{ blocked }}<br>Status: {{ status }}<br>Queries today: {{ queries }}
->
+> platform = 'pihole'
+> host = '192.168.1.101'
+> password = 'password123'
+> value_template = 'Ads Blocked Today: {{ blocked }}<br>Status: {{ status }}<br>Queries today: {{ queries }}'
+```
+
+
+```
+>Dashboard.toml
 > [PiHole]
-> prefix = http://
-> url = 192.168.1.101
-> icon = static/images/apps/pihole.png
-> description = A black hole for Internet advertisements
-> open_in = new_tab
-> data_sources = pihole-data
+> prefix = 'http://'
+> url = '192.168.1.101'
+> icon = 'static/images/apps/pihole.png'
+> description = 'A black hole for Internet advertisements'
+> open_in = 'new_tab'
+> data_sources = 'pihole-data'
 >```
 """
 
@@ -83,9 +87,10 @@ class PiHole(object):
         self.pw = None
 
     def refresh(self):
-        rawdata = requests.get(
-            "http://" + self.ip_address + "/admin/api.php?summary"
-        ).json()
+        if self.ip_address != None:
+            rawdata = requests.get(
+                "http://" + self.ip_address + "/admin/api.php?summary"
+            ).json()
 
         if self.auth_data != None:
             topdevicedata = requests.get(
@@ -112,18 +117,19 @@ class PiHole(object):
             ).json()["querytypes"]
 
         # Data that is returned is now parsed into vars
-        self.status = rawdata["status"]
-        self.domain_count = rawdata["domains_being_blocked"]
-        self.queries = rawdata["dns_queries_today"]
-        self.blocked = rawdata["ads_blocked_today"]
-        self.ads_percentage = rawdata["ads_percentage_today"]
-        self.unique_domains = rawdata["unique_domains"]
-        self.forwarded = rawdata["queries_forwarded"]
-        self.cached = rawdata["queries_cached"]
-        self.total_clients = rawdata["clients_ever_seen"]
-        self.unique_clients = rawdata["unique_clients"]
-        self.total_queries = rawdata["dns_queries_all_types"]
-        self.gravity_last_updated = rawdata["gravity_last_updated"]
+        if self.ip_address != None:          
+            self.status = rawdata["status"]
+            self.domain_count = rawdata["domains_being_blocked"]
+            self.queries = rawdata["dns_queries_today"]
+            self.blocked = rawdata["ads_blocked_today"]
+            self.ads_percentage = rawdata["ads_percentage_today"]
+            self.unique_domains = rawdata["unique_domains"]
+            self.forwarded = rawdata["queries_forwarded"]
+            self.cached = rawdata["queries_cached"]
+            self.total_clients = rawdata["clients_ever_seen"]
+            self.unique_clients = rawdata["unique_clients"]
+            self.total_queries = rawdata["dns_queries_all_types"]
+            self.gravity_last_updated = rawdata["gravity_last_updated"]
 
     def refreshTop(self, count):
         if self.auth_data == None:
@@ -242,10 +248,16 @@ class PiHole(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
+            
+        #set defaults
+        if not hasattr(self, "host"):
+            self.host = None
+        if not hasattr(self, "password"):
+            self.password = "password123"
 
         self.pihole = PiHole(self.host)
 

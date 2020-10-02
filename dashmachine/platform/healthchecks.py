@@ -3,14 +3,14 @@
 Display information from Healthchecks API
 ```ini
 [variable_name]
-platform = healthchecks
-prefix = http://
-host = localhost
-port = 8080
-api_key = {{ Healthchecks project API Key }}
-project = {{ Healthchecks project name }}
-verify = true
-value_template = {{ value_template }}
+platform = 'healthchecks'
+prefix = 'http://'
+host = 'localhost'
+port = '8080'
+api_key = '{{ Healthchecks project API Key }}'
+project = '{{ Healthchecks project name }}'
+verify = 'true'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -33,25 +33,30 @@ value_template = {{ value_template }}
 * count_grace
 * count_paused
 * error (for debug)
+
 > **Working example:**
->```ini
+>```config/data_sources.toml
 > [healthchecks-data]
-> platform = healthchecks
-> prefix = http://
-> host = 192.168.0.110
-> port = 8080
-> api_key = {{ API Key }}
-> project = {{ Project name }}
-> verify = False
-> value_template = {{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;"><i style="position: relative; top: .2rem" class="material-icons md-18 theme-success-text" title="Up">fiber_manual_record</i>{{count_up}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-warning-text" title="Grace">fiber_manual_record</i>{{count_grace}}<i style="position: relative; top: .2rem" class="material-icons md-18 theme-failure-text" title="Down">fiber_manual_record</i>{{count_down}}</p>
->
+> platform = 'healthchecks'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '8080'
+> api_key = '{{ API Key }}'
+> project = '{{ Project name }}'
+> verify = 'False'
+> value_template = '{{error}}<p style="text-align:right;text-transform:uppercase;font-size:14px;font-family: monospace;"><i style="position: relative; top: .2rem; color:green" class="material-icons md-18" title="Up">fiber_manual_record</i>{{count_up}}<i style="position: relative; top: .2rem; color:yellow" class="material-icons md-18" title="Grace">fiber_manual_record</i>{{count_grace}}<i style="position: relative; top: .2rem; color:red" class="material-icons md-18" title="Down">fiber_manual_record</i>{{count_down}}</p>'
+```
+
+
+```
+>Dashboard.toml
 > [Healthchecks]
-> prefix = http://
-> url  = 192.168.0.110
-> icon = static/images/apps/healthchecks.png
-> description = Healthchecks is a watchdog for your cron jobs. It's a web server that listens for pings from your cron jobs, plus a web interface.
-> open_in = this_tab
-> data_sources = healthchecks-data
+> prefix = 'http://'
+> url  = '192.168.0.110'
+> icon = 'static/images/apps/healthchecks.png'
+> description = 'Healthchecks is a watchdog for your cron jobs. It's a web server that listens for pings from your cron jobs, plus a web interface.'
+> open_in = 'this_tab'
+> data_sources = 'healthchecks-data'
 >```
 """
 
@@ -155,10 +160,10 @@ class Healthchecks(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):

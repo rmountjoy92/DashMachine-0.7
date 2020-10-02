@@ -4,12 +4,12 @@
 Weather is a great example of how you can populate a custom card on the dash. This plugin creates a custom card with weather data from [metaweather.com](https://www.metaweather.com)
 ```ini
 [variable_name]
-platform = weather
-woeid = 2514815
-temp_unit = c
-wind_speed_unit = kph
-air_pressure_unit = mbar
-visibility_unit = km
+platform = 'weather'
+woeid = '2514815'
+temp_unit = 'c'
+wind_speed_unit = 'kph'
+air_pressure_unit = 'mbar'
+visibility_unit = 'km'
 ```
 > **Returns:** HTML for custom card
 
@@ -24,14 +24,18 @@ visibility_unit = km
 | visibility_unit   | No       | The unit to be used for visibility                                                                                                       | km,mi             |
 
 > **Working example:**
->```ini
->[variable_name]
->platform = weather
->woeid = 2514815
->
+>```config/data_sources.toml
+>[weather_ds]
+>platform = 'weather'
+>woeid = '2514815'
+```
+
+
+```
+>Dashboard.toml
 >[custom_card_name]
->type = custom
->data_sources = variable_name
+>type = 'custom'
+>data_sources = 'weather_ds'
 >```
 
 """
