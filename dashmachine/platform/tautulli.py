@@ -55,7 +55,7 @@ value_template = '{{ value_template }}'
 > sidebar_icon = 'static/images/apps/tautulli.png'
 > description = 'A Python based monitoring and tracking tool for Plex Media Server'
 > open_in = 'this_tab'
-> data_sources = 'tautulli_ds'
+> data_sources.sources = ['tautulli_ds']
 >```
 """
 
