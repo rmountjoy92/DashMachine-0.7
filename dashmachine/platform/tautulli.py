@@ -2,7 +2,7 @@
 ##### Tautulli
 Display information from Tautulli API
 ```ini
-[variable_name]
+['variable_name']
 platform = 'tautulli'
 prefix = 'http://'
 host = 'localhost'
@@ -35,7 +35,7 @@ value_template = '{{ value_template }}'
 * error (for debug)
 > **Working example:**
 >```config/data_sources.toml
-> [tautulli_ds]
+> ['tautulli_ds']
 > platform = 'tautulli'
 > prefix = 'http://'
 > host = '192.168.0.110'
@@ -48,7 +48,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
-> [Tautulli]
+> ['Tautulli']
 > prefix = 'http://'
 > url = '192.168.0.110:8181'
 > icon = 'static/images/apps/tautulli.png'
