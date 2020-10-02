@@ -103,6 +103,23 @@ function showLogs() {
     });
 }
 
+function modifyToml(command) {
+  let cmd = new FormData();
+  cmd.append("commands", command);
+  fetch(modifyTomlUrl, {
+    method: "post",
+    body: cmd,
+  })
+    .then((r) => r.json())
+    .then(function (r) {
+      if (r.success == "success") {
+        sleep(500).then(() => {
+          location.reload();
+        });
+      }
+    });
+}
+
 function setCommandBarDatalist() {
   if (commandBarInput.value.startsWith("?")) {
     commandBarInput.setAttribute("list", "queryProvidersDatalist");
@@ -176,6 +193,10 @@ function commandBarSubmit() {
       .replace(" ", "+");
     let url = queryProviderUrls[prefix];
     window.location.href = url + query_string;
+  }
+  // MODIFY TOML
+  else if (commandBarInput.value.startsWith(":m ")) {
+    modifyToml(commandBarInput.value.slice(3));
   }
   // CHANGE THEME
   else if (commandBarInput.value.startsWith(":x ")) {
