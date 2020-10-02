@@ -3,7 +3,7 @@
 ##### rest
 Make a call on a REST API and display the results as a jinja formatted string.
 ```ini
-[variable_name]
+['variable_name']
 platform = 'rest'
 resource = 'https://your-website.com/api'
 value_template = '{{value}}'
@@ -33,7 +33,7 @@ verify = 'false'
 
 > **Working example:**
 >```config/data_sources.toml
->[rest_ds]
+>['rest_ds']
 >platform = 'rest'
 >resource = 'https://pokeapi.co/api/v2/pokemon'
 >value_template = 'Pokemon: {{value['count']}}'
@@ -42,7 +42,7 @@ verify = 'false'
 
 ```
 >Dashboard.toml
->[Pokemon]
+>['Pokemon']
 >prefix = 'https://'
 >url = 'pokemon.com'
 >icon = 'static/images/apps/default.png'
