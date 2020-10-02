@@ -52,7 +52,7 @@ value_template = '{{ value_template }}'
 > icon = 'static/images/apps/transmission.png'
 > description = 'A Fast, Easy, and Free BitTorrent Client'
 > open_in = 'new_tab'
-> data_sources = 'transmission_ds'
+> data_sources.sources = ['transmission_ds']
 >```
 """
 
