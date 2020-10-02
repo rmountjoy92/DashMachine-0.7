@@ -3,7 +3,7 @@
 ##### deluge
 Display information from Deluge web ui.
 ```ini
-[variable_name]
+['variable_name']
 platform = 'deluge'
 resource = 'https://deluge.example.com:8112/json'
 value_template = '↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s'
@@ -21,7 +21,7 @@ password = 'MySecretPassword'
 
 > **Working example:**
 >```config/data_sources.toml
->[deluge_ds]
+>['deluge_ds']
 >platform = 'deluge'
 >resource = 'https://deluge.example.com:8112/json'
 >value_template = '↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s'
@@ -31,7 +31,7 @@ password = 'MySecretPassword'
 
 ```
 >Dashboard.toml
->[Deluge]
+>['Deluge']
 >prefix = 'https://'
 >url = 'https://deluge.example.com:8112'
 >icon = 'static/images/apps/deluge.png'
