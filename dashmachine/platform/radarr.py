@@ -54,7 +54,7 @@ value_template = '{{ value_template }}'
 > sidebar_icon = 'static/images/apps/radarr.png'
 > description = 'A fork of Sonarr to work with movies à la Couchpotato'
 > open_in = 'this_tab'
-> data_sources = 'radarr_ds'
+> data_sources.sources = ['radarr_ds']
 >```
 """
 
