@@ -2,7 +2,7 @@
 ##### Sonarr
 Display information from Sonarr API
 ```ini
-[variable_name]
+['variable_name']
 platform = 'sonarr'
 prefix = 'http://'
 host = 'localhost'
@@ -34,7 +34,7 @@ value_template = '{{ value_template }}'
 * error (for debug)
 > **Working example:**
 >```config/data_sources.toml
-> [sonarr_ds]
+> ['sonarr_ds']
 > platform = 'sonarr'
 > prefix = 'http://'
 > host = '192.168.0.110'
@@ -47,7 +47,7 @@ value_template = '{{ value_template }}'
 
 ```
 >Dashboard.toml
-> [Sonarr]
+> ['Sonarr']
 > prefix = 'http://'
 > url = '192.168.0.110:8989'
 > icon = 'static/images/apps/sonarr.png'
