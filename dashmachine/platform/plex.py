@@ -39,7 +39,7 @@ value_template = '{{ value_template }}'
 >icon = 'static/images/apps/plex.png'
 >description = 'Plex data sources example'
 >open_in = 'this_tab'
->data_sources = 'plex_ds'
+>data_sources.sources = ['plex_ds']
 >```
 """
 import requests
