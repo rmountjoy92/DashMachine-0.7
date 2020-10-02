@@ -48,7 +48,7 @@ verify = 'false'
 >icon = 'static/images/apps/default.png'
 >description = 'Data sources example'
 >open_in = 'this_tab'
->data_sources = 'rest_ds'
+>data_sources.sources = ['rest_ds']
 >```
 
 """
