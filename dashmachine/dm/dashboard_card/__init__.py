@@ -11,9 +11,22 @@ from dashmachine.dm.dashboard_card.title import Title
 
 class DashboardCard:
     def __init__(self, name, options, dashboard):
+        """
+        The Card class. This class is responsible for storing the data from the parent
+        dashboard's toml file. These configurations are applied in the html template
+        rendered when the parent dashboard is sent to the ui.
+
+        The ways in which these configurations effect the card's appearance can be found
+        in /dashmachine/templates/main/dashboard-card.html
+
+        :param name: (str) the searchable (not displayed) name of the card
+        :param options: (dict) the key/value pairs of the card's options from the toml
+        :param dashboard: (Dashboard Object) the parent Dashboard object.
+        """
         self.dashboard = dashboard
         self.name = name
         self.options = options
+
         if self.options.get("shared_card"):
             try:
                 self.options = self.dashboard.dm.shared_cards[options["shared_card"]]
@@ -22,6 +35,7 @@ class DashboardCard:
                     f'Shared card {options["shared_card"]} not found, using defaults..'
                 )
 
+        # SET CARD DEFAULTS
         self.tags = self.options.get("tags", [])
         self.onpress = resolve_onpress_option(self.options.get("onpress", {}))
 
@@ -33,6 +47,7 @@ class DashboardCard:
         if self.card.get("full-width") is True:
             self.card["width"] = "calc(100vw - 2rem)"
 
+        # INITIALIZE CHILD CLASSES (CARD BUILDING BLOCKS) USING CARD'S OPTIONS
         self.icon = Icon(self.options)
         self.title = Title(self.options)
         self.description = Description(self.options)

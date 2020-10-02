@@ -3,6 +3,12 @@ from dashmachine.dm.utils import html_from_markdown_file, html_from_template_fil
 
 class Content:
     def __init__(self, options, dashboard_card):
+        """
+
+        :param options: (dict) the key/value pairs from this section of the
+        card's config toml
+        :param dashboard_card: (Card Object) the parent card object.
+        """
         self.markdown = None
         self.html = None
 

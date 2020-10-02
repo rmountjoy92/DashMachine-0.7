@@ -399,8 +399,7 @@ class Platform:
                 return "Invalid tls_mode : " + self.tls_mode
 
         self.docker.refresh()
-#        print(self.value_template)
-
+        #        print(self.value_template)
 
         if self.card_type == "Custom":
             return render_template_string(self.docker.getHtml(), **self.docker.__dict__)

@@ -115,21 +115,6 @@ function setCommandBarDatalist() {
     commandBarInput.blur();
     commandBarInput.focus();
   }
-
-  // Auto-submit ':' commands when they match a datalist option
-  if (commandBarInput.value.startsWith(":")) {
-    let val = commandBarInput.value;
-    let opts = document.getElementById(commandBarInput.getAttribute("list"))
-      .childNodes;
-    for (let i = 0; i < opts.length; i++) {
-      if (opts[i].value === val) {
-        commandBarSubmit();
-        commandBarInput.blur();
-        commandBarInput.focus();
-        break;
-      }
-    }
-  }
 }
 
 function commandBarSearch() {

@@ -117,7 +117,7 @@ class PiHole(object):
             ).json()["querytypes"]
 
         # Data that is returned is now parsed into vars
-        if self.ip_address != None:          
+        if self.ip_address != None:
             self.status = rawdata["status"]
             self.domain_count = rawdata["domains_being_blocked"]
             self.queries = rawdata["dns_queries_today"]
@@ -252,8 +252,8 @@ class Platform:
         # parse the user's options from the config entries
         for key, value in options.items():
             setattr(self, key, value)
-            
-        #set defaults
+
+        # set defaults
         if not hasattr(self, "host"):
             self.host = None
         if not hasattr(self, "password"):

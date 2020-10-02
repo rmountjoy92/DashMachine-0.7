@@ -26,6 +26,26 @@ from dashmachine.dm.utils import DEFAULT_QUERY_PROVIDERS
 
 class DashMachine:
     def __init__(self, app):
+        """
+        The DashMachine class. This is the core of DashMachine, it serves as as a
+        scaffold for all of the classes that make up DashMachine's functionality.
+        It is responsible for initializing all of the classes that hold the data
+        from the files in /config, and watching those config files for changes.
+        When this class detects a change in a file, it rebuilds whatever it needs
+        to, to make sure the interface is updated properly.
+
+        This class is also responsible for running the functions that handle custom
+        themes.
+
+        Some DashMachine configurations are applied in the html template
+        rendered when the main page loads. The ways in which these
+        configurations effect page's appearance can be found
+        in /dashmachine/templates/main/main.html
+
+        :param app: (Flask Application Object) see:
+        https://flask.palletsprojects.com/en/1.1.x/quickstart/
+
+        """
         logging.info("DashMachine starting..")
         self.app = app
         self.query_providers = DEFAULT_QUERY_PROVIDERS
@@ -64,6 +84,12 @@ class DashMachine:
             )
 
     def build(self):
+        """
+        This method rebuilds the entire App, it is called when the file watchers detect
+        a change that requires the entire application to be rebuilt.
+
+        :return:
+        """
         # load settings
         self.settings = Settings()
         if hasattr(self.settings, "query_providers"):
@@ -97,11 +123,27 @@ class DashMachine:
         logging.info("DashMachine built")
 
     def get_dashboard_by_name(self, name):
+        """
+        Get the dashboard object with a given name. See dm/dashboard.py for docs on
+        the dashboard object
+
+        :param name: (str) the name of the dashboard, e.g. 'main'
+        :return:
+        """
         return (
             self.dashboards[name] if self.dashboards.get(name) else self.main_dashboard
         )
 
     def compile_theme(self):
+        """
+        Uses libsass-python to compile the theme and replace the bootstrap.min.css file
+        The theme name is set by settings object. See dm/settings.py for docs on the
+        settings object.
+
+        Documentation: https://sass.github.io/libsass-python/
+
+        :return:
+        """
         if f"{self.settings.theme}.scss" in os.listdir(custom_themes_folder):
             theme_scss_file = os.path.join(
                 custom_themes_folder, f"{self.settings.theme}.scss"
@@ -125,6 +167,13 @@ class DashMachine:
 
     @staticmethod
     def load_shared_cards():
+        """
+        Loads the shared_cards.toml file, to give access to all of the Dashboard objects
+        in self.dashboards. shared_cards.toml is configured the same way as any
+        dashboard toml file.
+
+        :return shared_cards: (list<dict>) list of card configuration key/value pairs
+        """
         try:
             shared_cards = toml.load(shared_cards_toml)
         except Exception as e:
@@ -135,6 +184,11 @@ class DashMachine:
 
     @staticmethod
     def get_logs():
+        """
+        Returns the contents of the log file as text/html.
+
+        :return logs: (string/html) contents of the log file
+        """
         logs_path = os.path.join(root_folder, "dashmachine.log")
         if os.path.isfile(logs_path):
             with open(logs_path, "r") as logs_file:

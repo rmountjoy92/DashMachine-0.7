@@ -7,6 +7,15 @@ from dashmachine.paths import settings_toml, user_wallpapers_folder
 
 class Settings:
     def __init__(self, read_toml=True):
+        """
+        The Settings class. This is responsible for storing the data from your
+        settings.toml file. It serves as a place to make app-wide changes in DashMachine
+        The FileWatcher for settings.toml runs DashMachine.build()
+
+        :param read_toml: (bool) Optionally skip the process in which the toml file
+        is reloaded.
+
+        """
         self.toml_path = settings_toml
         self.toml_dict = {}
         self.error = None

@@ -58,7 +58,6 @@ class Platform:
         for key, value in options.items():
             setattr(self, key, value)
 
-
         # set defaults for omitted options
         if not hasattr(self, "method"):
             self.method = "GET"

@@ -6,6 +6,19 @@ from dashmachine.paths import data_sources_toml, user_platform
 
 
 class DataSourceHandler:
+    """
+    The DataSourceHandler class. This class is responsible for loading all of the
+    configured data_sources in the data_source.toml file. A data_source is simply a
+    configuration for how a Platform will run when it's called.
+
+    This class is also responsible for calling Platforms, using the data_source config
+    entries to do whatever it is the Platform is designed to do e.g. returning html for
+    data_sources block on the Card.
+
+    The FileWatcher for data_sources.toml runs DashMachine.build()
+
+    """
+
     def __init__(self):
         self.toml_dict = None
         self.error = None
@@ -13,6 +26,11 @@ class DataSourceHandler:
         self.load_data_sources()
 
     def load_data_sources(self):
+        """
+        Load all data_source configurations from data_sources.toml
+
+        :return:
+        """
         try:
             self.toml_dict = toml.load(data_sources_toml)
         except toml.TomlDecodeError as e:
@@ -26,6 +44,21 @@ class DataSourceHandler:
         logging.info("Data Sources loaded")
 
     def process_data_source(self, data_source_name):
+        """
+        Call the configured platform's process method using the configuration entry from
+        data_sources.toml.
+
+        When the platform is loaded for processing, it will first look in
+        /config/platform, and if it's not there, it will use DM's included platforms
+        from dashmachine/platform.
+
+        :param data_source_name: (str) name of the data_source config entry
+        from data_sources.toml
+
+        :return return_value_from_platform: (Any) return value provided the platform
+        being called. If there is an error in the process, it will return an error
+        message as html.
+        """
         error_msg = (
             f'<div style="background: red; color: white; '
             f'font-weight: bold; padding: 1rem; border-radius: 12px">'
