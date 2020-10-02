@@ -3,13 +3,13 @@
 Display information from Sonarr API
 ```ini
 [variable_name]
-platform = sonarr
-prefix = http://
-host = localhost
-port = 8989
-api_key = {{ Sonarr API Key }}
-verify = true
-value_template = {{ value_template }}
+platform = 'sonarr'
+prefix = 'http://'
+host = 'localhost'
+port = '8989'
+api_key = '{{ Sonarr API Key }}'
+verify = 'true'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -33,24 +33,28 @@ value_template = {{ value_template }}
 * diskspace[x]['free']
 * error (for debug)
 > **Working example:**
->```ini
-> [sonarr-data]
-> platform = sonarr
-> prefix = http://
-> host = 192.168.0.110
-> port = 8989
-> api_key = {{ API Key }}
-> verify = False
-> value_template = {{error}}Missing : {{wanted_missing}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}
->
+>```config/data_sources.toml
+> [sonarr_ds]
+> platform = 'sonarr'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '8989'
+> api_key = '{{ API Key }}'
+> verify = 'False'
+> value_template = '{{error}}Missing : {{wanted_missing}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}'
+```
+
+
+```
+>Dashboard.toml
 > [Sonarr]
-> prefix = http://
-> url = 192.168.0.110:8989
-> icon = static/images/apps/sonarr.png
-> sidebar_icon = static/images/apps/sonarr.png
-> description = Smart PVR for newsgroup and bittorrent users
-> open_in = this_tab
-> data_sources = sonarr-data
+> prefix = 'http://'
+> url = '192.168.0.110:8989'
+> icon = 'static/images/apps/sonarr.png'
+> sidebar_icon = 'static/images/apps/sonarr.png'
+> description = 'Smart PVR for newsgroup and bittorrent users'
+> open_in = 'this_tab'
+> data_sources = 'sonarr_ds'
 >```
 """
 
@@ -232,10 +236,10 @@ class Sonarr(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):

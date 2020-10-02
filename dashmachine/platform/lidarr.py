@@ -3,13 +3,13 @@
 Display information from Lidarr API
 ```ini
 [variable_name]
-platform = lidarr
-prefix = http://
-host = localhost
-port = 8686
-api_key = my_api_key
-verify = true
-value_template = {{ value_template }}
+platform = 'lidarr'
+prefix = 'http://'
+host = 'localhost'
+port = '8686'
+api_key = 'my_api_key'
+verify = 'true'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -35,24 +35,28 @@ value_template = {{ value_template }}
 * diskspace[x]['free']
 * error (for debug)
 > **Working example:**
->```ini
-> [lidarr-data]
-> platform = lidarr
-> prefix = http://
-> host = 192.168.0.110
-> port = 8686
-> api_key = {{ API Key }}
-> verify = False
-> value_template = {{error}}Missing : {{wanted_missing}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}
->
+>```config/data_sources.toml
+> [lidarr_ds]
+> platform = 'lidarr'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '8686'
+> api_key = '{{ API Key }}'
+> verify = 'False'
+> value_template = '{{error}}Missing : {{wanted_missing}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}'
+```
+
+
+```
+>Dashboard.toml
 > [Lidarr]
-> prefix = http://
-> url = 192.168.0.110:8686
-> icon = static/images/apps/lidarr.png
-> sidebar_icon = static/images/apps/lidarr.png
-> description = Looks and smells like Sonarr but made for music
-> open_in = this_tab
-> data_sources = lidarr-data
+> prefix = 'http://'
+> url = '192.168.0.110:8686'
+> icon = 'static/images/apps/lidarr.png'
+> sidebar_icon = 'static/images/apps/lidarr.png'
+> description = 'Looks and smells like Sonarr but made for music'
+> open_in = 'this_tab'
+> data_sources = 'lidarr_ds'
 >```
 """
 
@@ -246,10 +250,10 @@ class Lidarr(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):

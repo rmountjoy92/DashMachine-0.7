@@ -3,10 +3,10 @@
 Connect to Plex Media Server and see current sessions details
 ```ini
 [variable_name]
-platform = plex
-url = http://plex_host:plex_port
-token = plex_token
-value_template = {{ value_template }}
+platform = 'plex'
+url = 'http://plex_host:plex_port'
+token = 'plex_token'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -22,20 +22,24 @@ value_template = {{ value_template }}
 * transcodes
 * libraries
 > **Example:**
->```ini
->[plex]
->platform = plex
->host = http://plex.example.com:32400
->token = abcde_fghi_jklmnopqr
->value_template = Sessions: {{sessions}}<br />Transcodes: {{transcodes}}
->
+>```config/data_sources.toml
+>[plex_ds]
+>platform = 'plex'
+>host = 'http://plex.example.com:32400'
+>token = 'abcde_fghi_jklmnopqr'
+>value_template = 'Sessions: {{sessions}}<br />Transcodes: {{transcodes}}'
+```
+
+
+```
+>Dashboard.toml
 >[Plex]
->prefix = http://
->url = plex.example.com:32400
->icon = static/images/apps/plex.png
->description = Plex data sources example
->open_in = this_tab
->data_sources = plex
+>prefix = 'http://'
+>url = 'plex.example.com:32400'
+>icon = 'static/images/apps/plex.png'
+>description = 'Plex data sources example'
+>open_in = 'this_tab'
+>data_sources = 'plex_ds'
 >```
 """
 import requests
@@ -74,10 +78,10 @@ class Plex(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         if not hasattr(self, "token"):
             print(

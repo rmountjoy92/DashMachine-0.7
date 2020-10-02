@@ -4,16 +4,16 @@
 Make a call on a REST API and display the results as a jinja formatted string.
 ```ini
 [variable_name]
-platform = rest
-resource = https://your-website.com/api
-value_template = {{value}}
-method = post
-authentication = basic
-username = my_username
-password = my_password
-payload = {"var1": "hi", "var2": 1}
-headers = {"Content-Type": "application/json"}
-verify = false
+platform = 'rest'
+resource = 'https://your-website.com/api'
+value_template = '{{value}}'
+method = 'post'
+authentication = 'basic'
+username = 'my_username'
+password = 'my_password'
+payload = '{"var1": "hi", "var2": 1}'
+headers = '{"Content-Type": "application/json"}'
+verify = 'false'
 ```
 > **Returns:** `value_template` as rendered string
 
@@ -32,19 +32,23 @@ verify = false
 | verify          | No       | Turn TLS verification on or off, default is True                | true,false        |
 
 > **Working example:**
->```ini
->[test]
->platform = rest
->resource = https://pokeapi.co/api/v2/pokemon
->value_template = Pokemon: {{value['count']}}
->
+>```config/data_sources.toml
+>[rest_ds]
+>platform = 'rest'
+>resource = 'https://pokeapi.co/api/v2/pokemon'
+>value_template = 'Pokemon: {{value['count']}}'
+```
+
+
+```
+>Dashboard.toml
 >[Pokemon]
->prefix = https://
->url = pokemon.com
->icon = static/images/apps/default.png
->description = Data sources example
->open_in = this_tab
->data_sources = test
+>prefix = 'https://'
+>url = 'pokemon.com'
+>icon = 'static/images/apps/default.png'
+>description = 'Data sources example'
+>open_in = 'this_tab'
+>data_sources = 'rest_ds'
 >```
 
 """
@@ -54,14 +58,14 @@ from requests import get, post
 from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 from flask import render_template_string
 
-
+            
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
+        for key, value in options.items():
             if key == "headers":
                 value = json.loads(value)
-            self.__dict__[key] = value
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):
