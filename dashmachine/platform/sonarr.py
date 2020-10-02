@@ -54,7 +54,7 @@ value_template = '{{ value_template }}'
 > sidebar_icon = 'static/images/apps/sonarr.png'
 > description = 'Smart PVR for newsgroup and bittorrent users'
 > open_in = 'this_tab'
-> data_sources = 'sonarr_ds'
+> data_sources.sources = ['sonarr_ds']
 >```
 """
 
