@@ -58,13 +58,11 @@ from requests import get, post
 from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 from flask import render_template_string
 
-            
+
 class Platform:
     def __init__(self, options):
         # parse the user's options from the config entries
         for key, value in options.items():
-            if key == "headers":
-                value = json.loads(value)
             setattr(self, key, value)
 
         # set defaults for omitted options

@@ -42,6 +42,9 @@ function loadGrid() {
   appendToGrid().then(() => {
     sleep(100).then(() => {
       iso.layout();
+      sleep(300).then(() => {
+        iso.layout();
+      });
     });
   });
 }
