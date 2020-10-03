@@ -59,14 +59,14 @@ class Dashboard:
             logging.error(self.error["error_title"], exc_info=True)
             return
 
-        if self.toml_dict.get("DASHBOARD_OPTIONS"):
-            self.users_can_access = self.toml_dict["DASHBOARD_OPTIONS"].get(
+        if self.toml_dict.get("DashboardOptions"):
+            self.users_can_access = self.toml_dict["DashboardOptions"].get(
                 "users_can_access", ["all"]
             )
-            self.roles_can_access = self.toml_dict["DASHBOARD_OPTIONS"].get(
+            self.roles_can_access = self.toml_dict["DashboardOptions"].get(
                 "roles_can_access", ["all"]
             )
-            del self.toml_dict["DASHBOARD_OPTIONS"]
+            del self.toml_dict["DashboardOptions"]
 
         self.cards = [
             DashboardCard(name=key, options=value, dashboard=self)
