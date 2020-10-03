@@ -34,6 +34,9 @@
     {% block page_vendor_css %}{% endblock page_vendor_css %}
     {{ process_local_css_sources(global_bundle=True) }}
     {% block page_lvl_css %}{% endblock page_lvl_css %}
+
+    {# global.css from user's config folder #}
+    <link rel="stylesheet" type="text/css" href="static/user_assets/css/global.css">
 </head>
 
 <body id="body"
@@ -51,6 +54,9 @@
 {% block page_vendor_js %}{% endblock page_vendor_js %}
 {{ process_local_js_sources(global_bundle=True) }}
 {% block page_lvl_js %}{% endblock page_lvl_js %}
+
+{# global.js from user's config folder #}
+<script src="static/user_assets/js/global.js"></script>
 </body>
 
 </html>

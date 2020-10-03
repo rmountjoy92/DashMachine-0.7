@@ -11,3 +11,4 @@ markdown2
 pygments
 watchgod
 libsass
+gunicorn
