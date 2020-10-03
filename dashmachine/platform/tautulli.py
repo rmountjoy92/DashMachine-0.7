@@ -2,14 +2,14 @@
 ##### Tautulli
 Display information from Tautulli API
 ```ini
-[variable_name]
-platform = tautulli
-prefix = http://
-host = localhost
-port = 8181
-api_key = {{ Tautulli API Key }}
-verify = true
-value_template = {{ value_template }}
+['variable_name']
+platform = 'tautulli'
+prefix = 'http://'
+host = 'localhost'
+port = '8181'
+api_key = '{{ Tautulli API Key }}'
+verify = 'true'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -34,24 +34,28 @@ value_template = {{ value_template }}
 * update_message
 * error (for debug)
 > **Working example:**
->```ini
-> [tautulli-data]
-> platform = tautulli
-> prefix = http://
-> host = 192.168.0.110
-> port = 8181
-> api_key = myApiKey
-> verify = False
-> value_template = {{error}}Active sessions : {{stream_count}}
->
-> [Tautulli]
-> prefix = http://
-> url = 192.168.0.110:8181
-> icon = static/images/apps/tautulli.png
-> sidebar_icon = static/images/apps/tautulli.png
-> description = A Python based monitoring and tracking tool for Plex Media Server
-> open_in = this_tab
-> data_sources = tautulli-data
+>```config/data_sources.toml
+> ['tautulli_ds']
+> platform = 'tautulli'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '8181'
+> api_key = 'myApiKey'
+> verify = 'False'
+> value_template = '{{error}}Active sessions : {{stream_count}}'
+```
+
+
+```
+>Dashboard.toml
+> ['Tautulli']
+> prefix = 'http://'
+> url = '192.168.0.110:8181'
+> icon = 'static/images/apps/tautulli.png'
+> sidebar_icon = 'static/images/apps/tautulli.png'
+> description = 'A Python based monitoring and tracking tool for Plex Media Server'
+> open_in = 'this_tab'
+> data_sources.sources = ['tautulli_ds']
 >```
 """
 
@@ -188,10 +192,10 @@ class Tautulli(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):

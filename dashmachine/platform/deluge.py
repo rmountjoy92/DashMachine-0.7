@@ -3,11 +3,11 @@
 ##### deluge
 Display information from Deluge web ui.
 ```ini
-[variable_name]
-platform = deluge
-resource = https://deluge.example.com:8112/json
-value_template = ↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s
-password = MySecretPassword
+['variable_name']
+platform = 'deluge'
+resource = 'https://deluge.example.com:8112/json'
+value_template = '↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s'
+password = 'MySecretPassword'
 ```
 > **Returns:** `value_template` as rendered string
 
@@ -20,21 +20,25 @@ password = MySecretPassword
 | password        | No       | Password to use for auth.                                       | string            |
 
 > **Working example:**
->```
->[deluge]
->platform = deluge
->resource = https://deluge.example.com:8112/json
->value_template = ↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s
->password = MySecretPassword
->
->[Deluge]
->prefix = https://
->url = https://deluge.example.com:8112
->icon = static/images/apps/deluge.png
->sidebar_icon = static/images/apps/deluge.png
->description = Deluge is a lightweight, Free Software, cross-platform BitTorrent client
->open_in = iframe
->data_sources = deluge
+>```config/data_sources.toml
+>['deluge_ds']
+>platform = 'deluge'
+>resource = 'https://deluge.example.com:8112/json'
+>value_template = '↓{{download_rate|filesizeformat}}/s ↑{{upload_rate|filesizeformat}}/s'
+>password = 'MySecretPassword'
+```
+
+
+```
+>Dashboard.toml
+>['Deluge']
+>prefix = 'https://'
+>url = 'https://deluge.example.com:8112'
+>icon = 'static/images/apps/deluge.png'
+>sidebar_icon = 'static/images/apps/deluge.png'
+>description = 'Deluge is a lightweight, Free Software, cross-platform BitTorrent client'
+>open_in = 'iframe'
+>data_sources.sources = ['deluge_ds']
 >```
 
 """
@@ -44,9 +48,10 @@ import requests
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+    def __init__(self, options):
+        # parse the user's options from the config entries
+        for key, value in options.items():
+            setattr(self, key, value)
 
         if not hasattr(self, "resource"):
             self.resource = "http://localhost/json"

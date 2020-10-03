@@ -2,14 +2,14 @@
 ##### Radarr
 Display information from Radarr API
 ```ini
-[variable_name]
-platform = radarr
-prefix = http://
-host = localhost
-port = 7878
-api_key = my_api_key
-verify = true
-value_template = {{ value_template }}
+['variable_name']
+platform = 'radarr'
+prefix = 'http://'
+host = 'localhost'
+port = '7878'
+api_key = 'my_api_key'
+verify = 'true'
+value_template = '{{ value_template }}'
 ```
 > **Returns:** `value_template` as rendered string
 | Variable        | Required | Description                                                     | Options           |
@@ -33,24 +33,28 @@ value_template = {{ value_template }}
 * diskspace[x]['free']
 * error (for debug)
 > **Working example:**
->```ini
-> [radarr-data]
-> platform = radarr
-> prefix = http://
-> host = 192.168.0.110
-> port = 7878
-> api_key = {{ API Key }}
-> verify = False
-> value_template = {{error}}Movies : {{movies}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}
->
-> [Radarr]
-> prefix = http://
-> url = 192.168.0.110:7878
-> icon = static/images/apps/radarr.png
-> sidebar_icon = static/images/apps/radarr.png
-> description = A fork of Sonarr to work with movies à la Couchpotato
-> open_in = this_tab
-> data_sources = radarr-data
+>```config/data_sources.toml
+> ['radarr_ds']
+> platform = 'radarr'
+> prefix = 'http://'
+> host = '192.168.0.110'
+> port = '7878'
+> api_key = '{{ API Key }}'
+> verify = 'False'
+> value_template = '{{error}}Movies : {{movies}}<br />Queue : {{queue}} <br />Free ({{diskspace[0]['path']}}) : {{diskspace[0]['free']}}'
+```
+
+
+```
+>Dashboard.toml
+> ['Radarr']
+> prefix = 'http://'
+> url = '192.168.0.110:7878'
+> icon = 'static/images/apps/radarr.png'
+> sidebar_icon = 'static/images/apps/radarr.png'
+> description = 'A fork of Sonarr to work with movies à la Couchpotato'
+> open_in = 'this_tab'
+> data_sources.sources = ['radarr_ds']
 >```
 """
 
@@ -232,10 +236,10 @@ class Radarr(object):
 
 
 class Platform:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, options):
         # parse the user's options from the config entries
-        for key, value in kwargs.items():
-            self.__dict__[key] = value
+        for key, value in options.items():
+            setattr(self, key, value)
 
         # set defaults for omitted options
         if not hasattr(self, "method"):
