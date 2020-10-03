@@ -20,7 +20,7 @@
 
 Want a feature added now? [Open a bounty](https://www.bountysource.com/teams/dashmachine-app)
 
-#### [Documentation](https://dashmachine.io)
+#### [Documentation](https://dashmachine7.wolf-house.net)
 
 #### [Docker Hub Image](https://hub.docker.com/repository/docker/rmountjoy/dashmachine)
 
@@ -32,6 +32,3 @@ Want a feature added now? [Open a bounty](https://www.bountysource.com/teams/das
 - HTML5/Jinja2
 - ES6 Javascript
 - Bootstrap CSS
-
-### Want to hire me?
-Then, you should check out https://rossmountjoy.com
