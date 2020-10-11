@@ -6,6 +6,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_login import UserMixin
+from flask_caching import Cache
 from dashmachine.dm import DashMachine
 from dashmachine.auth import Auth
 import dashmachine.paths
@@ -25,11 +26,15 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-app = Flask(__name__)
+context_path = os.getenv("CONTEXT_PATH", "")
+app = Flask(__name__, static_url_path=context_path + "/static")
 logging.info("Flask app initialized")
+
+cache = Cache(app, config={"CACHE_TYPE": "simple"})
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 # copy bootstrap scss to config folder
 config_scss_folder = os.path.join(themes_folder, "scss")

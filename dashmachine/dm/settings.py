@@ -49,6 +49,10 @@ class Settings:
             if not self.isotope_options.get("layoutMode"):
                 self.isotope_options["layoutMode"] = "packery"
                 self.isotope_options["packery"] = "{gutter:10}"
+            if not self.isotope_options.get("hiddenStyle"):
+                self.isotope_options["hiddenStyle"] = "{opacity:0}"
+            if not self.isotope_options.get("visibleStyle"):
+                self.isotope_options["visibleStyle"] = "{opacity:1}"
 
             if self.wallpaper == "random":
                 self.randomize_wallpaper()
