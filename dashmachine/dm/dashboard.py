@@ -14,7 +14,7 @@ class Dashboard:
         entries in the toml file this dashboard is using.
 
         Dashboards can define which users and roles can access this dashboard by a
-        [DASHBOARD_OPTIONS] entry in the dashboard's toml file
+        [DashboardOptions] entry in the dashboard's toml file
 
         This is also where DashMachine will pass any errors from it's build
         process. If there are any errors passed to this object, when the dashboard
@@ -33,6 +33,7 @@ class Dashboard:
         self.toml_dict = None
         self.cards = None
         self.tags = []
+        self.options = {}
         self.users_can_access = ["all"]
         self.roles_can_access = ["all"]
         self.load_cards()
@@ -59,7 +60,9 @@ class Dashboard:
             logging.error(self.error["error_title"], exc_info=True)
             return
 
-        if self.toml_dict.get("DashboardOptions"):
+        self.options = self.toml_dict.get("DashboardOptions", {})
+
+        if self.options:
             self.users_can_access = self.toml_dict["DashboardOptions"].get(
                 "users_can_access", ["all"]
             )

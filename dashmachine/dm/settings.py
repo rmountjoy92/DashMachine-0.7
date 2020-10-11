@@ -26,6 +26,7 @@ class Settings:
         self.wallpaper = None
         self.theme = "light"
         self.editor_url = os.environ.get("EDITOR_URL", None)
+        self.isotope_options = {}
 
         if read_toml:
             try:
@@ -41,6 +42,13 @@ class Settings:
             if self.toml_dict.get("Settings"):
                 for k, v in self.toml_dict["Settings"].items():
                     setattr(self, k, v)
+
+            # isotope defaults for global scope
+            if not self.isotope_options.get("itemSelector"):
+                self.isotope_options["itemSelector"] = ".grid-item"
+            if not self.isotope_options.get("layoutMode"):
+                self.isotope_options["layoutMode"] = "packery"
+                self.isotope_options["packery"] = "{gutter:10}"
 
             if self.wallpaper == "random":
                 self.randomize_wallpaper()

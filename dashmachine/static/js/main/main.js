@@ -19,13 +19,7 @@ commandBarInput.addEventListener("keyup", (e) => {
 
 let grid = document.querySelector("#grid");
 
-let iso = new Isotope(grid, {
-  itemSelector: ".grid-item",
-  layoutMode: "packery",
-  packery: {
-    gutter: 10,
-  },
-});
+let iso = new Isotope(grid, isotopeOptions);
 
 loadGrid(iso);
 

@@ -20,6 +20,7 @@ js_local_bundle = [
     "vendors/bootstrap.min.js",
     "vendors/isotope.min.js",
     "vendors/isotope-packery.min.js",
+    "vendors/isotope-layouts.js",
 ]
 
 # these are all of the local css files that will be minified when served
