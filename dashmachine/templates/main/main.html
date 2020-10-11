@@ -86,12 +86,6 @@
                                href="javascript:void(0);">
                             Change Theme | <kbd>:x [Theme Name]</kbd></a></li>
 
-                        <li><a class="dropdown-item"
-                               onclick="setCommandBarText(':m ')"
-                               href="javascript:void(0);">
-                            Modify Config | <kbd>:m [file.toml] [Table Name] [Key Name] [Value]</kbd>
-                        </a></li>
-
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Query Providers</h6></li>
                         {% for query_provider in dm.query_providers %}
@@ -193,7 +187,6 @@
     const loadGridUrl = "{{ url_for('main.load_grid') }}?";
     const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}?";
     const getLogsUrl = "{{ url_for('main.get_logs') }}";
-    const modifyTomlUrl = "{{ url_for('main.modify_toml') }}";
     const changeThemeUrl = "{{ url_for('main.change_theme') }}?";
 
     let appliedTags = [

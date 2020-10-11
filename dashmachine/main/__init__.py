@@ -92,24 +92,6 @@ def get_logs():
     return dm.get_logs()
 
 
-@main.route("/modify_toml", methods=["POST"])
-def modify_toml():
-
-    dm.config_modifier.modify_toml(request.form.get("commands", ""))
-    if dm.config_modifier.error:
-        error_title = dm.config_modifier.error["error_title"]
-        error = dm.config_modifier.error["error"]
-        dm.config_modifier.error = None
-        return jsonify(
-            data={
-                "error_title": error_title,
-                "error": error,
-            }
-        )
-    else:
-        return jsonify({"success": "success"})
-
-
 @main.route("/change_theme", methods=["GET"])
 def change_theme():
     dm.change_theme(request.args.get("theme_name", "default_light"))

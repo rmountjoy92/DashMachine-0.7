@@ -13,7 +13,6 @@ from dashmachine.paths import (
     custom_themes_folder,
     static_folder,
 )
-from dashmachine.dm.config_modifier import ConfigModifier
 from dashmachine.dm.settings import Settings
 from dashmachine.dm.dashboard import Dashboard
 from dashmachine.dm.data_source_handler import DataSourceHandler
@@ -46,7 +45,6 @@ class DashMachine:
         self.app = app
         self.query_providers = DEFAULT_QUERY_PROVIDERS
         self.users = None
-        self.config_modifier = ConfigModifier()
         self.settings = None
         self.data_source_handler = None
         self.dashboards = None
@@ -66,8 +64,6 @@ class DashMachine:
 
         :return:
         """
-        # clear out any errors being held by objects
-        self.config_modifier.error = None
 
         # load settings
         self.settings = Settings()
