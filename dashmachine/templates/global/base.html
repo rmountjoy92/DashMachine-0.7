@@ -36,7 +36,7 @@
     {% block page_lvl_css %}{% endblock page_lvl_css %}
 
     {# global.css from user's config folder #}
-    <link rel="stylesheet" type="text/css" href="static/user_assets/css/global.css?v={{ + range(1, 9999)|random|string }}">
+    <link rel="stylesheet" type="text/css" href="static/user_assets/css/global.css?v={{ range(1, 9999)|random|string }}">
 </head>
 
 <body id="body"
