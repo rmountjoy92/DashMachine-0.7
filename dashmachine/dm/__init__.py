@@ -7,16 +7,11 @@ from dashmachine.dm.file_watcher import FileWatcher
 from dashmachine.paths import (
     root_folder,
     dashboards_folder,
-    settings_toml,
-    data_sources_toml,
+    config_folder,
     shared_cards_toml,
-    users_toml,
     system_themes_folder,
     custom_themes_folder,
     static_folder,
-    user_platform,
-    user_templates_folder,
-    user_markdown_folder,
 )
 from dashmachine.dm.config_modifier import ConfigModifier
 from dashmachine.dm.settings import Settings
@@ -59,36 +54,15 @@ class DashMachine:
         self.shared_cards = []
         self.build()
 
-        logging.info("File watchers starting..")
-        self.settings_file_watcher = FileWatcher(settings_toml, self.build)
-        self.dashboards_folder_watcher = FileWatcher(
-            dashboards_folder, self.build, event="added"
+        # watch the config folder for changes, rebuild the class when it does
+        self.file_watcher = FileWatcher(
+            path=config_folder, change_function=self.build, event="all"
         )
-        self.data_sources_file_watcher = FileWatcher(data_sources_toml, self.build)
-        self.shared_cards_file_watcher = FileWatcher(shared_cards_toml, self.build)
-        self.users_file_watcher = FileWatcher(users_toml, self.build)
-        self.custom_themes_watcher = FileWatcher(
-            custom_themes_folder, self.build, event="all"
-        )
-        self.platform_folder_watcher = FileWatcher(
-            user_platform, self.build, event="all"
-        )
-        self.user_templates_folder_watcher = FileWatcher(
-            user_templates_folder, self.build, event="all"
-        )
-        self.user_markdown_folder_watcher = FileWatcher(
-            user_markdown_folder, self.build, event="all"
-        )
-        self.dashboard_file_watchers = []
-        for dboard_name, dboard in self.dashboards.items():
-            self.dashboard_file_watchers.append(
-                FileWatcher(dboard.toml_path, dboard.load_cards)
-            )
 
     def build(self):
         """
-        This method rebuilds the entire App, it is called when the file watchers detect
-        a change that requires the entire application to be rebuilt.
+        This method rebuilds the dm class with the changed config data,
+        it is called when the file watcher detects a change in the config folder
 
         :return:
         """

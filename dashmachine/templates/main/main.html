@@ -65,12 +65,12 @@
                         <li><a class="dropdown-item"
                                onclick="setCommandBarText(':d ')"
                                href="javascript:void(0);">
-                            Change Dashboard | <kbd>:d + [Dashboard Name]</kbd></a></li>
+                            Change Dashboard | <kbd>:d [Dashboard Name]</kbd></a></li>
 
                         <li><a class="dropdown-item"
                                onclick="setCommandBarText(':t ')"
                                href="javascript:void(0);">
-                            Set Tag | <kbd>:t + [Tag Name]</kbd></a></li>
+                            Set Tag | <kbd>:t [Tag Name]</kbd></a></li>
 
                         {% if editor_enabled %}
                             <li><a class="dropdown-item" href="javascript:void(0);" onclick="openIframe(editorUrl)">Open Editor | <kbd>:e</kbd></a></li>
@@ -84,7 +84,13 @@
                         <li><a class="dropdown-item"
                                onclick="setCommandBarText(':x ')"
                                href="javascript:void(0);">
-                            Change Theme | <kbd>:x + [Theme Name]</kbd></a></li>
+                            Change Theme | <kbd>:x [Theme Name]</kbd></a></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="setCommandBarText(':m ')"
+                               href="javascript:void(0);">
+                            Modify Config | <kbd>:m [file.toml] [Table Name] [Key Name] [Value]</kbd>
+                        </a></li>
 
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Query Providers</h6></li>
@@ -93,7 +99,7 @@
                                    {% set t = query_provider['prefix']  %}
                                    onclick="setCommandBarText('?{{ t }} ')"
                                    href="javascript:void(0);">
-                                Search {{ query_provider['name'] }} | <kbd>?{{ query_provider['prefix'] }} + [search term]</kbd></a></li>
+                                Search {{ query_provider['name'] }} | <kbd>?{{ query_provider['prefix'] }} [search term]</kbd></a></li>
                         {% endfor %}
                     </ul>
                 </div>

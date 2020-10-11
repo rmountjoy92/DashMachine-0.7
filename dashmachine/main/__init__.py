@@ -94,18 +94,8 @@ def get_logs():
 
 @main.route("/modify_toml", methods=["POST"])
 def modify_toml():
-    commands = request.form.get("commands", "").split(" ")
-    if len(commands) > 4:
-        return jsonify(
-            data={
-                "error_title": "Incorrect or missing command.",
-                "error": "The command must include toml_file, table, key, value",
-            }
-        )
 
-    dm.config_modifier.modify_toml(
-        toml_file=commands[0], table=commands[1], key=commands[2], value=commands[3]
-    )
+    dm.config_modifier.modify_toml(request.form.get("commands", ""))
     if dm.config_modifier.error:
         error_title = dm.config_modifier.error["error_title"]
         error = dm.config_modifier.error["error"]
