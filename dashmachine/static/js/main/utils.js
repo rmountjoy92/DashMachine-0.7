@@ -9,8 +9,6 @@ function triggerEvent(el, type) {
 }
 
 async function appendToGrid() {
-  let elems = iso.getItemElements();
-  iso.remove(elems);
   fetch(loadGridUrl + new URLSearchParams({ dashboard: dashboardName })).then(
     (response) => {
       const contentType = response.headers.get("content-type");
@@ -24,8 +22,11 @@ async function appendToGrid() {
         });
       } else {
         return response.text().then((text) => {
+          let elems = iso.getItemElements();
+          iso.remove(elems);
           grid.innerHTML = text;
           iso.insert(grid);
+          applyDashboardOptions();
           document
             .querySelectorAll(".data-source-container")
             .forEach(function (el) {
@@ -47,6 +48,20 @@ function loadGrid() {
       });
     });
   });
+}
+
+function applyDashboardOptions() {
+  let commandBarFloat = document.getElementById("commandBarFloat");
+  let commandBarRow = document.getElementById("commandBarRow");
+
+  if (commandBarFloat.innerText === "center") {
+    commandBarRow.classList.add("justify-content-center");
+  } else if (commandBarFloat.innerText === "right") {
+    commandBarRow.classList.add("justify-content-end");
+  } else {
+    commandBarRow.classList.remove("justify-content-center");
+    commandBarRow.classList.remove("justify-content-end");
+  }
 }
 
 function loadDataSource(data_source_name, container) {
@@ -191,6 +206,10 @@ function commandBarSubmit() {
       location.reload();
     });
   }
+  // INSTALLER
+  else if (commandBarInput.value.startsWith(":i")) {
+    installerModal.show();
+  }
   commandBarInput.value = "";
   commandBarInput.setAttribute("list", "noDatalist");
 }
@@ -243,4 +262,77 @@ function openIframe(url, no_reload = false) {
   if (!no_reload) {
     document.getElementById("iframe-viewer-iframe").setAttribute("src", url);
   }
+}
+
+function submitLoadPackageFromZipForm() {
+  let loadPackageFromZipForm = document.getElementById(
+    "loadPackageFromZipForm"
+  );
+  let installerError = document.getElementById("installerError");
+  let packageDetails = document.getElementById("packageDetails");
+  let installSources = document.getElementById("installSources");
+
+  installerError.classList.add("d-none");
+
+  fetch(loadPackageFromZipUrl, {
+    method: "post",
+    body: new FormData(loadPackageFromZipForm),
+  })
+    .then((r) => r.json())
+    .then(function (r) {
+      if (r.data.error) {
+        installerError.innerText = r.data.error;
+        installerError.classList.remove("d-none");
+      } else {
+        packageDetails.innerHTML = r.data.html;
+        installSources.classList.add("d-none");
+        packageDetails.classList.remove("d-none");
+        initInstallPackageForm();
+      }
+    });
+}
+
+function initInstallPackageForm() {
+  let installPackageForm = document.getElementById("installPackageForm");
+  let packageInstalled = document.getElementById("packageInstalled");
+  let packageDetails = document.getElementById("packageDetails");
+  let installerError2 = document.getElementById("installerError2");
+
+  installPackageForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    fetch(installPackageUrl, {
+      method: "post",
+      body: new FormData(installPackageForm),
+    })
+      .then((r) => r.json())
+      .then(function (r) {
+        if (r.data.error) {
+          installerError2.innerText = r.data.error;
+          installerError2.classList.remove("d-none");
+        } else {
+          packageDetails.classList.add("d-none");
+          packageInstalled.classList.remove("d-none");
+        }
+      });
+  });
+}
+
+function resetInstaller() {
+  let loadPackageFromZipForm = document.getElementById(
+    "loadPackageFromZipForm"
+  );
+  let packageInstalled = document.getElementById("packageInstalled");
+  let packageDetails = document.getElementById("packageDetails");
+  let installSources = document.getElementById("installSources");
+  let installerError = document.getElementById("installerError");
+  let installerError2 = document.getElementById("installerError2");
+
+  loadPackageFromZipForm.reset();
+  packageDetails.innerHTML = "";
+  packageDetails.classList.add("d-none");
+  packageInstalled.classList.add("d-none");
+  installSources.classList.remove("d-none");
+  installerError.classList.add("d-none");
+  installerError2.classList.add("d-none");
 }

@@ -57,7 +57,7 @@ make_dir(dashboards_folder)
 user_assets_folder = os.path.join(config_folder, "assets")
 make_dir(user_assets_folder)
 
-static_user_assets_folder = os.path.join(static_folder, "user_assets")
+static_user_assets_folder = os.path.join(static_folder, "assets")
 if not os.path.islink(static_user_assets_folder):
     os.symlink(user_assets_folder, static_user_assets_folder)
 

@@ -26,7 +26,7 @@
     {% endif %}
 
     <div class="container-fluid fixed-top">
-        <div class="row mt-2">
+        <div id="commandBarRow" class="row mt-2">
             <div class="col-sm-12 col-md-12 col-lg-6">
                 <div class="input-group mb-3 shadow-sm {% if not command_bar_visible %}d-none{% endif %}">
                     <span class="input-group-text" id="commandBarLeadingIcon">
@@ -69,6 +69,11 @@
                                onclick="setCommandBarText(':t ')"
                                href="javascript:void(0);">
                             Set Tag | <kbd>:t [Tag Name]</kbd></a></li>
+
+                        <li><a class="dropdown-item"
+                               onclick="installerModal.show();"
+                               href="javascript:void(0);">
+                            Open Installer | <kbd>:i</kbd></a></li>
 
                         {% if editor_enabled %}
                             <li><a class="dropdown-item" href="javascript:void(0);" onclick="openIframe(editorUrl)">Open Editor | <kbd>:e</kbd></a></li>
@@ -153,6 +158,7 @@
                     None
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" onclick="location.reload()" class="btn btn-primary">Reload</button>
                 </div>
             </div>
@@ -175,6 +181,71 @@
         </div>
     </div>
 
+    <div class="modal fade" id="installerModal" tabindex="-1" aria-labelledby="installerModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="material-icons-outlined text-secondary mr-2" style="font-size: 76px">system_update_alt</i><br>
+                    <h3 class="modal-title text-primary m-auto">Install Package</h3>
+                </div>
+                <div id="installerModalBody" class="modal-body surface2">
+                    <div id="installerError" class="alert alert-danger d-none" role="alert"></div>
+                    <div id="installSources">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5>Install from url</h5>
+                                <form>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="packageUrlField">URL</span>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="packageUrlField" required>
+                                    </div>
+                                    <div class="text-right">
+                                        <input class="btn btn-primary" type="submit" value="Install">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mb-5">
+                            <div class="col-12">
+                                <h5>Install from zip file</h5>
+                                <form id="loadPackageFromZipForm">
+                                    <div class="form-file">
+                                        <input name="zip_file" type="file" class="form-file-input" id="packageFileField">
+                                        <label class="form-file-label" for="packageFileField">
+                                            <span class="form-file-text">Upload .zip package..</span>
+                                            <span class="form-file-button">Browse</span>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <div id="packageDetails" class="d-none"></div>
+
+                    <div id="packageInstalled" class="d-none">
+                        <div class="row justify-content-center">
+                            <div class="col text-center mb-5 mt-5">
+                                <i class="material-icons-outlined text-primary" style="font-size: 64px">verified</i>
+                                <h4>Package Installed</h4>
+                                <h5 class="text-muted">Reload the page to apply changes.</h5>
+                            </div>
+                            <hr>
+                            <div class="col-12 text-right">
+                                <button type="button" onclick="resetInstaller();" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="resetInstaller();" class="btn btn-primary">Install Another</button>
+                                <button type="button" onclick="location.reload();" class="btn btn-primary">Reload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock content %}
 
@@ -186,6 +257,8 @@
     const loadDataSourceUrl = "{{ url_for('main.load_data_source') }}?";
     const getLogsUrl = "{{ url_for('main.get_logs') }}";
     const changeThemeUrl = "{{ url_for('main.change_theme') }}?";
+    const loadPackageFromZipUrl = "{{ url_for('main.load_package_from_zip') }}";
+    const installPackageUrl = "{{ url_for('main.install_loaded_package') }}";
 
     let appliedTags = [
         {% for tag in tags %}
@@ -208,6 +281,8 @@
             {% endif %}
         {% endfor %}
     }
+
+    let dashboardOptions = {};
     </script>
 
     {{ process_local_js_sources(src="main/utils.js") }}

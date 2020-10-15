@@ -9,7 +9,7 @@
             {% if dm.settings.wallpaper.startswith('#') or dm.settings.wallpaper.startswith('var(') %}
                 background-color: {{ dm.settings.wallpaper }} !important;
             {% else %}
-                background-image: url("static/user_assets/wallpapers/{{ dm.settings.wallpaper }}");
+                background-image: url("static/assets/wallpapers/{{ dm.settings.wallpaper }}");
             {% endif %}
                 background-size: cover;
                 background-attachment: fixed;
@@ -36,7 +36,7 @@
     {% block page_lvl_css %}{% endblock page_lvl_css %}
 
     {# global.css from user's config folder #}
-    <link rel="stylesheet" type="text/css" href="static/user_assets/css/global.css?v={{ range(1, 9999)|random|string }}">
+    <link rel="stylesheet" type="text/css" href="static/assets/css/global.css?v={{ range(1, 9999)|random|string }}">
 </head>
 
 <body id="body"
@@ -56,7 +56,7 @@
 {% block page_lvl_js %}{% endblock page_lvl_js %}
 
 {# global.js from user's config folder #}
-<script src="static/user_assets/js/global.js"></script>
+<script src="static/assets/js/global.js"></script>
 </body>
 
 </html>

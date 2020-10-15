@@ -37,6 +37,15 @@ $form-select-bg: $surface;
 $form-select-border-color: $border;
 $form-select-color: $color;
 
+$form-file-bg: $surface;
+$form-file-border-color: $border;
+$form-file-color: $color;
+$form-file-addon-bg: $primary;
+$form-file-addon-border-color: $primary;
+$form-file-addon-color: $bg;
+$form-file-button-bg: $primary;
+$form-file-button-color: $bg;
+
 $dropdown-bg: $surface;
 $dropdown-link-color: $color;
 $dropdown-link-hover-bg: $surface2;
@@ -62,6 +71,15 @@ $table-color: $color;
 
 
 $code-color: $secondary;
+
+.surface {
+  background-color: $surface !important;
+}
+
+.surface2 {
+  background-color: $surface2 !important;
+}
+
 
 .form-check-input {
   background-color: $surface2 !important;

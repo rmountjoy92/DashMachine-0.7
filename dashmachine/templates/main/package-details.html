@@ -1,0 +1,247 @@
+<div class="row">
+    <div class="col-12">
+        <h1>{{ package['package']['name'] }}</h1>
+        <h5 class="text-muted">{{ package['package']['description'] }}</h5>
+
+        <hr>
+
+        <p><b>Version: </b>{{ package['package']['version'] }}</p>
+
+        {% if package['package'].get('repository') %}
+            <p><b>Repository: </b><a href="{{ package['package']['repository'] }}">{{ package['package']['repository'] }}</a></p>
+        {% endif %}
+
+        <p><b>Author: </b>{{ package['package']['author'] }}</p>
+        {% if package['package'].get('author_url') %}
+            <p><b>Author Url: </b><a href="{{ package['package']['author_url'] }}">{{ package['package']['author_url'] }}</a></p>
+        {% endif %}
+
+        {% if package['package'].get('author_email') %}
+            <p><b>Author Email: </b><a href="mailto://{{ package['package']['author_email'] }}">{{ package['package']['author_email'] }}</a></p>
+        {% endif %}
+
+        {% if package['package'].get('instructions') %}
+            <hr>
+            <h5 class="text-primary">Instructions</h5>
+            <div class="list-group">
+                {% for instruction in package['package']['instructions'] %}
+                    <div class="list-group-item">{{ instruction }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if package['package'].get('params') %}
+            <hr>
+            <h5 class="text-primary">Params</h5>
+            <div class="list-group">
+                {% for param in package['package']['params'] %}
+                    <div class="list-group-item">{{ param }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if package['package'].get('screenshots') %}
+            <hr>
+            <h5 class="text-primary">Screenshots</h5>
+            {% for screenshot in package['package']['screenshots'] %}
+                <div class="row mb-3">
+                    <a href="static/packages_temp/{{ screenshot }}" target="_blank">
+                        <img style="max-width: 100%" src="static/packages_temp/{{ screenshot }}">
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form id="installPackageForm">
+            {% if package['package'].get('provides_dashboards') %}
+                <hr>
+                <h5 class="text-primary">Provides Dashboards</h5>
+                <p>The following files will be added to your config/dashboards folder:</p>
+                {% for dashboard in package['package']['provides_dashboards'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/dashboards/</span>
+                            <input value="{{ dashboard }}"
+                                   name="dashboards-{{ dashboard }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_cards') %}
+                <hr>
+                <h5 class="text-primary">Provides Cards</h5>
+                {% for card in package['package']['provides_cards'] %}
+                    <p>{{ card }}</p>
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Dashboard</span>
+                            <select class="form-select"
+                                    name="card-{{ card }}-dashboard"
+                                    aria-label="Select dashboard for {{ card }}">
+                                <option value="shared_cards">Shared Cards</option>
+                                {% for dashboard in dm.dashboards %}
+                                    <option value="{{ dashboard }}">{{ dashboard }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="material-icons-outlined">settings</i>
+                            </span>
+                            <textarea class="form-control"
+                                      style="font-family: var(--bs-font-monospace);"
+                                      aria-label="Toml Config"
+                                      name="card-{{ card }}-toml" required>{{ dm.package_manager.read_package_file(card) }}</textarea>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+            {% if package['package'].get('provides_platforms') %}
+                <hr>
+                <h5 class="text-primary">Provides Platforms</h5>
+                <p>The following files will be added to your config/platform folder:</p>
+                {% for platform in package['package']['provides_platforms'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/platform/</span>
+                            <input value="{{ platform }}"
+                                   name="platform-{{ platform }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_data_sources') %}
+                <hr>
+                <h5 class="text-primary">Provides Data Sources</h5>
+                {% for ds in package['package']['provides_data_sources'] %}
+                    <p>{{ ds }}</p>
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="material-icons-outlined">settings</i>
+                            </span>
+                            <textarea class="form-control"
+                                      style="font-family: var(--bs-font-monospace);"
+                                      aria-label="Toml Config"
+                                      name="ds-{{ ds }}-toml" required>{{ dm.package_manager.read_package_file(ds) }}</textarea>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_themes') %}
+                <hr>
+                <h5 class="text-primary">Provides Themes</h5>
+                <p>The following files will be added to your config/themes folder:</p>
+                {% for theme in package['package']['provides_themes'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/themes/</span>
+                            <input value="{{ theme }}"
+                                   name="theme-{{ theme }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_images') %}
+                <hr>
+                <h5 class="text-primary">Provides Images</h5>
+                <p>The following images will be added to your config/assets/images folder:</p>
+                {% for image in package['package']['provides_images'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/assets/images/</span>
+                            <input value="{{ image }}"
+                                   name="image-{{ image }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_wallpapers') %}
+                <hr>
+                <h5 class="text-primary">Provides Wallpapers</h5>
+                <p>The following images will be added to your config/assets/wallpapers folder:</p>
+                {% for image in package['package']['provides_wallpapers'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/assets/wallpapers/</span>
+                            <input value="{{ image }}"
+                                   name="wallpaper-{{ image }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_css') %}
+                <hr>
+                <h5 class="text-primary">Provides CSS</h5>
+                <p>The following css files will be appended to your config/assets/css/global.css file:</p>
+                <div class="list-group">
+                    {% for file in package['package']['provides_css'] %}
+                        <div class="list-group-item">{{ file }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if package['package'].get('provides_js') %}
+                <hr>
+                <h5 class="text-primary">Provides JS</h5>
+                <p>The following js files will be appended to your config/assets/js/global.js file:</p>
+                <div class="list-group">
+                    {% for file in package['package']['provides_js'] %}
+                        <div class="list-group-item">{{ file }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if package['package'].get('provides_templates') %}
+                <hr>
+                <h5 class="text-primary">Provides Templates</h5>
+                <p>The following html files will be added to your config/assets/templates folder:</p>
+                {% for file in package['package']['provides_templates'] %}
+                    <div class="row mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">config/assets/templates/</span>
+                            <input value="{{ file }}"
+                                   name="template-{{ file }}-name"
+                                   type="text" class="form-control" required>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if package['package'].get('provides_markdown') %}
+                <hr>
+                <h5 class="text-primary">Provides Markdown</h5>
+                <p>The following html files will be added to your config/assets/markdown folder:</p>
+                <div class="list-group">
+                    {% for file in package['package']['provides_markdown'] %}
+                        <div class="row mb-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">config/assets/markdown</span>
+                                <input value="{{ file }}"
+                                       name="markdown-{{ file }}-name"
+                                       type="text" class="form-control" required>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <hr>
+            <div id="installerError2" class="alert alert-danger d-none" role="alert"></div>
+            <input class="btn btn-primary btn-block" type="submit" value="Install">
+            <input onclick="resetInstaller();" class="btn btn-danger btn-block" type="submit" value="Cancel">
+        </form>
+    </div>
+</div>

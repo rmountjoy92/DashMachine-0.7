@@ -17,6 +17,7 @@ from dashmachine.dm.settings import Settings
 from dashmachine.dm.dashboard import Dashboard
 from dashmachine.dm.data_source_handler import DataSourceHandler
 from dashmachine.dm.utils import DEFAULT_QUERY_PROVIDERS
+from dashmachine.dm.package_manager import PackageManager
 
 
 class DashMachine:
@@ -44,6 +45,7 @@ class DashMachine:
         logging.info("DashMachine starting..")
         self.app = app
         self.query_providers = DEFAULT_QUERY_PROVIDERS
+        self.package_manager = PackageManager()
         self.users = None
         self.settings = None
         self.data_source_handler = None

@@ -96,3 +96,32 @@ def get_logs():
 def change_theme():
     dm.change_theme(request.args.get("theme_name", "default_light"))
     return "ok"
+
+
+@main.route("/load_package_from_zip", methods=["POST"])
+def load_package_from_zip():
+    dm.package_manager.handle_file_upload(request)
+    error = dm.package_manager.error
+    if error:
+        dm.package_manager.error = None
+        return jsonify(data={"error": error})
+
+    return jsonify(
+        data={
+            "html": render_template(
+                "main/package-details.html",
+                package=dm.package_manager.package_toml,
+                dm=dm,
+            )
+        }
+    )
+
+
+@main.route("/install_loaded_package", methods=["POST"])
+def install_loaded_package():
+    dm.package_manager.install_package(request.form)
+    error = dm.package_manager.error
+    if error:
+        dm.package_manager.error = None
+        return jsonify(data={"error": error})
+    return jsonify(data={"status": "success"})

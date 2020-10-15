@@ -145,5 +145,6 @@ cython_debug/
 config/
 dashmachine.log
 dashmachine/site.db
-dashmachine/static/user_assets
+dashmachine/static/assets
+dashmachine/static/packages_temp
 dashmachine/static/css/vendors/bootstrap.min.css

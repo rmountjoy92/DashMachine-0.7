@@ -53,6 +53,8 @@ class Settings:
                 self.isotope_options["hiddenStyle"] = "{opacity:0}"
             if not self.isotope_options.get("visibleStyle"):
                 self.isotope_options["visibleStyle"] = "{opacity:1}"
+            if not self.isotope_options.get("transitionDuration"):
+                self.isotope_options["transitionDuration"] = 0
 
             if self.wallpaper == "random":
                 self.randomize_wallpaper()

@@ -1,10 +1,17 @@
 let errorMessageModal = new bootstrap.Modal(
-  document.getElementById("errorMessageModal"),
-  { backdrop: "static" }
+  document.getElementById("errorMessageModal")
 );
 
 let logsModal = new bootstrap.Modal(document.getElementById("logsModal"));
 let iframeModal = new bootstrap.Modal(document.getElementById("iframeModal"));
+let installerModal = new bootstrap.Modal(
+  document.getElementById("installerModal")
+);
+
+let packageFileField = document.getElementById("packageFileField");
+packageFileField.addEventListener("change", function (e) {
+  submitLoadPackageFromZipForm();
+});
 
 let commandBarInput = document.querySelector("#commandBarInput");
 commandBarInput.addEventListener("keydown", (e) => {
