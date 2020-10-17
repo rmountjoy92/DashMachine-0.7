@@ -29,7 +29,7 @@
         <div id="commandBarRow" class="row mt-2">
             <div class="col-sm-12 col-md-12 col-lg-6">
                 <div class="input-group mb-3 shadow-sm {% if not command_bar_visible %}d-none{% endif %}">
-                    <span class="input-group-text" id="commandBarLeadingIcon">
+                    <span onclick="commandBarSubmit();" style="cursor: pointer" class="input-group-text" id="commandBarLeadingIcon">
                         <i class="material-icons text-on-primary">last_page</i>
                     </span>
                     <input id="commandBarInput"

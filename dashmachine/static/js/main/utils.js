@@ -8,6 +8,17 @@ function triggerEvent(el, type) {
   el.dispatchEvent(e);
 }
 
+function evalJSFromHtml(html) {
+  var newElement = document.createElement("div");
+  newElement.innerHTML = html;
+
+  var scripts = newElement.getElementsByTagName("script");
+  for (var i = 0; i < scripts.length; ++i) {
+    var script = scripts[i];
+    eval(script.innerHTML);
+  }
+}
+
 async function appendToGrid() {
   fetch(loadGridUrl + new URLSearchParams({ dashboard: dashboardName })).then(
     (response) => {
@@ -25,6 +36,7 @@ async function appendToGrid() {
           let elems = iso.getItemElements();
           iso.remove(elems);
           grid.innerHTML = text;
+          evalJSFromHtml(text);
           iso.insert(grid);
           applyDashboardOptions();
           document
@@ -212,6 +224,7 @@ function commandBarSubmit() {
   }
   commandBarInput.value = "";
   commandBarInput.setAttribute("list", "noDatalist");
+  commandBarInput.focus();
 }
 
 function setCommandBarText(v) {
