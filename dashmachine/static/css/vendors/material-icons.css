@@ -3,7 +3,7 @@
     font-family: 'Material Icons Outlined';
     font-style: normal;
     font-weight: 400;
-    src: url(static/css/vendors/fonts/material-icons-outlined.woff2) format('woff2');
+    src: url(fonts/material-icons-outlined.woff2) format('woff2');
 }
 
 .material-icons-outlined, .material-icons {
