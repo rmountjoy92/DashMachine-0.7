@@ -25,7 +25,6 @@ js_local_bundle = [
 
 # these are all of the local css files that will be minified when served
 css_local_bundle = [
-    "vendors/material-icons.css",
     "vendors/bootstrap.min.css",
     "global/utils.css",
 ]
