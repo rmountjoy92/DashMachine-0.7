@@ -88,6 +88,7 @@ function loadDataSource(data_source_name, container) {
     .then((r) => r.text())
     .then(function (r) {
       container.innerHTML = r;
+      evalJSFromHtml(r);
       reloadBtn.addEventListener("click", function (e) {
         loadDataSource(data_source_name, container);
       });
