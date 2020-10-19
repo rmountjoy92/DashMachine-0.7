@@ -76,39 +76,83 @@ class DataSourceHandler:
             )
             return error
 
+        return_val = self.execute_platform_method(
+            ds_options["platform"], "process", ds_options
+        )
+        if isinstance(return_val, tuple):
+            return error_msg + (
+                f"{return_val[0]}"
+                f" Check your data_sources.toml. <br> Got this error: "
+                f"<br> {return_val[1]}</div>"
+            )
+        return return_val
+
+    def on_dm_startup(self):
+        for platform in os.listdir(user_platform):
+            if platform not in ["__init__.py", "__pycache__"]:
+                resp = self.execute_platform_method(
+                    platform.replace(".py", ""),
+                    "on_startup",
+                    ignore_missing_methods=True,
+                )
+                if isinstance(resp, tuple):
+                    logging.error(
+                        f"{platform}'s startup method failed! "
+                        f"Here's the error: {resp[0]} - {resp[1]}"
+                    )
+
+    @staticmethod
+    def execute_platform_method(
+        platform_name, method_name, ds_options={}, ignore_missing_methods=False
+    ):
+        # import the module
         try:
             spec = importlib_util.spec_from_file_location(
-                f"{ds_options['platform']}",
-                os.path.join(user_platform, f"{ds_options['platform']}.py"),
+                f"{platform_name}",
+                os.path.join(user_platform, f"{platform_name}.py"),
             )
             module = importlib_util.module_from_spec(spec)
             spec.loader.exec_module(module)
         except Exception:
             try:
-                module = import_module(f"dashmachine.platform.{ds_options['platform']}")
+                module = import_module(f"dashmachine.platform.{platform_name}")
             except Exception as e:
-                error = error_msg + (
-                    f"Issue importing the requested platform! Maybe it doesn't exist?"
-                    f" Check your data_sources.toml. <br> Got this error: <br> {e}</div>"
+                error = (
+                    "Issue importing the requested platform! Maybe it doesn't exist?",
+                    e,
                 )
                 return error
 
+        # initialize the platform's process method
         try:
             platform = module.Platform(ds_options)
         except Exception as e:
-            error = error_msg + (
-                f"Issue initializing the requested platform!"
-                f" Check your data_sources.toml. <br> Got this error: <br> {e}</div>"
+            error = (
+                "Issue initializing the requested platform!",
+                e,
             )
             return error
 
+        # get the method
         try:
-            html = platform.process()
+            method = getattr(platform, method_name)
         except Exception as e:
-            error = error_msg + (
-                f"The platform's process method failed! "
-                f" Check your data_sources.toml. <br> Got this error: <br> {e}</div>"
+            if ignore_missing_methods:
+                return None
+            error = (
+                f"Issue getting the platform's {method_name} method.",
+                e,
             )
             return error
 
-        return html
+        # execute the method
+        try:
+            return_val = method()
+        except Exception as e:
+            error = (
+                f"Issue getting the platform's {method_name} method.",
+                e,
+            )
+            return error
+
+        return return_val

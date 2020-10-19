@@ -48,10 +48,14 @@ class DashMachine:
         self.package_manager = PackageManager()
         self.users = None
         self.settings = None
-        self.data_source_handler = None
         self.dashboards = None
         self.main_dashboard = None
         self.shared_cards = []
+
+        # run the platforms' on startup methods
+        self.data_source_handler = DataSourceHandler()
+        self.data_source_handler.on_dm_startup()
+
         self.build()
 
         # watch the config folder for changes, rebuild the class when it does
