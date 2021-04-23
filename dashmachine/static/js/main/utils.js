@@ -83,15 +83,15 @@ function loadDataSource(data_source_name, container) {
   if( progress || reloadBtnI ) {
     progress.classList.remove("d-none");
     reloadBtnI.classList.add("d-none");
-    let reloadBtn = listGroup.querySelector(".reload-data-source");
   }
+  let reloadBtn = listGroup.querySelector(".reload-data-source");
   fetch(loadDataSourceUrl + new URLSearchParams({ ds: data_source_name }))
     .then((r) => r.text())
     .then(function (r) {
       container.innerHTML = r;
       evalJSFromHtml(r);
       container.classList.remove("d-none");
-    if( reloadBtn ) {
+    if( reloadBtn && progress ) {
       reloadBtn.addEventListener("click", function (e) {
         loadDataSource(data_source_name, container);
       });
